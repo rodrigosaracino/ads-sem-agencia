@@ -147,14 +147,32 @@
 
             const handleSubmit = async (e) => {
                 e.preventDefault();
-                const webhookUrl = 'https://n8n.amzcursos.com/webhook/5a78888a-5999-4e65-8dae-14d8fe25f052';
-                try {
-                    fetch(webhookUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ ...formData, data_conversao: new Date().toISOString(), url_origem: window.location.href })
-                    }).catch(err => console.error('Erro no webhook:', err));
-                } catch (e) {}
+
+                const params = new URLSearchParams(window.location.search);
+                const crmPayload = {
+                    name:         formData.nome,
+                    email:        formData.email,
+                    phone:        formData.whatsapp,
+                    source:       'landing_page',
+                    utm_source:   params.get('utm_source')   || formData.utm_source   || undefined,
+                    utm_medium:   params.get('utm_medium')   || formData.utm_medium   || undefined,
+                    utm_campaign: params.get('utm_campaign') || formData.utm_campaign || undefined,
+                    utm_content:  params.get('utm_content')  || formData.utm_content  || undefined,
+                    utm_term:     params.get('utm_term')     || formData.utm_term     || undefined,
+                    custom_fields: { empresa: formData.empresa, cargo: formData.cargo },
+                };
+
+                fetch('https://dash.amzcursos.com/api/public/lead', {
+                    method:  'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body:    JSON.stringify(crmPayload),
+                }).catch(err => console.error('Erro no CRM:', err));
+
+                fetch('https://n8n.amzcursos.com/webhook/5a78888a-5999-4e65-8dae-14d8fe25f052', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ ...formData, data_conversao: new Date().toISOString(), url_origem: window.location.href })
+                }).catch(err => console.error('Erro no webhook:', err));
 
                 const mensagem = `Olá Rodrigo! Tenho interesse na mentoria.%0A%0A*Nome:* ${formData.nome}%0A*Empresa:* ${formData.empresa}%0A*WhatsApp:* ${formData.whatsapp}%0A*E-mail:* ${formData.email}%0A*Cargo:* ${formData.cargo}%0A%0AAcabei de preencher o formulário na sua página.`;
                 window.open(`https://wa.me/5511962650342?text=${mensagem}`, '_blank');
