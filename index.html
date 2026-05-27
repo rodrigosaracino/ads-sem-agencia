@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mentoria Google Ads - Rodrigo Saracino</title>
+    <title>Protocolo Cliente na Porta - Rodrigo Saracino</title>
 
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -13,29 +13,42 @@
     })(window,document,'script','dataLayer','GTM-K7F4CVM');</script>
     <!-- End Google Tag Manager -->
 
+    <!-- Meta Pixel -->
+    <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+    document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '714107123349981');
+    fbq('track', 'PageView');
+    fbq('track', 'ViewContent', { content_name: 'Protocolo Cliente na Porta', currency: 'BRL', value: 397.00 });
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=714107123349981&ev=PageView&noscript=1"/></noscript>
+    <!-- End Meta Pixel -->
+
     <!-- Resource Hints para carregamento prioritário -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://unpkg.com">
     <link rel="dns-prefetch" href="https://cdn.tailwindcss.com">
 
-    <!-- Bibliotecas Necessárias - Atributos para ignorar otimização do WP Rocket -->
+    <!-- Bibliotecas Necessárias -->
     <script src="https://cdn.tailwindcss.com" data-no-optimize="1"></script>
     <script src="https://unpkg.com/react@18/umd/react.production.min.js" data-no-optimize="1"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" data-no-optimize="1"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js" data-no-optimize="1"></script>
 
-    <!-- Fontes Otimizadas com display=swap -->
+    <!-- Fontes -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
-        /* Performance: Otimiza renderização de seções fora da tela sem remover conteúdo */
-        #programa, #investimento, #comparacao, #mentor, #garantia, footer {
+        #pilares, #oferta, #garantia, #mentor, footer {
             content-visibility: auto;
             contain-intrinsic-size: 500px;
         }
 
-        /* Reset Crítico para WordPress/Elementor */
         html, body { margin: 0 !important; padding: 0 !important; width: 100% !important; height: 100%; overflow-x: hidden; scroll-behavior: smooth; }
 
         #mentoria-root {
@@ -53,10 +66,13 @@
         .elementor-widget-html .elementor-widget-container { margin: 0 !important; padding: 0 !important; }
 
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #fff; -webkit-font-smoothing: antialiased; }
+
         .gradient-hero { background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #0f172a 100%); }
-        .gradient-cta { background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); }
-        .pulse-badge { animation: pulse 2s infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+        .gradient-cta  { background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); }
+
+        .pulse-badge { animation: pulse-dot 2s infinite; }
+        @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+
         .float-animation { animation: float 6s ease-in-out infinite; }
         @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
 
@@ -69,28 +85,38 @@
             box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.3), 0 8px 10px -6px rgb(0 0 0 / 0.3);
         }
 
-        .modal-overlay { background-color: rgba(15, 23, 42, 0.9); backdrop-filter: blur(8px); z-index: 9999; }
-
         @keyframes pulse-whatsapp {
-            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.6); }
-            70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+            0%   { box-shadow: 0 0 0 0   rgba(37,211,102,0.6); }
+            70%  { box-shadow: 0 0 0 15px rgba(37,211,102,0);   }
+            100% { box-shadow: 0 0 0 0   rgba(37,211,102,0);   }
         }
         .whatsapp-float {
-            position: fixed;
-            bottom: 40px;
-            right: 32px;
-            background-color: #25D366;
-            color: white;
-            padding: 16px;
-            border-radius: 50%;
-            z-index: 9998;
+            position: fixed; bottom: 40px; right: 32px;
+            background-color: #25D366; color: white;
+            padding: 16px; border-radius: 50%; z-index: 9998;
             box-shadow: 0 4px 20px rgba(0,0,0,0.3);
             animation: pulse-whatsapp 2s infinite;
             transition: all 0.3s ease;
+            display: flex; align-items: center; justify-content: center;
         }
         .whatsapp-float:hover { transform: scale(1.1); background-color: #20ba5a; }
-        @media (max-width: 640px) { .whatsapp-float { bottom: 60px; right: 32px; } }
+        @media (max-width: 640px) { .whatsapp-float { bottom: 60px; right: 20px; } }
+
+        /* Vídeo VSL responsivo */
+        .vsl-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 1rem;
+        }
+        .vsl-wrapper iframe,
+        .vsl-wrapper video {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            border: 0;
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -102,8 +128,180 @@
     <div id="mentoria-root"></div>
 
     <script type="text/babel" data-no-optimize="1">
-        const { useState, useEffect, memo } = React;
+        const { useState, memo } = React;
 
+        /* ─── Conversões: Meta Pixel ─────────────────────────────── */
+        function fireCheckoutConversion() {
+            if (typeof fbq !== 'undefined') {
+                fbq('track', 'InitiateCheckout', {
+                    currency: 'BRL', value: 397.00,
+                    content_name: 'Protocolo Cliente na Porta',
+                    content_type: 'product'
+                });
+            }
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({ event: 'checkout_click', value: 397.00, currency: 'BRL' });
+        }
+
+        function fireLeadConversion(nome, telefone) {
+            if (typeof fbq !== 'undefined') {
+                fbq('track', 'Lead', { content_name: 'Protocolo Cliente na Porta' });
+            }
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({ event: 'whatsapp_form_submit', user_name: nome });
+        }
+
+        /* ─── Hotmart: URL base + UTMs persistentes ──────────────── */
+        const BASE_HOTMART = 'https://pay.hotmart.com/Y104360494V?off=av71abb8';
+
+        function buildHotmartUrl() {
+            const p = new URLSearchParams(window.location.search);
+            const keys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'src'];
+            const extra = keys
+                .filter(k => p.get(k))
+                .map(k => `${encodeURIComponent(k)}=${encodeURIComponent(p.get(k))}`)
+                .join('&');
+            return extra ? `${BASE_HOTMART}&${extra}` : BASE_HOTMART;
+        }
+
+        const HOTMART_URL = buildHotmartUrl();
+
+        /* ─── Modal WhatsApp (formulário) ───────────────────────── */
+        const WA_ICON = (
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+            </svg>
+        );
+
+        const WhatsAppModal = ({ isOpen, onClose }) => {
+            const [nome, setNome] = useState('');
+            const [telefone, setTelefone] = useState('');
+            const [enviando, setEnviando] = useState(false);
+
+            if (!isOpen) return null;
+
+            const formatPhone = (v) => {
+                const d = v.replace(/\D/g, '').slice(0, 11);
+                if (d.length <= 2) return d;
+                if (d.length <= 6) return `(${d.slice(0,2)}) ${d.slice(2)}`;
+                if (d.length <= 10) return `(${d.slice(0,2)}) ${d.slice(2,6)}-${d.slice(6)}`;
+                return `(${d.slice(0,2)}) ${d.slice(2,7)}-${d.slice(7)}`;
+            };
+
+            const handleSubmit = async (e) => {
+                e.preventDefault();
+                setEnviando(true);
+
+                const params = new URLSearchParams(window.location.search);
+                const payload = {
+                    nome, whatsapp: telefone,
+                    source: 'whatsapp_modal',
+                    utm_source:   params.get('utm_source')   || undefined,
+                    utm_medium:   params.get('utm_medium')   || undefined,
+                    utm_campaign: params.get('utm_campaign') || undefined,
+                    data_conversao: new Date().toISOString(),
+                    url_origem: window.location.href
+                };
+
+                fetch('https://n8n.amzcursos.com/webhook/5a78888a-5999-4e65-8dae-14d8fe25f052', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                }).catch(() => {});
+
+                fetch('https://dash.amzcursos.com/api/public/lead', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name: nome, phone: telefone, source: 'landing_page_whatsapp' })
+                }).catch(() => {});
+
+                fireLeadConversion(nome, telefone);
+
+                const msg = encodeURIComponent(`Olá Rodrigo! Me chamo ${nome} e tenho interesse no Protocolo Cliente na Porta. Pode me dar mais informações?`);
+                window.open(`https://wa.me/5511962650342?text=${msg}`, '_blank');
+                onClose();
+            };
+
+            return (
+                <div
+                    className="fixed inset-0 z-[9999] flex items-end sm:items-center justify-center p-0 sm:p-4"
+                    style={{ backgroundColor: 'rgba(15,23,42,0.85)', backdropFilter: 'blur(6px)' }}
+                    onClick={e => { if (e.target === e.currentTarget) onClose(); }}
+                >
+                    <div className="bg-white w-full sm:max-w-sm sm:rounded-3xl rounded-t-3xl overflow-hidden shadow-2xl">
+
+                        {/* Header */}
+                        <div className="px-5 py-4 flex items-center gap-3" style={{ backgroundColor: '#075E54' }}>
+                            <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style={{ backgroundColor: 'rgba(255,255,255,0.15)' }}>
+                                {WA_ICON}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                                <p className="text-white font-bold text-sm leading-none">Rodrigo Saracino</p>
+                                <p className="text-xs mt-0.5" style={{ color: '#ACE1BF' }}>Protocolo Cliente na Porta</p>
+                            </div>
+                            <button onClick={onClose} className="p-1 rounded-full hover:bg-white/10 transition-colors" aria-label="Fechar">
+                                <svg className="w-5 h-5 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
+                            </button>
+                        </div>
+
+                        {/* Corpo */}
+                        <div className="p-6">
+                            <p className="text-slate-600 text-sm text-center mb-6 leading-relaxed">
+                                Antes de abrir o WhatsApp, me conta rapidinho para eu te atender melhor:
+                            </p>
+
+                            <form onSubmit={handleSubmit} className="space-y-4">
+                                <div>
+                                    <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wide">Seu nome</label>
+                                    <input
+                                        required
+                                        type="text"
+                                        placeholder="Como posso te chamar?"
+                                        value={nome}
+                                        onChange={e => setNome(e.target.value)}
+                                        className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm outline-none transition-all focus:ring-2 focus:border-transparent"
+                                        style={{ '--tw-ring-color': '#25D366' }}
+                                        onFocus={e => e.target.style.boxShadow = '0 0 0 2px #25D366'}
+                                        onBlur={e => e.target.style.boxShadow = ''}
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wide">Seu WhatsApp</label>
+                                    <input
+                                        required
+                                        type="tel"
+                                        placeholder="(11) 99999-9999"
+                                        value={telefone}
+                                        onChange={e => setTelefone(formatPhone(e.target.value))}
+                                        className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm outline-none transition-all"
+                                        onFocus={e => e.target.style.boxShadow = '0 0 0 2px #25D366'}
+                                        onBlur={e => e.target.style.boxShadow = ''}
+                                    />
+                                </div>
+
+                                <button
+                                    type="submit"
+                                    disabled={enviando}
+                                    className="w-full text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all hover:opacity-90 active:scale-[0.98] mt-2"
+                                    style={{ backgroundColor: '#25D366' }}
+                                >
+                                    {enviando
+                                        ? <span className="animate-pulse">Abrindo WhatsApp...</span>
+                                        : <>{WA_ICON} Falar no WhatsApp agora</>
+                                    }
+                                </button>
+                            </form>
+
+                            <p className="text-[10px] text-center text-slate-400 mt-4 uppercase tracking-widest">
+                                Seus dados estão seguros e não serão compartilhados
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        /* ─── WhatsApp flutuante ─────────────────────────────────── */
         const FloatingWhatsApp = memo(({ onClick }) => (
             <button
                 onClick={() => {
@@ -111,431 +309,428 @@
                     window.dataLayer.push({'event': 'whatsapp_click'});
                     onClick();
                 }}
-                className="whatsapp-float flex items-center justify-center group"
-                aria-label="Agendar via WhatsApp"
+                className="whatsapp-float"
+                aria-label="Falar no WhatsApp"
             >
                 <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
                 </svg>
-                <span className="absolute right-full mr-4 bg-slate-900 text-white text-xs py-2 px-4 rounded-lg font-bold opacity-0 group-hover:opacity-100 whitespace-nowrap transition-opacity pointer-events-none shadow-xl">
-                    Agende seu diagnóstico gratuito
-                </span>
             </button>
         ));
 
-        const PopupForm = ({ isOpen, onClose }) => {
-            const [formData, setFormData] = useState({
-                nome: '', empresa: '', whatsapp: '', email: '', cargo: 'dono',
-                utm_source: '', utm_medium: '', utm_campaign: '', utm_content: '', utm_term: ''
-            });
-
-            useEffect(() => {
-                if(isOpen) {
-                    const params = new URLSearchParams(window.location.search);
-                    setFormData(prev => ({
-                        ...prev,
-                        utm_source: params.get('utm_source') || '',
-                        utm_medium: params.get('utm_medium') || '',
-                        utm_campaign: params.get('utm_campaign') || '',
-                        utm_content: params.get('utm_content') || '',
-                        utm_term: params.get('utm_term') || ''
-                    }));
-                }
-            }, [isOpen]);
-
-            if (!isOpen) return null;
-
-            const handleSubmit = async (e) => {
-                e.preventDefault();
-
-                const params = new URLSearchParams(window.location.search);
-                const crmPayload = {
-                    name:         formData.nome,
-                    email:        formData.email,
-                    phone:        formData.whatsapp,
-                    source:       'landing_page',
-                    utm_source:   params.get('utm_source')   || formData.utm_source   || undefined,
-                    utm_medium:   params.get('utm_medium')   || formData.utm_medium   || undefined,
-                    utm_campaign: params.get('utm_campaign') || formData.utm_campaign || undefined,
-                    utm_content:  params.get('utm_content')  || formData.utm_content  || undefined,
-                    utm_term:     params.get('utm_term')     || formData.utm_term     || undefined,
-                    custom_fields: { empresa: formData.empresa, cargo: formData.cargo },
-                };
-
-                fetch('https://dash.amzcursos.com/api/public/lead', {
-                    method:  'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body:    JSON.stringify(crmPayload),
-                }).catch(err => console.error('Erro no CRM:', err));
-
-                fetch('https://n8n.amzcursos.com/webhook/5a78888a-5999-4e65-8dae-14d8fe25f052', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ ...formData, data_conversao: new Date().toISOString(), url_origem: window.location.href })
-                }).catch(err => console.error('Erro no webhook:', err));
-
-                const mensagem = `Olá Rodrigo! Tenho interesse na mentoria.%0A%0A*Nome:* ${formData.nome}%0A*Empresa:* ${formData.empresa}%0A*WhatsApp:* ${formData.whatsapp}%0A*E-mail:* ${formData.email}%0A*Cargo:* ${formData.cargo}%0A%0AAcabei de preencher o formulário na sua página.`;
-                window.open(`https://wa.me/5511962650342?text=${mensagem}`, '_blank');
-                onClose();
-            };
-
-            return (
-                <div className="fixed inset-0 modal-overlay flex items-center justify-center p-4">
-                    <div className="bg-white rounded-3xl w-full max-w-lg shadow-2xl relative overflow-hidden">
-                        <button onClick={onClose} className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition-colors">
-                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
-                        </button>
-                        <div className="p-8">
-                            <h3 className="text-2xl font-extrabold text-slate-900 mb-2">Quase lá!</h3>
-                            <p className="text-slate-500 mb-6">Preencha os dados abaixo para agendarmos seu diagnóstico gratuito.</p>
-                            <form onSubmit={handleSubmit} className="space-y-4">
-                                <div>
-                                    <label className="block text-sm font-bold text-slate-700 mb-1">Nome Completo</label>
-                                    <input required type="text" placeholder="Seu nome" className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all"
-                                        onChange={e => setFormData({...formData, nome: e.target.value})} />
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-bold text-slate-700 mb-1">Nome da Empresa</label>
-                                    <input required type="text" placeholder="Sua empresa" className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all"
-                                        onChange={e => setFormData({...formData, empresa: e.target.value})} />
-                                </div>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    <div>
-                                        <label className="block text-sm font-bold text-slate-700 mb-1">WhatsApp</label>
-                                        <input required type="tel" placeholder="(11) 99999-9999" className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all"
-                                            onChange={e => setFormData({...formData, whatsapp: e.target.value})} />
-                                    </div>
-                                    <div>
-                                        <label className="block text-sm font-bold text-slate-700 mb-1">E-mail</label>
-                                        <input required type="email" placeholder="email@empresa.com" className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all"
-                                            onChange={e => setFormData({...formData, email: e.target.value})} />
-                                    </div>
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-bold text-slate-700 mb-1">Qual o seu Cargo?</label>
-                                    <select className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all appearance-none bg-white"
-                                        onChange={e => setFormData({...formData, cargo: e.target.value})}>
-                                        <option value="dono">Dono / CEO</option>
-                                        <option value="gerente">Gerente de Marketing</option>
-                                        <option value="gestor de tráfego">Gestor de Tráfego</option>
-                                        <option value="outro">Outro</option>
-                                    </select>
-                                </div>
-                                <button type="submit" className="w-full gradient-cta text-white font-bold py-4 rounded-xl shadow-lg shadow-orange-500/30 hover:scale-[1.02] transition-all mt-4">
-                                    Finalizar e Abrir WhatsApp →
-                                </button>
-                                <p className="text-[10px] text-center text-slate-400 mt-4 uppercase tracking-widest">Garantimos a privacidade dos seus dados</p>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            );
-        };
-
-        const Hero = ({ onCtaClick }) => (
-            <section className="gradient-hero min-h-screen relative overflow-hidden flex items-center py-20 px-6">
+        /* ─── SEÇÃO 1 · Hero com VSL ────────────────────────────── */
+        const Hero = () => (
+            <section className="gradient-hero relative overflow-hidden py-14 px-6">
                 <div className="absolute inset-0 opacity-10 pointer-events-none">
                     <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-                        <defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="white" strokeWidth="0.5" /></pattern></defs>
-                        <rect width="100%" height="100%" fill="url(#grid)" />
+                        <defs>
+                            <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
+                                <path d="M 10 0 L 0 0 0 10" fill="none" stroke="white" strokeWidth="0.5"/>
+                            </pattern>
+                        </defs>
+                        <rect width="100%" height="100%" fill="url(#grid)"/>
                     </svg>
                 </div>
-                <div className="relative z-10 max-w-7xl mx-auto w-full">
-                    <div className="grid lg:grid-cols-2 gap-12 items-center">
-                        <div className="text-center lg:text-left">
-                            <div className="mb-4">
-                                <span className="text-orange-500 font-black text-2xl sm:text-3xl tracking-tighter uppercase italic">Ads sem agência</span>
-                            </div>
-                            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 mb-6 text-left">
-                                <span className="w-2 h-2 bg-green-400 rounded-full pulse-badge"></span>
-                                <span className="text-white/90 text-sm font-medium uppercase tracking-wider">Treinamento & Passo a Passo Prático</span>
-                            </div>
-                            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-6">
-                                Sua Agência Cobra Caro e Você Não Entende o Que Fazem?
-                            </h1>
-                            <p className="text-xl text-white/80 mb-8 max-w-xl mx-auto lg:mx-0">
-                                Copie e cole a estrutura exata para ativar suas campanhas no Google Ads de ponta a ponta de forma rápida.
-                            </p>
-                            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                                <button
-                                    onClick={() => {
-                                        window.dataLayer = window.dataLayer || [];
-                                        window.dataLayer.push({'event': 'hero_cta_click'});
-                                        const el = document.getElementById('investimento');
-                                        if(el) el.scrollIntoView({behavior: 'smooth'});
-                                    }}
-                                    className="gradient-cta text-white font-bold text-lg px-8 py-4 rounded-xl shadow-lg shadow-orange-500/30 hover:scale-105 transition-all"
-                                >
-                                    Quero Ativar Minhas Campanhas →
-                                </button>
-                                <a href="#programa" className="bg-white/10 backdrop-blur-sm text-white font-semibold px-8 py-4 rounded-xl border border-white/20 hover:bg-white/20 transition-all text-center">
-                                    Ver Programa Completo
-                                </a>
+
+                <div className="relative z-10 max-w-5xl mx-auto w-full">
+
+                    {/* Marca + badge */}
+                    <div className="text-center mb-5">
+                        <span className="text-orange-500 font-black text-2xl sm:text-3xl tracking-tighter uppercase italic">
+                            Protocolo Cliente na Porta
+                        </span>
+                        <div className="flex justify-center mt-3">
+                            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2">
+                                <span className="w-2 h-2 bg-green-400 rounded-full pulse-badge flex-shrink-0"></span>
+                                <span className="text-white/90 text-sm font-medium uppercase tracking-wider">Método de 4 Passos · Ativação Hoje</span>
                             </div>
                         </div>
-                        <div className="relative float-animation hidden lg:block">
-                            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 shadow-2xl">
-                                <div className="space-y-4 text-white">
-                                    <div className="grid grid-cols-3 gap-3">
-                                        <div className="bg-white/10 rounded-lg p-3 text-center border border-white/5">
-                                            <p className="text-2xl font-bold text-green-400">+147%</p>
-                                            <p className="text-xs text-white/60 uppercase">ROAS</p>
-                                        </div>
-                                        <div className="bg-white/10 rounded-lg p-3 text-center border border-white/5">
-                                            <p className="text-2xl font-bold text-blue-400">-32%</p>
-                                            <p className="text-xs text-white/60 uppercase">CPA</p>
-                                        </div>
-                                        <div className="bg-white/10 rounded-lg p-3 text-center border border-white/5">
-                                            <p className="text-2xl font-bold text-orange-400">+89%</p>
-                                            <p className="text-xs text-white/60 uppercase">Conv.</p>
-                                        </div>
-                                    </div>
-                                    <div className="h-24 bg-white/5 rounded-lg flex items-end gap-1 p-2">
-                                        {[40, 55, 45, 70, 65, 85, 100].map((h, i) => (
-                                            <div key={i} className="flex-1 bg-blue-500/60 rounded-t" style={{ height: `${h}%` }}></div>
-                                        ))}
-                                    </div>
-                                </div>
+                    </div>
+
+                    {/* Headline */}
+                    <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-3 text-center">
+                        Assuma o Controle das Suas Captações no Google e Atraia Clientes{" "}
+                        <span className="text-orange-500">Com o Cartão na Mão</span>
+                    </h1>
+
+                    <p className="text-lg text-white/75 mb-8 text-center max-w-2xl mx-auto">
+                        Sem precisar pagar de{" "}
+                        <strong className="text-orange-400">R$&nbsp;1.500 a R$&nbsp;2.500 por mês</strong>{" "}
+                        para uma agência — copie e cole o protocolo, ative hoje e receba o primeiro orçamento em menos de 24 horas.
+                    </p>
+
+                    {/* ══ VSL ══════════════════════════════════════════════
+                        Cole o embed do seu vídeo dentro da div abaixo.
+                        Exemplo YouTube:
+                        <iframe src="https://www.youtube.com/embed/SEU_VIDEO_ID"
+                            allow="autoplay; encrypted-media" allowFullScreen></iframe>
+                        ═══════════════════════════════════════════════════ */}
+                    <div className="mb-8 rounded-2xl overflow-hidden shadow-2xl border border-white/10"
+                         style={{position:'relative', paddingBottom:'56.25%', height:0}}>
+                        {/* Placeholder — substitua pelo seu iframe */}
+                        <div style={{position:'absolute',inset:0,display:'flex',flexDirection:'column',
+                                     alignItems:'center',justifyContent:'center',gap:'14px',
+                                     backgroundColor:'#0f172a'}}>
+                            <div style={{width:80,height:80,borderRadius:'50%',display:'flex',
+                                         alignItems:'center',justifyContent:'center',
+                                         backgroundColor:'rgba(249,115,22,0.12)',
+                                         border:'2px solid rgba(249,115,22,0.3)'}}>
+                                <svg style={{width:36,height:36,color:'#f97316'}} fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
                             </div>
+                            <p style={{color:'#94a3b8',fontSize:14,fontWeight:500}}>Vídeo VSL — cole o embed aqui</p>
+                            <p style={{color:'#475569',fontSize:11,maxWidth:260,textAlign:'center'}}>
+                                Substitua este bloco pelo iframe do seu vídeo
+                            </p>
+                        </div>
+                    </div>
+                    {/* ═══════════════════════════════════════════════════ */}
+
+                    {/* CTA + micro-copy */}
+                    <div className="flex flex-col items-center gap-4">
+                        <a
+                            href="#oferta"
+                            onClick={e => {
+                                e.preventDefault();
+                                window.dataLayer = window.dataLayer || [];
+                                window.dataLayer.push({'event': 'hero_cta_click'});
+                                document.getElementById('oferta').scrollIntoView({ behavior: 'smooth' });
+                            }}
+                            className="gradient-cta text-white font-bold text-lg px-10 py-5 rounded-xl shadow-lg shadow-orange-500/40 hover:scale-105 transition-all uppercase tracking-wide text-center"
+                        >
+                            Quero Receber Clientes no WhatsApp Hoje →
+                        </a>
+                        <div className="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2">
+                            <svg className="w-4 h-4 text-green-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                            </svg>
+                            <span className="text-white/70 text-sm font-medium">7 Dias de Garantia Incondicional — Risco Zero</span>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+        );
+
+        /* ─── SEÇÃO 3 · A Dor ────────────────────────────────────── */
+        const Pain = () => (
+            <section className="bg-slate-900 py-24 px-6 relative overflow-hidden border-t border-slate-800">
+                <div className="absolute top-0 right-0 w-96 h-96 bg-red-500/5 rounded-full blur-[150px] pointer-events-none"></div>
+                <div className="absolute bottom-0 left-0 w-72 h-72 bg-orange-500/5 rounded-full blur-[120px] pointer-events-none"></div>
+
+                <div className="max-w-5xl mx-auto relative z-10">
+                    <div className="text-center mb-16">
+                        <span className="inline-block bg-red-500/10 border border-red-500/20 text-red-400 font-bold text-xs px-4 py-2 rounded-full mb-6 uppercase tracking-wider">
+                            A Realidade do Profissional Autônomo
+                        </span>
+                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight max-w-4xl mx-auto">
+                            Se você é um profissional autônomo, você tem{" "}
+                            <span className="text-orange-500">duas opções</span>{" "}
+                            no mercado hoje — e as duas estão sugando seu dinheiro:
+                        </h2>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 gap-8 mb-14">
+                        <div className="bg-slate-800/60 border border-red-500/20 rounded-[2rem] p-8 relative overflow-hidden group hover:border-red-500/40 transition-all">
+                            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-500/60 to-transparent rounded-t-[2rem]"></div>
+                            <div className="w-14 h-14 bg-red-500/10 border border-red-500/20 rounded-2xl flex items-center justify-center mb-6 text-3xl">
+                                📱
+                            </div>
+                            <h3 className="text-xl font-extrabold text-white mb-4">Cenário 1 — A Exaustão</h3>
+                            <p className="text-slate-300 leading-relaxed text-base">
+                                Virar um{" "}
+                                <strong className="text-red-400">"escravo" do Instagram.</strong>{" "}
+                                Fazer dancinhas, postar 5 stories por dia e criar conteúdo para pessoas que
+                                só querem entretenimento, torcendo para alguém perguntar o seu preço.
+                            </p>
+                        </div>
+
+                        <div className="bg-slate-800/60 border border-red-500/20 rounded-[2rem] p-8 relative overflow-hidden group hover:border-red-500/40 transition-all">
+                            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-500/60 to-transparent rounded-t-[2rem]"></div>
+                            <div className="w-14 h-14 bg-red-500/10 border border-red-500/20 rounded-2xl flex items-center justify-center mb-6 text-3xl">
+                                💸
+                            </div>
+                            <h3 className="text-xl font-extrabold text-white mb-4">Cenário 2 — A Dependência</h3>
+                            <p className="text-slate-300 leading-relaxed text-base">
+                                Pagar{" "}
+                                <strong className="text-red-400">honorários absurdos (entre R$&nbsp;1.500 e R$&nbsp;2.500)</strong>{" "}
+                                para uma agência que te entrega relatórios confusos, não entende o seu
+                                negócio e, no fim do mês, não faz o seu telefone tocar.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div className="bg-gradient-to-br from-blue-600/20 to-slate-800/80 border border-blue-500/30 rounded-[2rem] p-8 sm:p-12 text-center relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-48 h-48 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                        <div className="relative z-10">
+                            <span className="inline-block bg-blue-600 text-white font-bold text-xs px-4 py-1 rounded-full mb-6 uppercase tracking-wider">
+                                A Virada
+                            </span>
+                            <h3 className="text-2xl sm:text-3xl font-extrabold text-white mb-5 leading-tight">
+                                A verdade que as agências não te contam
+                            </h3>
+                            <p className="text-slate-300 text-lg leading-relaxed max-w-3xl mx-auto">
+                                Você{" "}
+                                <strong className="text-white">não precisa de um painel complexo</strong>{" "}
+                                ou de rios de dinheiro para atrair clientes. Você só precisa estar{" "}
+                                <strong className="text-orange-400">onde o seu cliente já está procurando por você.</strong>
+                            </p>
                         </div>
                     </div>
                 </div>
             </section>
         );
 
-        const InternalStrategy = () => (
+        /* ─── SEÇÃO 4 · A Solução ────────────────────────────────── */
+        const Solution = () => (
             <section className="bg-slate-50 py-24 px-6 border-b border-slate-200 relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-orange-500/5 rounded-full blur-3xl pointer-events-none -translate-y-1/2 translate-x-1/3"></div>
                 <div className="max-w-6xl mx-auto">
                     <div className="grid lg:grid-cols-2 gap-16 items-center">
-                        <div className="order-2 lg:order-1">
-                            <div className="inline-block bg-orange-100 text-orange-600 font-bold text-xs px-3 py-1 rounded-md mb-6 uppercase tracking-wider">A Realidade do Mercado</div>
+
+                        <div>
+                            <div className="inline-block bg-orange-100 text-orange-600 font-bold text-xs px-3 py-1 rounded-md mb-6 uppercase tracking-wider">
+                                A Mudança de Paradigma
+                            </div>
                             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 mb-6 leading-tight">
-                                A estratégia que escala vendas <span className="text-orange-500">precisa nascer de dentro</span> da sua empresa.
+                                O Segredo da Interceptação:{" "}
+                                <span className="text-orange-500">
+                                    Quem pesquisa no Google, já quer comprar.
+                                </span>
                             </h2>
                             <p className="text-xl text-slate-600 mb-8 leading-relaxed">
-                                Para que você tenha resultados de verdade com tráfego pago, terceirizar a inteligência é um risco alto. Agências operam ferramentas, mas só você (ou a sua equipe) entende as reais dores do cliente e as margens do produto.
+                                Pense rápido: quando o cano da sua casa estoura, ou você está com uma dor de
+                                dente insuportável, você vai rolar o feed do Instagram — ou vai digitar no
+                                Google{" "}
+                                <strong className="text-slate-800">"Encanador urgente" / "Dentista perto de mim"?</strong>
                             </p>
-                            <div className="space-y-6">
-                                <div className="flex gap-4 items-start">
-                                    <div className="bg-blue-100 text-blue-600 p-3 rounded-xl flex-shrink-0 mt-1">
-                                        <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-                                    </div>
-                                    <div>
-                                        <h4 className="text-lg font-bold text-slate-900">O Controle é Total</h4>
-                                        <p className="text-slate-600">Ter o conhecimento internamente permite tomar decisões rápidas sem depender de aprovações externas ou respostas demoradas.</p>
-                                    </div>
-                                </div>
-                                <div className="flex gap-4 items-start">
-                                    <div className="bg-green-100 text-green-600 p-3 rounded-xl flex-shrink-0 mt-1">
-                                        <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                                    </div>
-                                    <div>
-                                        <h4 className="text-lg font-bold text-slate-900">O Conhecimento Continua em Casa</h4>
-                                        <p className="text-slate-600">Se uma agência vai embora, ela leva todos os aprendizados. Formando alguém de dentro, o conhecimento vira um ativo fixo da sua operação.</p>
-                                    </div>
-                                </div>
+                            <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+                                <p className="text-slate-700 text-lg leading-relaxed">
+                                    O seu melhor cliente está no Google <strong>agora.</strong> Ele já tomou a decisão
+                                    de compra. Ele só está procurando para{" "}
+                                    <strong className="text-orange-500">quem dar o dinheiro.</strong>
+                                </p>
+                                <p className="text-slate-500 mt-3 text-base italic border-t border-slate-100 pt-3">
+                                    E o Protocolo Cliente na Porta é a ponte direta entre a pesquisa dele e o
+                                    seu WhatsApp.
+                                </p>
                             </div>
                         </div>
-                        <div className="relative order-1 lg:order-2">
+
+                        <div className="relative">
                             <div className="aspect-square max-w-sm mx-auto relative">
                                 <div className="absolute inset-0 bg-slate-900 rounded-[2rem] rotate-3 translate-x-2 translate-y-2 opacity-10"></div>
-                                <div className="absolute inset-0 bg-slate-900 rounded-[2rem] -rotate-3 text-white p-8 flex flex-col justify-center shadow-2xl relative z-10">
-                                    <svg className="w-12 h-12 text-orange-500 mb-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path></svg>
-                                    <p className="text-2xl font-bold leading-snug mb-4">"O melhor caminho é que a inteligência das vendas não dependa de terceiros."</p>
-                                    <p className="text-slate-400">Assuma as rédeas do seu investimento em Ads.</p>
-                                    <div className="mt-8 flex gap-2">
-                                        <div className="h-2 w-12 bg-orange-500 rounded-full"></div>
-                                        <div className="h-2 w-6 bg-slate-700 rounded-full"></div>
-                                        <div className="h-2 w-6 bg-slate-700 rounded-full"></div>
+                                <div className="absolute inset-0 bg-slate-900 rounded-[2rem] -rotate-2 text-white p-8 flex flex-col justify-center shadow-2xl relative z-10">
+                                    <p className="text-xs text-slate-500 uppercase tracking-widest mb-6 text-center">Jornada do Cliente</p>
+                                    <div className="space-y-3">
+                                        <div className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-xl p-4">
+                                            <span className="text-2xl">🔍</span>
+                                            <div>
+                                                <p className="text-[10px] text-slate-400 uppercase tracking-wider">Cliente digitou</p>
+                                                <p className="text-white font-bold text-sm">"Encanador urgente SP"</p>
+                                            </div>
+                                        </div>
+                                        <div className="flex justify-center py-1">
+                                            <svg className="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7"/>
+                                            </svg>
+                                        </div>
+                                        <div className="flex items-center gap-3 bg-orange-500/5 border border-orange-500/20 rounded-xl p-4">
+                                            <span className="text-2xl">📢</span>
+                                            <div>
+                                                <p className="text-[10px] text-orange-400 uppercase tracking-wider">Seu anúncio aparece</p>
+                                                <p className="text-white font-bold text-sm">Protocolo ativado</p>
+                                            </div>
+                                        </div>
+                                        <div className="flex justify-center py-1">
+                                            <svg className="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7"/>
+                                            </svg>
+                                        </div>
+                                        <div className="flex items-center gap-3 bg-green-500/10 border border-green-500/20 rounded-xl p-4">
+                                            <span className="text-2xl">📲</span>
+                                            <div>
+                                                <p className="text-[10px] text-green-400 uppercase tracking-wider">Resultado</p>
+                                                <p className="text-white font-bold text-sm">WhatsApp tocando</p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </section>
         );
 
-        const Solution = () => (
-            <section className="bg-white py-24 px-6">
-                <div className="max-w-7xl mx-auto">
-                    <div className="text-center mb-16">
-                        <span className="inline-block bg-green-100 text-green-600 font-semibold text-sm px-4 py-2 rounded-full mb-4 uppercase">A SOLUÇÃO</span>
-                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-6">
-                            Programa de Imersão: <span className="text-blue-600">Prático e Estruturado</span>
-                        </h2>
-                    </div>
-                    <div className="grid lg:grid-cols-3 gap-8">
-                        <div className="bg-slate-50 rounded-3xl p-8 border border-slate-100">
-                            <div className="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center text-white font-bold mb-6 text-xl">1</div>
-                            <h3 className="text-xl font-bold text-slate-900 mb-3">Método em Vídeo</h3>
-                            <p className="text-slate-600">Acesso completo a um cronograma de aulas de aplicação imediata. Sem teoria chata: você assiste e já implementa na sua conta de anúncios.</p>
-                        </div>
-                        <div className="bg-slate-50 rounded-3xl p-8 border border-slate-100">
-                            <div className="w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center text-white font-bold mb-6 text-xl">2</div>
-                            <h3 className="text-xl font-bold text-slate-900 mb-3">Encontros Ao Vivo</h3>
-                            <p className="text-slate-600">Teremos encontros online ao vivo focados em tirar dúvidas, analisar contas ativas e calibrar as suas estratégias em grupo.</p>
-                        </div>
-                        <div className="bg-slate-50 rounded-3xl p-8 border border-slate-100">
-                            <div className="w-12 h-12 bg-green-600 rounded-xl flex items-center justify-center text-white font-bold mb-6 text-xl">3</div>
-                            <h3 className="text-xl font-bold text-slate-900 mb-3">Foco em Resultado</h3>
-                            <p className="text-slate-600">Domínio técnico sobre Google Ads + Looker Studio. O objetivo das aulas é te dar clareza de onde parar o desperdício de verba e aumentar seu lucro.</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        );
-
-        const Curriculum = () => {
-            const weekData = [
+        /* ─── SEÇÃO 5 · Os 4 Pilares ─────────────────────────────── */
+        const Pillars = () => {
+            const pilares = [
                 {
-                    number: 1,
-                    title: "Semana 1 — Sua primeira campanha no ar",
-                    objective: "🎯 Em 5 dias, você tem campanha rodando e leads chegando.",
-                    lessons: [
-                        "1.1 — Como Google Ads funciona pro dono de negócio (15 min, sem teoria)",
-                        "1.2 — Conta criada, faturamento e estrutura mínima",
-                        "1.3 — Pesquisa de palavras-chave com IA (prompts prontos)",
-                        "1.4 — Sua primeira campanha de Search (passo a passo)",
-                        "1.5 — Sua primeira campanha de Performance Max (passo a passo)",
-                        "1.6 — Conversões essenciais: formulário, WhatsApp e ligação (sem GTM, modo simples)",
-                        "1.7 — Ativação e checklist de 'tá tudo certo?'"
-                    ]
+                    num: "01", icon: "🎯", color: "blue",
+                    title: "O Radar de Urgência",
+                    desc: "Descubra exatamente o que seu cliente digita. Te entregamos os prompts e a \"Lista Negra\" de palavras para você colar na sua conta e bloquear os curiosos antes de gastar 1 real."
                 },
                 {
-                    number: 2,
-                    title: "Semana 2 — Lendo resultados e cortando desperdício",
-                    objective: "🎯 Parar de gastar com clique que não vira cliente.",
-                    lessons: [
-                        "2.1 — As 3 únicas métricas que importam pra dono de negócio",
-                        "2.2 — Termos de pesquisa: o relatório que mais dá dinheiro",
-                        "2.3 — Palavras-chave negativas: cortando gordura",
-                        "2.4 — Ajuste de orçamento e lances (modo simples)",
-                        "2.5 — Quando pausar, quando deixar rodar (regras claras)"
-                    ]
+                    num: "02", icon: "⚡", color: "orange",
+                    title: "A Armadilha Direta",
+                    desc: "O passo a passo sem jargões. Suba uma campanha à prova de erros em menos de 1 hora, apontando quem pesquisa direto para o seu número."
                 },
                 {
-                    number: 3,
-                    title: "Semana 3 — Anúncios e páginas que vendem",
-                    objective: "🎯 Transformar clique em contato.",
-                    lessons: [
-                        "3.1 — Anatomia de um anúncio que converte",
-                        "3.2 — Anúncios com IA: prompts prontos pra títulos e descrições",
-                        "3.3 — Extensões que aumentam CTR sem complicação",
-                        "3.4 — O que faz uma página vender (e o que mata)",
-                        "3.5 — Conexão página → anúncio → palavra-chave"
-                    ]
+                    num: "03", icon: "💬", color: "green",
+                    title: 'O Fechamento "Zap"',
+                    desc: 'O telefone tocou, e agora? Receba os roteiros exatos para conduzir a conversa nos primeiros 5 minutos e transformar perguntas de "qual o preço?" em agendamentos reais.'
                 },
                 {
-                    number: 4,
-                    title: "Semana 4 — WhatsApp, ligações e fechamento",
-                    objective: "🎯 Fazer o lead virar venda de verdade.",
-                    lessons: [
-                        "4.1 — Click-to-WhatsApp: configuração e mensagem que converte",
-                        "4.2 — Call extensions: quando ligação supera formulário",
-                        "4.3 — Atendimento ao lead: os 5 minutos que decidem a venda",
-                        "4.4 — Modelos de mensagem pro primeiro contato",
-                        "4.5 — Quando o lead some: sequência de recuperação"
-                    ]
-                },
-                {
-                    number: 5,
-                    title: "Semana 5 — Recuperando quem não comprou (Remarketing simples)",
-                    objective: "🎯 Voltar pra quem visitou e não converteu.",
-                    lessons: [
-                        "5.1 — Como funciona remarketing (em 10 minutos)",
-                        "5.2 — Lista de remarketing no GA4 (passo a passo, sem enrolação)",
-                        "5.3 — Campanha de remarketing pronta (template guiado)",
-                        "5.4 — Quando vale a pena (e quando não vale)"
-                    ]
-                },
-                {
-                    number: 6,
-                    title: "Semana 6 — Rotina, autonomia e escala",
-                    objective: "🎯 Manter a campanha viva sem ser refém dela.",
-                    lessons: [
-                        "6.1 — Rotina semanal de 30 minutos (checklist pronto)",
-                        "6.2 — Quando trocar anúncio, quando aumentar orçamento",
-                        "6.3 — Auditoria mensal da sua conta (guiada)",
-                        "6.4 — Kit de prompts de IA pra gestão contínua",
-                        "6.5 — Quando faz sentido contratar ajuda (e quando não)"
-                    ]
+                    num: "04", icon: "☕", color: "purple",
+                    title: "A Faxina Diária (Apenas 5 min)",
+                    desc: "O checklist de manutenção. Um painel minimalista para você saber o que pausar e o que acelerar tomando um café, sem depender de relatórios longos."
                 }
             ];
 
-            const bonusData = {
-                title: "MÓDULO BÔNUS — Criando sua página de vendas com IA",
-                objective: "🎯 Página pronta pra rodar tráfego, sem programador, sem WordPress.",
-                lessons: [
-                    "B.1 — Por que página dedicada vende mais que site institucional",
-                    "B.2 — Estrutura de uma página que converte (anatomia bloco a bloco)",
-                    "B.3 — Briefing pra IA: o prompt que gera a página inteira",
-                    "B.4 — Gerando a página HTML completa com Claude/ChatGPT (do zero)",
-                    "B.5 — Hospedando grátis no Cloudflare Pages (passo a passo)",
-                    "B.6 — Conectando seu domínio próprio",
-                    "B.7 — Adicionando formulário, WhatsApp e rastreamento de conversão",
-                    "B.8 — Testando antes de subir tráfego: checklist final"
-                ]
+            const colors = {
+                blue:   { bg: "bg-blue-600",   glow: "bg-blue-500/10 border-blue-500/20",    text: "text-blue-400"   },
+                orange: { bg: "bg-orange-500",  glow: "bg-orange-500/10 border-orange-500/20", text: "text-orange-400" },
+                green:  { bg: "bg-green-600",   glow: "bg-green-500/10 border-green-500/20",   text: "text-green-400"  },
+                purple: { bg: "bg-purple-600",  glow: "bg-purple-500/10 border-purple-500/20", text: "text-purple-400" }
             };
 
             return (
-                <section id="programa" className="bg-slate-900 py-24 px-6">
+                <section id="pilares" className="bg-slate-900 py-24 px-6">
                     <div className="max-w-7xl mx-auto">
                         <div className="text-center mb-16">
                             <div className="inline-block bg-orange-500/10 border border-orange-500/20 px-6 py-2 rounded-full mb-6">
-                                <span className="text-orange-500 font-black uppercase tracking-[0.2em] text-sm sm:text-base">6 Semanas + Bônus</span>
+                                <span className="text-orange-500 font-black uppercase tracking-[0.2em] text-sm sm:text-base">
+                                    4 Pilares · Ativação Hoje
+                                </span>
                             </div>
-                            <h2 className="text-4xl sm:text-6xl font-black text-white leading-tight">Do Zero ao Controle Total</h2>
-                            <p className="text-slate-400 mt-4 text-lg max-w-2xl mx-auto italic">Um passo a passo direto ao ponto para você dominar a ferramenta e parar de depender de terceiros.</p>
+                            <h2 className="text-4xl sm:text-6xl font-black text-white leading-tight">
+                                Tudo que você precisa para ativar
+                            </h2>
+                            <h2 className="text-4xl sm:text-6xl font-black text-orange-500 leading-tight">
+                                sua "Máquina de Clientes"
+                            </h2>
+                            <p className="text-slate-400 mt-4 text-lg max-w-2xl mx-auto italic">
+                                Um mapa prático e direto ao ponto — sem enrolação, sem jargão técnico.
+                            </p>
                         </div>
 
-                        {/* Grade das 6 semanas */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-                            {weekData.map((w) => (
-                                <div key={w.number} className="bg-slate-800/50 p-8 rounded-[2rem] border border-slate-700/50 hover:border-blue-500/50 transition-all group">
-                                    <div className="flex items-center gap-3 mb-5">
-                                        <div className="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center border border-slate-700 group-hover:bg-blue-600 group-hover:border-blue-500 transition-colors flex-shrink-0">
-                                            <span className="text-white font-bold text-sm">{w.number}</span>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            {pilares.map((p) => {
+                                const c = colors[p.color];
+                                return (
+                                    <div key={p.num}
+                                        className="bg-slate-800/50 p-8 rounded-[2rem] border border-slate-700/50 hover:border-slate-500/50 transition-all group relative overflow-hidden"
+                                    >
+                                        <div className="absolute top-2 right-4 text-8xl font-black text-white/[0.03] leading-none select-none pointer-events-none">
+                                            {p.num}
                                         </div>
-                                        <h4 className="text-white font-extrabold text-base leading-tight">{w.title}</h4>
+                                        <div className="relative z-10">
+                                            <div className="flex items-center gap-4 mb-6">
+                                                <div className={`w-14 h-14 ${c.bg} rounded-2xl flex items-center justify-center text-2xl shadow-lg flex-shrink-0`}>
+                                                    {p.icon}
+                                                </div>
+                                                <div>
+                                                    <p className={`text-xs font-black uppercase tracking-widest ${c.text} mb-1`}>
+                                                        Pilar {p.num}
+                                                    </p>
+                                                    <h3 className="text-xl font-extrabold text-white">{p.title}</h3>
+                                                </div>
+                                            </div>
+                                            <div className={`border ${c.glow} rounded-xl px-4 py-2 mb-4 w-fit`}>
+                                                <p className={`text-[11px] ${c.text} font-black uppercase tracking-wider`}>
+                                                    {p.num === "01" ? "Palavras-chave + Lista Negra prontas"
+                                                    : p.num === "02" ? "Campanha no ar em menos de 1 hora"
+                                                    : p.num === "03" ? "Scripts de fechamento inclusos"
+                                                    : "Checklist de 5 minutos por dia"}
+                                                </p>
+                                            </div>
+                                            <p className="text-slate-300 leading-relaxed text-base">{p.desc}</p>
+                                        </div>
                                     </div>
-                                    <div className="bg-blue-500/10 border border-blue-500/20 rounded-xl px-4 py-2 mb-5">
-                                        <p className="text-[11px] text-blue-400 font-black uppercase tracking-wider">{w.objective}</p>
+                                );
+                            })}
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        /* ─── SEÇÃO 6 · Bônus ────────────────────────────────────── */
+        const Bonuses = () => {
+            const bonuses = [
+                {
+                    emoji: "📊",
+                    titulo: "O Painel do Chefe (Looker Studio)",
+                    desc: "Um dashboard de uma tela para acompanhar seu lucro pelo celular. Sem planilha, sem enrolação, sem precisar de ninguém para interpretar.",
+                },
+                {
+                    emoji: "🔁",
+                    titulo: "A Máquina de Recuperação",
+                    desc: "Como perseguir os clientes que clicaram e não chamaram. Recupere quem estava a um passo de entrar em contato com você.",
+                },
+                {
+                    emoji: "🗺️",
+                    titulo: "Dominação Local com IA",
+                    desc: "Como usar a Performance Max para aparecer em todos os lugares na sua região. Domine o Google do seu bairro.",
+                },
+                {
+                    emoji: "⚙️",
+                    titulo: "Otimização Avançada",
+                    desc: "Extensões e ajustes finos para baratear o custo de cada contato e extrair o máximo de cada real investido.",
+                }
+            ];
+
+            return (
+                <section className="bg-white py-24 px-6 relative overflow-hidden">
+                    <div className="absolute bottom-0 left-0 w-80 h-80 bg-orange-500/5 rounded-full blur-3xl pointer-events-none"></div>
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl pointer-events-none"></div>
+
+                    <div className="max-w-6xl mx-auto relative z-10">
+                        <div className="text-center mb-16">
+                            <span className="inline-block bg-orange-100 text-orange-600 font-bold text-xs px-4 py-2 rounded-full mb-4 uppercase tracking-wider">
+                                Arsenal de Bônus
+                            </span>
+                            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 mb-4">
+                                E para garantir que você tenha{" "}
+                                <span className="text-orange-500">escala</span>{" "}
+                                quando sua agenda lotar
+                            </h2>
+                            <p className="text-slate-500 text-lg max-w-2xl mx-auto">
+                                Incluímos um arsenal de bônus para levar seus resultados ao próximo nível.
+                            </p>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                            {bonuses.map((b, i) => (
+                                <div key={i} className="bg-slate-50 border border-slate-200 rounded-3xl p-7 hover:shadow-lg hover:border-orange-200 hover:-translate-y-1 transition-all group">
+                                    <div className="text-5xl mb-5">{b.emoji}</div>
+                                    <div className="inline-block bg-orange-100 text-orange-600 text-[10px] font-bold px-2 py-1 rounded-md mb-3 uppercase tracking-wider">
+                                        Bônus {i + 1}
                                     </div>
-                                    <ul className="space-y-3">
-                                        {w.lessons.map((l, k) => (
-                                            <li key={k} className="text-slate-400 text-sm flex items-start gap-3 leading-relaxed">
-                                                <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-blue-500 flex-shrink-0"></div>
-                                                {l}
-                                            </li>
-                                        ))}
-                                    </ul>
+                                    <h3 className="text-base font-extrabold text-slate-900 mb-3 leading-snug">{b.titulo}</h3>
+                                    <p className="text-slate-500 text-sm leading-relaxed">{b.desc}</p>
                                 </div>
                             ))}
                         </div>
 
-                        {/* Módulo Bônus */}
-                        <div className="relative rounded-[2rem] overflow-hidden border-2 border-orange-500/50">
-                            <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-yellow-500/5 pointer-events-none"></div>
-                            <div className="relative p-8 sm:p-12">
-                                <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
-                                    <div className="flex-shrink-0 inline-flex items-center gap-2 bg-orange-500 text-white font-black text-sm px-4 py-2 rounded-full uppercase tracking-wider w-fit">
-                                        <span>🎁</span> Bônus Exclusivo
-                                    </div>
-                                    <h3 className="text-2xl sm:text-3xl font-black text-white leading-tight">{bonusData.title}</h3>
-                                </div>
-                                <div className="bg-orange-500/10 border border-orange-500/20 rounded-xl px-4 py-2 mb-8 w-fit">
-                                    <p className="text-sm text-orange-400 font-bold">{bonusData.objective}</p>
-                                </div>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                                    {bonusData.lessons.map((l, k) => (
-                                        <div key={k} className="flex items-start gap-3 text-slate-300 text-sm leading-relaxed">
-                                            <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-orange-500 flex-shrink-0"></div>
-                                            {l}
-                                        </div>
+                        <div className="mt-12 bg-slate-900 rounded-3xl p-8 sm:p-10 text-center relative overflow-hidden">
+                            <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-transparent pointer-events-none rounded-3xl"></div>
+                            <div className="relative z-10">
+                                <p className="text-slate-400 text-sm uppercase tracking-widest mb-4">Tudo isso incluso no seu acesso</p>
+                                <div className="flex flex-wrap justify-center gap-4 mb-6">
+                                    {["Protocolo Completo (4 Pilares)", "Lista Negra de Palavras", "Scripts de Fechamento", "Checklist Diário", "Painel Looker Studio", "Máquina de Recuperação", "Dominação Local", "Otimização Avançada"].map((item, i) => (
+                                        <span key={i} className="inline-flex items-center gap-2 bg-white/5 border border-white/10 text-white text-sm font-medium px-4 py-2 rounded-full">
+                                            <svg className="w-3.5 h-3.5 text-orange-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"/>
+                                            </svg>
+                                            {item}
+                                        </span>
                                     ))}
                                 </div>
+                                <p className="text-slate-400 text-sm">Por uma fração do custo de um único mês de agência.</p>
                             </div>
                         </div>
                     </div>
@@ -543,63 +738,205 @@
             );
         };
 
-        const Comparison = () => (
-            <section id="comparacao" className="bg-white py-24 px-6">
-                <div className="max-w-5xl mx-auto">
-                    <div className="text-center mb-16">
-                        <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900">COMPARE: <span className="text-blue-600">AGÊNCIA vs NOSSO MÉTODO</span></h2>
-                        <p className="text-slate-500 mt-4 text-lg italic font-medium">Por que investir na sua autonomia é a decisão mais barata que você tomará hoje.</p>
-                    </div>
+        /* ─── SEÇÃO 7 · Depoimentos (WhatsApp) ─────────────────── */
+        const Testimonials = () => {
+            const depoimentos = [
+                {
+                    nome: "Marcos S.",
+                    profissao: "Encanador · São Paulo",
+                    initials: "MS",
+                    color: "bg-blue-500",
+                    msgs: [
+                        { de: "cliente", texto: "Cara, ativei o protocolo ontem à noite e hoje de manhã já tinha 3 mensagens pedindo orçamento 🤯", hora: "08:14" },
+                        { de: "cliente", texto: "Fechei 2 serviços e é só 11h da manhã!! Meu telefone não para", hora: "08:15" },
+                        { de: "eu", texto: "Isso! O Radar de Urgência funcionou certinho 💪", hora: "08:22" },
+                        { de: "cliente", texto: "Vlw demais Rodrigo, valeu cada centavo 🙏", hora: "08:23" },
+                    ]
+                },
+                {
+                    nome: "Fernanda C.",
+                    profissao: "Dentista · Belo Horizonte",
+                    initials: "FC",
+                    color: "bg-purple-500",
+                    msgs: [
+                        { de: "cliente", texto: "Rodrigo, primeiro paciente marcou consulta em menos de 12 horas! Não acredito 😱", hora: "14:07" },
+                        { de: "eu", texto: "E aí, tá conseguindo atender a demanda?", hora: "14:10" },
+                        { de: "cliente", texto: "Tô precisando contratar uma recepcionista de tanto que tá vindo kkkkk", hora: "14:11" },
+                        { de: "cliente", texto: "Cancelei a agência que pagava R$2.000/mês. Nunca mais! 🔥", hora: "14:12" },
+                    ]
+                },
+                {
+                    nome: "Ricardo O.",
+                    profissao: "Eletricista · Curitiba",
+                    initials: "RO",
+                    color: "bg-orange-500",
+                    msgs: [
+                        { de: "cliente", texto: "Boa tarde! Fiz a campanha seguindo o passo a passo, ficou no ar em 50 minutos 🎯", hora: "16:33" },
+                        { de: "eu", texto: "E os primeiros resultados?", hora: "16:40" },
+                        { de: "cliente", texto: "7 leads em 2 dias. Tô com a agenda cheia até sexta que vem 🤩", hora: "16:41" },
+                    ]
+                },
+                {
+                    nome: "Patrícia M.",
+                    profissao: "Personal Trainer · Rio de Janeiro",
+                    initials: "PM",
+                    color: "bg-pink-500",
+                    msgs: [
+                        { de: "cliente", texto: "Comecei com R$15 por dia igual você recomendou", hora: "09:02" },
+                        { de: "cliente", texto: "Em 3 dias já tinha 4 alunos novos entrando em contato 😍", hora: "09:03" },
+                        { de: "eu", texto: "Perfeito! Agora vai escalando aos poucos conforme a agenda permite", hora: "09:15" },
+                        { de: "cliente", texto: "Já aumentei pra R$30/dia! Tô muito feliz com tudo isso ❤️", hora: "09:17" },
+                    ]
+                },
+                {
+                    nome: "João C.",
+                    profissao: "Pintor · Campinas",
+                    initials: "JC",
+                    color: "bg-emerald-600",
+                    msgs: [
+                        { de: "cliente", texto: "Nunca pensei que conseguiria fazer isso sozinho. O protocolo é muito claro mesmo", hora: "11:44" },
+                        { de: "cliente", texto: "Primeiro orçamento chegou no WhatsApp em menos de 24h igual você prometeu 🙌", hora: "11:45" },
+                        { de: "eu", texto: "Mandou bem! Siga a faxina diária e o resultado vem crescendo", hora: "11:52" },
+                        { de: "cliente", texto: "Com certeza! Obrigado Rodrigo, mudou minha vida 🤝", hora: "11:53" },
+                    ]
+                },
+                {
+                    nome: "Camila R.",
+                    profissao: "Diarista · São Paulo",
+                    initials: "CR",
+                    color: "bg-teal-500",
+                    msgs: [
+                        { de: "cliente", texto: "Rodrigo!! 3 clientes novos na primeira semana! Eu tô chorando de alegria 😭😭", hora: "19:08" },
+                        { de: "eu", texto: "Que notícia boa Camila! Merece muito, parabéns!", hora: "19:20" },
+                        { de: "cliente", texto: "Passei anos dependendo de indicação. Nunca imaginei que seria tão simples", hora: "19:21" },
+                        { de: "cliente", texto: "Já indiquei pro meu marido que é marceneiro também 😄", hora: "19:22" },
+                    ]
+                },
+                {
+                    nome: "André L.",
+                    profissao: "Chaveiro · Porto Alegre",
+                    initials: "AL",
+                    color: "bg-indigo-500",
+                    msgs: [
+                        { de: "cliente", texto: "Campanha no ar em 45 minutos seguindo o passo a passo 💪", hora: "22:14" },
+                        { de: "cliente", texto: "Primeiro cliente chamou no WhatsApp 6 horas depois. De madrugada ainda!", hora: "22:15" },
+                        { de: "eu", texto: "Urgência é 24h no Google! Quem tá com a chave quebrada não espera manhã", hora: "22:20" },
+                        { de: "cliente", texto: "Exatamente kkk Quem vai pro Instagram nessa hora né 😂", hora: "22:21" },
+                    ]
+                },
+                {
+                    nome: "Beatriz S.",
+                    profissao: "Nutricionista · Florianópolis",
+                    initials: "BS",
+                    color: "bg-rose-500",
+                    msgs: [
+                        { de: "cliente", texto: "Minha agenda lotou em 2 semanas Rodrigo 🔥🔥", hora: "10:30" },
+                        { de: "eu", texto: "E o custo por lead tá como?", hora: "10:35" },
+                        { de: "cliente", texto: "Menos de R$8 por contato! A agência me cobrava R$2.200/mês pra isso", hora: "10:36" },
+                        { de: "cliente", texto: "Fiz as contas: economizo R$24k por ano. Inacreditável 😱", hora: "10:37" },
+                    ]
+                },
+                {
+                    nome: "Felipe M.",
+                    profissao: "Técnico em AC · Goiânia",
+                    initials: "FM",
+                    color: "bg-cyan-600",
+                    msgs: [
+                        { de: "cliente", texto: "Economizei R$2.000 só no primeiro mês cancelando a agência 💰", hora: "13:05" },
+                        { de: "cliente", texto: "E os resultados são MELHORES porque eu conheço meu cliente melhor que qualquer agência", hora: "13:06" },
+                        { de: "eu", texto: "É exatamente isso. O conhecimento do negócio tem que ficar com o dono", hora: "13:12" },
+                        { de: "cliente", texto: "Verdade demais. Obrigado por abrir minha cabeça! 💡", hora: "13:13" },
+                    ]
+                },
+                {
+                    nome: "Vanessa T.",
+                    profissao: "Manicure · Belo Horizonte",
+                    initials: "VT",
+                    color: "bg-violet-500",
+                    msgs: [
+                        { de: "cliente", texto: "Rodrigo, nunca mais vou depender de indicação! 🙌", hora: "17:48" },
+                        { de: "cliente", texto: "Tem cliente novo toda semana vindo pelo Google 😊", hora: "17:49" },
+                        { de: "eu", texto: "Que ótimo! E o investimento tá dentro do orçamento?", hora: "17:55" },
+                        { de: "cliente", texto: "Gasto R$12/dia e o retorno é absurdo. Tô conseguindo pagar meu aluguel só com os novos clientes 🙏", hora: "17:56" },
+                    ]
+                },
+            ];
 
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-left border-collapse rounded-2xl overflow-hidden shadow-xl">
-                            <thead>
-                                <tr className="bg-slate-900 text-white">
-                                    <th className="p-6 font-bold uppercase text-xs tracking-widest">ITEM</th>
-                                    <th className="p-6 font-bold uppercase text-xs tracking-widest bg-slate-800">Agência (12 meses)</th>
-                                    <th className="p-6 font-bold uppercase text-xs tracking-widest bg-blue-600">Treinamento Start</th>
-                                </tr>
-                            </thead>
-                            <tbody className="bg-white text-slate-700">
-                                <tr className="border-b border-slate-100">
-                                    <td className="p-6 font-bold">Investimento</td>
-                                    <td className="p-6 text-red-600 font-semibold">R$ 36.000 - R$ 60.000</td>
-                                    <td className="p-6 text-green-600 font-bold bg-green-50">R$ 497 (único)</td>
-                                </tr>
-                                <tr className="border-b border-slate-100 bg-slate-50/30">
-                                    <td className="p-6 font-bold">Duração</td>
-                                    <td className="p-6">Pagamento infinito</td>
-                                    <td className="p-6 font-semibold">6 semanas de acompanhamento</td>
-                                </tr>
-                                <tr className="border-b border-slate-100">
-                                    <td className="p-6 font-bold">Conhecimento</td>
-                                    <td className="p-6">Fica com eles</td>
-                                    <td className="p-6 font-bold text-blue-600">Fica com VOCÊ</td>
-                                </tr>
-                                <tr className="border-b border-slate-100 bg-slate-50/30">
-                                    <td className="p-6 font-bold">Controle</td>
-                                    <td className="p-6">Zero</td>
-                                    <td className="p-6 font-bold">Total</td>
-                                </tr>
-                                <tr className="border-b border-slate-100">
-                                    <td className="p-6 font-bold">ROI</td>
-                                    <td className="p-6">Só enquanto paga</td>
-                                    <td className="p-6 font-bold text-green-600">Para sempre</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+            return (
+                <section className="bg-slate-50 py-24 px-6 border-t border-slate-200">
+                    <div className="max-w-7xl mx-auto">
+                        <div className="text-center mb-16">
+                            <span className="inline-block bg-green-100 text-green-700 font-bold text-xs px-4 py-2 rounded-full mb-4 uppercase tracking-wider">
+                                Prova Real
+                            </span>
+                            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 mb-4">
+                                O que estão falando{" "}
+                                <span className="text-green-600">no WhatsApp</span>
+                            </h2>
+                            <p className="text-slate-500 text-lg max-w-2xl mx-auto">
+                                Conversas de quem já ativou o Protocolo e está recebendo clientes.
+                            </p>
+                        </div>
 
-                    <div className="mt-8 bg-blue-600 rounded-2xl p-6 text-center shadow-lg transform hover:scale-[1.01] transition-all">
-                        <p className="text-white text-2xl font-extrabold flex items-center justify-center gap-3">
-                            <span className="text-blue-200">💰</span>
-                            Economia em 12 meses: <span className="text-green-400">R$ 35.500+</span>
-                        </p>
-                    </div>
-                </div>
-            </section>
-        );
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {depoimentos.map((d, i) => (
+                                <div key={i} className="bg-white rounded-2xl overflow-hidden shadow-md border border-slate-100 flex flex-col">
+                                    {/* Header estilo WhatsApp */}
+                                    <div className="px-4 py-3 flex items-center gap-3" style={{backgroundColor: '#075E54'}}>
+                                        <div className={`w-10 h-10 ${d.color} rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0`}>
+                                            {d.initials}
+                                        </div>
+                                        <div className="flex-1 min-w-0">
+                                            <p className="text-white font-semibold text-sm leading-none truncate">{d.nome}</p>
+                                            <p className="text-xs mt-0.5 truncate" style={{color: '#ACE1BF'}}>{d.profissao}</p>
+                                        </div>
+                                        <svg className="w-5 h-5 flex-shrink-0" style={{color: '#ACE1BF'}} fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                                        </svg>
+                                    </div>
 
+                                    {/* Corpo do chat */}
+                                    <div className="p-4 space-y-2 flex-grow" style={{backgroundColor: '#ECE5DD'}}>
+                                        {d.msgs.map((m, j) => (
+                                            <div key={j} className={`flex ${m.de === 'eu' ? 'justify-end' : 'justify-start'}`}>
+                                                <div
+                                                    className={`max-w-[82%] px-3 py-2 text-sm leading-snug shadow-sm ${m.de === 'eu' ? 'rounded-lg rounded-tr-none' : 'rounded-lg rounded-tl-none'}`}
+                                                    style={{backgroundColor: m.de === 'eu' ? '#DCF8C6' : '#FFFFFF', color: '#111827'}}
+                                                >
+                                                    <p>{m.texto}</p>
+                                                    <div className={`flex items-center gap-0.5 mt-1 ${m.de === 'eu' ? 'justify-end' : 'justify-start'}`}>
+                                                        <span className="text-[10px]" style={{color: '#8696A0'}}>{m.hora}</span>
+                                                        {m.de === 'eu' && (
+                                                            <svg className="w-4 h-4 ml-0.5" fill="currentColor" viewBox="0 0 18 18" style={{color: '#53BDEB'}}>
+                                                                <path d="M15.01 3.316l-.478-.372a.365.365 0 0 0-.51.063L8.666 9.88a.32.32 0 0 1-.484.032l-.358-.325a.319.319 0 0 0-.484.032l-.378.483a.418.418 0 0 0 .036.541l1.32 1.266c.143.14.361.125.484-.033l6.272-8.048a.366.366 0 0 0-.064-.512zm-4.1 0l-.478-.372a.365.365 0 0 0-.51.063L4.566 9.88a.32.32 0 0 1-.484.032L1.927 7.516a.319.319 0 0 0-.484.032l-.378.483a.418.418 0 0 0 .036.541l3.26 3.124c.143.14.361.125.484-.033l6.272-8.048a.365.365 0 0 0-.064-.512z"/>
+                                                            </svg>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    {/* Rodapé estilo WhatsApp */}
+                                    <div className="px-4 py-2 flex items-center gap-3" style={{backgroundColor: '#F0F0F0'}}>
+                                        <div className="flex-1 bg-white rounded-full px-4 py-1.5 text-xs text-slate-400">
+                                            Mensagem
+                                        </div>
+                                        <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{backgroundColor: '#075E54'}}>
+                                            <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                                <path d="M12 3a9 9 0 1 0 9 9 9.01 9.01 0 0 0-9-9zm0 16a7 7 0 1 1 7-7 7.008 7.008 0 0 1-7 7zm1-11h-2v3H8v2h3v3h2v-3h3v-2h-3z"/>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        /* ─── SEÇÃO 8 · Quem Sou Eu (Mentor) ────────────────────── */
         const Mentor = () => (
             <section id="mentor" className="bg-slate-900 py-24 px-6 relative overflow-hidden">
                 <div className="absolute top-0 left-0 w-64 h-64 bg-blue-600/10 rounded-full blur-[120px] pointer-events-none"></div>
@@ -623,142 +960,334 @@
                             Especialista em Performance | 10+ Anos Transformando Investimento em Escala Real
                         </h2>
                         <div className="space-y-4 text-slate-300 text-lg leading-relaxed">
-                            <p>Eu tenho mais de uma década de experiência atendendo empresas de todos os portes. Tive minha própria agência por 9 anos e hoje posso te garantir algo fundamental: por melhor que seja o trabalho de terceiros, <strong>ninguém conhece o seu negócio melhor do que você.</strong></p>
+                            <p>Eu tenho mais de uma década de experiência atendendo empresas de todos os portes. Tive minha própria agência por 9 anos e hoje posso te garantir algo fundamental: por melhor que seja o trabalho de terceiros, <strong className="text-white">ninguém conhece o seu negócio melhor do que você.</strong></p>
                             <p className="font-semibold text-blue-400">Com o conhecimento estratégico e operacional dentro da sua empresa, você deixa de "comprar cliques" e passa a construir um motor de vendas que você realmente controla.</p>
-                            <p>Minha missão é te dar autonomia total. Eu domino o ecossistema de <strong>Meta Ads, LinkedIn Ads, TikTok Ads, Growth Marketing e Data Analytics</strong> para garantir que cada centavo investido retorne em lucro direto para você.</p>
+                            <p>Minha missão é te dar autonomia total. Eu domino o ecossistema de <strong className="text-white">Meta Ads, LinkedIn Ads, TikTok Ads, Growth Marketing e Data Analytics</strong> para garantir que cada centavo investido retorne em lucro direto para você.</p>
                         </div>
                     </div>
                 </div>
             </section>
         );
 
-        const Investment = ({ onCtaClick }) => (
-            <section id="investimento" className="bg-slate-50 pt-24 pb-24 px-6">
-                <div className="max-w-6xl mx-auto">
+        /* ─── SEÇÃO 8 · Oferta e Preço ───────────────────────────── */
+        const Offer = () => (
+            <section id="oferta" className="bg-slate-900 py-24 px-6 relative overflow-hidden border-t border-slate-800">
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-orange-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+                <div className="max-w-5xl mx-auto relative z-10">
                     <div className="text-center mb-16">
-                        <h2 className="text-4xl sm:text-5xl font-extrabold text-slate-900 mb-4">Escolha o seu nível de <span className="text-orange-500">aceleração</span></h2>
-                        <p className="text-xl text-slate-600 max-w-2xl mx-auto">Opções flexíveis para quem quer aprender no seu próprio ritmo ou ter acompanhamento lado a lado.</p>
+                        <span className="inline-block bg-orange-500/10 border border-orange-500/20 text-orange-400 font-bold text-xs px-4 py-2 rounded-full mb-4 uppercase tracking-wider">
+                            A Oferta
+                        </span>
+                        <h2 className="text-4xl sm:text-5xl font-extrabold text-white mb-5">
+                            Quanto vale ter{" "}
+                            <span className="text-orange-500">autonomia total</span>{" "}
+                            sobre as suas vendas?
+                        </h2>
+                        <p className="text-slate-400 text-lg max-w-3xl mx-auto leading-relaxed">
+                            Contratar uma agência mediana vai te custar pelo menos{" "}
+                            <strong className="text-red-400">R$&nbsp;18.000 por ano</strong>, só em honorários.
+                            Ficar sem clientes custa a sobrevivência do seu negócio.
+                        </p>
                     </div>
 
-                    <div className="grid lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
-                        {/* Plano Treinamento (DESTAQUE) */}
-                        <div className="bg-slate-900 rounded-[2.5rem] p-10 text-white shadow-2xl relative flex flex-col border-2 border-orange-500 transform lg:-translate-y-4">
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-orange-500/20 rounded-full blur-3xl"></div>
+                    <div className="overflow-x-auto mb-14">
+                        <table className="w-full text-left border-collapse rounded-2xl overflow-hidden shadow-xl max-w-3xl mx-auto">
+                            <thead>
+                                <tr className="bg-slate-800 text-white">
+                                    <th className="p-5 font-bold uppercase text-xs tracking-widest text-slate-400">Item</th>
+                                    <th className="p-5 font-bold uppercase text-xs tracking-widest text-slate-400">Agência (12 meses)</th>
+                                    <th className="p-5 font-bold uppercase text-xs tracking-widest bg-orange-500/20 text-orange-300">Protocolo</th>
+                                </tr>
+                            </thead>
+                            <tbody className="bg-slate-800/50 text-slate-300">
+                                {[
+                                    ["Investimento", "R$ 18.000 – R$ 30.000", "R$ 397 (único)"],
+                                    ["Duração", "Pagamento infinito", "Acesso vitalício"],
+                                    ["Conhecimento", "Fica com eles", "Fica com VOCÊ"],
+                                    ["Controle", "Zero", "Total"],
+                                    ["Telefone tocando?", "Talvez", "Em menos de 24h"]
+                                ].map(([item, agencia, protocolo], i) => (
+                                    <tr key={i} className={`border-b border-slate-700/50 ${i % 2 === 0 ? '' : 'bg-white/[0.02]'}`}>
+                                        <td className="p-5 font-bold text-white">{item}</td>
+                                        <td className="p-5 text-red-400 font-medium">{agencia}</td>
+                                        <td className="p-5 font-bold text-green-400 bg-green-500/5">{protocolo}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div className="max-w-lg mx-auto">
+                        <div className="bg-white rounded-[2.5rem] p-10 sm:p-14 shadow-2xl relative overflow-hidden border-2 border-orange-500/40">
+                            <div className="absolute top-0 right-0 w-48 h-48 bg-orange-500/10 rounded-full blur-3xl pointer-events-none"></div>
                             <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                                <span className="bg-orange-500 text-white text-xs font-bold uppercase tracking-wider py-1 px-4 rounded-full">Acesso Imediato</span>
+                                <span className="gradient-cta text-white text-xs font-bold uppercase tracking-wider py-1.5 px-5 rounded-full shadow-lg shadow-orange-500/30">
+                                    Hoje com desconto
+                                </span>
                             </div>
 
-                            <h3 className="text-2xl font-bold mb-2">Treinamento Online</h3>
-                            <p className="text-slate-400 mb-6">Não é apenas um curso. É o passo a passo exato para você ativar suas campanhas hoje mesmo.</p>
-                            <div className="mb-8">
-                                <span className="text-5xl font-extrabold text-orange-500">R$ 497</span>
-                                <span className="text-slate-400 ml-2">/ à vista</span>
-                                <p className="text-sm text-slate-400 mt-2">ou em até 12x no cartão</p>
-                            </div>
-                            <div className="space-y-4 mb-10 flex-grow">
-                                {[
-                                    "6 semanas de conteúdo gravado direto ao ponto",
-                                    "Aperte o botão junto comigo na aula prática",
-                                    "Campanha rodando já na primeira semana",
-                                    "Dashboard de Looker Studio e checklists inclusos",
-                                    "Bônus: Crie Landing Pages com IA"
-                                ].map((benefit, i) => (
-                                    <div key={i} className="flex items-start gap-3 text-left">
-                                        <svg className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" /></svg>
-                                        <span className="text-white/90 font-medium">{benefit}</span>
-                                    </div>
-                                ))}
-                            </div>
-                            <a
-                                href="https://pay.hotmart.com/Y104360494V?off=av71abb8"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                onClick={() => {
-                                    window.dataLayer = window.dataLayer || [];
-                                    window.dataLayer.push({'event': 'checkout_treinamento_click'});
-                                }}
-                                className="w-full text-center gradient-cta text-white font-bold text-lg px-8 py-4 rounded-xl shadow-lg shadow-orange-500/30 hover:scale-[1.02] transition-all relative z-10 block"
-                            >
-                                Quero Ativar Minha Campanha
-                            </a>
-                        </div>
+                            <div className="relative z-10 text-center">
+                                <h3 className="text-2xl font-extrabold text-slate-900 mb-2">Protocolo Cliente na Porta</h3>
+                                <p className="text-slate-500 mb-8 text-sm">Scripts, listas prontas e passo a passo completo.</p>
 
-                        {/* Plano Mentoria (SECUNDARIO) */}
-                        <div className="bg-white rounded-[2.5rem] p-10 border border-slate-200 shadow-xl relative flex flex-col mt-0 lg:mt-4">
-                            <h3 className="text-2xl font-bold text-slate-900 mb-2">Mentoria Individual</h3>
-                            <p className="text-slate-500 mb-6">Acompanhamento estratégico lado a lado e reuniões individuais para destravar sua agência interna.</p>
-                            <div className="mb-8">
-                                <span className="text-5xl font-extrabold text-slate-900">R$ 2.500</span>
-                                <span className="text-slate-500 ml-2">/ à vista</span>
-                                <p className="text-sm text-slate-400 mt-2">ou parcelado no cartão (pagamento customizado)</p>
-                            </div>
-                            <div className="space-y-4 mb-10 flex-grow">
-                                {[
-                                    "Acesso garantido ao Treinamento Online",
-                                    "Encontros Individuais por videochamada",
-                                    "Auditoria profunda da sua conta Google Ads",
-                                    "Feedback de Copy, Criativos e Página",
-                                    "Suporte VIP via WhatsApp"
-                                ].map((benefit, i) => (
-                                    <div key={i} className="flex items-start gap-3 text-left">
-                                        <svg className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" /></svg>
-                                        <span className="text-slate-700 font-medium">{benefit}</span>
+                                <div className="mb-8">
+                                    <p className="text-slate-400 text-sm mb-1 line-through">De R$&nbsp;797,00</p>
+                                    <div className="flex items-baseline justify-center gap-1">
+                                        <span className="text-slate-500 text-xl font-semibold">R$</span>
+                                        <span className="text-7xl font-black text-slate-900 leading-none">397</span>
                                     </div>
-                                ))}
+                                    <p className="text-slate-400 mt-2 text-sm">à vista</p>
+                                    <p className="text-orange-500 font-bold mt-1 text-base">ou 12x de R$&nbsp;39,62</p>
+                                    <p className="text-xs text-slate-400 mt-2 italic max-w-xs mx-auto">
+                                        Isso dá menos que um café por dia para dominar a
+                                        principal fonte de clientes do mundo.
+                                    </p>
+                                </div>
+
+                                <div className="space-y-3 mb-10 text-left">
+                                    {[
+                                        "Os 4 Pilares: Radar, Armadilha Direta, Fechamento Zap e Faxina",
+                                        "Lista Negra de palavras + prompts prontos para copiar",
+                                        "Campanha ativa em menos de 1h, direto pro WhatsApp",
+                                        "Roteiros para os primeiros 5 minutos de conversa",
+                                        "Checklist de manutenção diária de 5 minutos",
+                                        "+ 4 Bônus: Painel, Recuperação, Dominação Local e Otimização"
+                                    ].map((b, i) => (
+                                        <div key={i} className="flex items-start gap-3">
+                                            <svg className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"/>
+                                            </svg>
+                                            <span className="text-slate-700 font-medium text-sm leading-relaxed">{b}</span>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                {/* ⚠️ Substitua o link abaixo pelo link real do produto na Hotmart */}
+                                <a
+                                    href={HOTMART_URL}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    onClick={fireCheckoutConversion}
+                                    className="block w-full gradient-cta text-white font-bold text-lg py-5 rounded-xl shadow-lg shadow-orange-500/30 hover:scale-[1.02] transition-all uppercase tracking-wide text-center"
+                                >
+                                    Quero Me Livrar das Agências e Ter Clientes Hoje →
+                                </a>
+
+                                <div className="flex items-center justify-center gap-2 mt-4">
+                                    <svg className="w-4 h-4 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                                    </svg>
+                                    <span className="text-slate-400 text-xs">7 Dias de Garantia Incondicional · Pagamento 100% Seguro</span>
+                                </div>
                             </div>
-                            <button
-                                onClick={() => {
-                                    window.dataLayer = window.dataLayer || [];
-                                    window.dataLayer.push({'event': 'investment_cta_click'});
-                                    onCtaClick();
-                                }}
-                                className="block w-full text-center bg-slate-900 text-white font-bold text-lg px-8 py-4 rounded-xl hover:bg-slate-800 transition-all"
-                            >
-                                Aplicar para Mentoria Avançada
-                            </button>
                         </div>
                     </div>
                 </div>
             </section>
         );
 
+        /* ─── SEÇÃO 9 · Garantia ─────────────────────────────────── */
         const Guarantee = () => (
-            <section id="garantia" className="bg-white pb-24 px-6">
+            <section id="garantia" className="bg-white py-24 px-6">
                 <div className="max-w-4xl mx-auto">
                     <div className="bg-green-50 border-2 border-green-200 rounded-3xl p-8 sm:p-12 flex flex-col sm:flex-row items-center gap-8 shadow-sm">
-                        <div className="flex-shrink-0 w-24 h-24 bg-green-600 rounded-full flex items-center justify-center shadow-lg border-4 border-white">
-                            <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+                        <div className="flex-shrink-0 w-28 h-28 bg-green-600 rounded-full flex items-center justify-center shadow-lg border-4 border-white">
+                            <svg className="w-14 h-14 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                            </svg>
                         </div>
                         <div className="text-center sm:text-left">
-                            <h3 className="text-2xl font-extrabold text-slate-900 mb-2 tracking-tight">Garantia Blindada de 30 Dias</h3>
-                            <p className="text-slate-700 leading-relaxed font-medium">Se você aplicar o método e não notar nenhuma melhora real na qualidade do seu tráfego em 30 dias, devolvemos 100% do seu dinheiro. O risco é todo meu.</p>
+                            <h3 className="text-2xl font-extrabold text-slate-900 mb-3 tracking-tight">
+                                O Risco é Todo Meu — 7 Dias de Garantia Incondicional
+                            </h3>
+                            <p className="text-slate-700 leading-relaxed font-medium text-lg">
+                                Aplique o Pilar 1 e 2 hoje. Se o seu anúncio não for aprovado e você achar
+                                que isso não é para você, devolvo cada centavo em até 7 dias.{" "}
+                                <strong>Sem perguntas. Sem ressentimentos.</strong>
+                            </p>
                         </div>
                     </div>
                 </div>
             </section>
         );
 
+        /* ─── FAQ ────────────────────────────────────────────────── */
+        const FAQ = () => {
+            const [open, setOpen] = useState(null);
+            const faqs = [
+                {
+                    q: "Preciso ter site para usar o Protocolo?",
+                    a: "Não! Ensinamos a campanha a apontar direto para o seu WhatsApp. Você não precisa de site, landing page ou qualquer estrutura técnica para começar."
+                },
+                {
+                    q: "Preciso investir muito no Google?",
+                    a: "Não. Você pode começar com R$ 10 a R$ 20 por dia. O Protocolo foi criado justamente para quem quer começar pequeno e escalar conforme os resultados aparecem."
+                },
+                {
+                    q: "Não sei nada de tecnologia. Consigo fazer?",
+                    a: "Sim! A metodologia foi desenhada para quem não é da área — você vai apertar apenas os botões que dão resultado. O passo a passo é visual, direto e sem jargão técnico."
+                },
+                {
+                    q: "Em quanto tempo começo a receber os primeiros contatos?",
+                    a: "A maioria dos alunos que aplica o Pilar 1 e 2 no mesmo dia já recebe o primeiro contato em menos de 24 horas. O Google aprova campanhas em poucas horas e o volume de buscas por serviços locais é constante — alguém na sua cidade está pesquisando pelo que você faz agora mesmo."
+                },
+                {
+                    q: "O Protocolo funciona para qualquer tipo de negócio?",
+                    a: "Funciona muito bem para qualquer negócio baseado em serviços locais: eletricista, encanador, dentista, nutricionista, personal trainer, manicure, pintor, ar-condicionado, chaveiro, advogado, contador, clínica estética, e muito mais. Se o seu cliente pesquisa no Google pelo que você faz, o Protocolo funciona."
+                },
+                {
+                    q: "Já tentei Google Ads antes e não funcionou. Como esse Protocolo é diferente?",
+                    a: "A grande diferença está na \"Lista Negra\" de palavras e no Radar de Urgência. A maioria das campanhas falha porque atrai cliques de pessoas que não querem comprar. O Protocolo foi desenhado para filtrar os curiosos e atrair apenas quem já está decidido a contratar — além de te ensinar a ler os dados e ajustar a campanha, não só ativá-la."
+                },
+                {
+                    q: "Vou receber suporte se tiver dúvidas durante a aplicação?",
+                    a: "Sim. Além do material detalhado com checklists e passo a passo visual, você terá acesso ao canal de suporte. O objetivo é que você não trave em nenhuma etapa e coloque a campanha no ar com segurança."
+                },
+                {
+                    q: "Como funciona o acesso após a compra?",
+                    a: "O acesso é imediato. Assim que o pagamento for confirmado, você recebe as informações por e-mail e pode começar a aplicar o Protocolo no mesmo dia — inclusive em fins de semana e feriados."
+                },
+                {
+                    q: "Posso parcelar o pagamento?",
+                    a: "Sim! Você pode parcelar em até 12x no cartão de crédito. À vista o valor é R$ 397. Parcelado fica em 12x de R$ 39,62 — menos que um jantar fora para ter autonomia total sobre as suas vendas."
+                },
+                {
+                    q: "E se eu não gostar? Posso pedir reembolso?",
+                    a: "Sim, sem complicação. Você tem 7 dias de garantia incondicional. Basta aplicar o Pilar 1 e 2 e, se achar que o Protocolo não é para você, devolvemos 100% do valor pago. Sem perguntas, sem burocracia."
+                }
+            ];
+
+            return (
+                <section className="bg-slate-50 py-24 px-6 border-t border-slate-200">
+                    <div className="max-w-3xl mx-auto">
+                        <div className="text-center mb-12">
+                            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900">Perguntas Frequentes</h2>
+                        </div>
+                        <div className="space-y-4">
+                            {faqs.map((faq, i) => (
+                                <div key={i} className="bg-white border border-slate-200 rounded-2xl overflow-hidden hover:border-orange-200 transition-all">
+                                    <button
+                                        className="w-full flex items-center justify-between p-6 text-left gap-4"
+                                        onClick={() => setOpen(open === i ? null : i)}
+                                    >
+                                        <span className="font-bold text-slate-900 text-base sm:text-lg">{faq.q}</span>
+                                        <svg className={`w-5 h-5 text-orange-500 flex-shrink-0 transition-transform duration-300 ${open === i ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"/>
+                                        </svg>
+                                    </button>
+                                    {open === i && (
+                                        <div className="px-6 pb-6">
+                                            <p className="text-slate-600 leading-relaxed text-base">{faq.a}</p>
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        /* ─── CTA Final ──────────────────────────────────────────── */
+        const FinalCTA = () => (
+            <section className="gradient-hero py-20 px-6 relative overflow-hidden">
+                <div className="absolute inset-0 opacity-10 pointer-events-none">
+                    <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                        <defs>
+                            <pattern id="grid2" width="10" height="10" patternUnits="userSpaceOnUse">
+                                <path d="M 10 0 L 0 0 0 10" fill="none" stroke="white" strokeWidth="0.5"/>
+                            </pattern>
+                        </defs>
+                        <rect width="100%" height="100%" fill="url(#grid2)"/>
+                    </svg>
+                </div>
+                <div className="relative z-10 max-w-3xl mx-auto text-center">
+                    <h2 className="text-3xl sm:text-5xl font-extrabold text-white mb-4 leading-tight">
+                        Seu próximo cliente está pesquisando{" "}
+                        <span className="text-orange-500">agora mesmo.</span>
+                    </h2>
+                    <p className="text-white/70 text-lg mb-10 max-w-xl mx-auto">
+                        Não deixe ele ir para o seu concorrente. Ative o Protocolo hoje e receba
+                        o primeiro orçamento no WhatsApp em menos de 24 horas.
+                    </p>
+                    <a
+                        href={HOTMART_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={fireCheckoutConversion}
+                        className="inline-block gradient-cta text-white font-bold text-xl px-10 py-5 rounded-xl shadow-lg shadow-orange-500/30 hover:scale-105 transition-all uppercase tracking-wide"
+                    >
+                        Quero Receber Clientes no WhatsApp Hoje →
+                    </a>
+                    <p className="text-white/40 text-sm mt-6">
+                        7 dias de garantia incondicional · Acesso imediato após o pagamento
+                    </p>
+                </div>
+            </section>
+        );
+
+        /* ─── Footer ─────────────────────────────────────────────── */
         const Footer = () => (
-            <footer className="bg-slate-50 py-12 px-6 border-t border-slate-200 text-center text-slate-400 text-sm">
-                © {new Date().getFullYear()} Rodrigo Saracino - Ads Sem Agência. Todos os direitos reservados.
+            <footer className="bg-slate-900 py-12 px-6 border-t border-slate-800">
+                <div className="max-w-6xl mx-auto">
+                    <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+                        <div className="text-center md:text-left">
+                            <span className="text-orange-500 font-black text-xl tracking-tighter uppercase italic block mb-1">
+                                Protocolo Cliente na Porta
+                            </span>
+                            <p className="text-slate-500 text-sm">
+                                © {new Date().getFullYear()} Rodrigo Saracino. Todos os direitos reservados.
+                            </p>
+                        </div>
+                        <div className="flex items-center gap-5">
+                            <a
+                                href="https://www.youtube.com/@rodrigosaracino"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-slate-500 hover:text-red-500 transition-colors"
+                                aria-label="YouTube"
+                            >
+                                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                                </svg>
+                            </a>
+                            <a
+                                href="https://www.instagram.com/rodrigosaracino.mkt/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-slate-500 hover:text-pink-500 transition-colors"
+                                aria-label="Instagram"
+                            >
+                                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </footer>
         );
 
+        /* ─── App root ───────────────────────────────────────────── */
         const App = () => {
-            const [isPopupOpen, setIsPopupOpen] = useState(false);
+            const [isWaOpen, setIsWaOpen] = useState(false);
             return (
                 <div className="antialiased">
-                    <Hero onCtaClick={() => setIsPopupOpen(true)} />
-                    <InternalStrategy />
+                    <Hero />
+                    <Pain />
                     <Solution />
-                    <Curriculum />
-                    <Comparison />
-                    <Mentor />
-                    <Investment onCtaClick={() => setIsPopupOpen(true)} />
+                    <Pillars />
+                    <Bonuses />
+                    <Testimonials />
+                    <Offer />
                     <Guarantee />
+                    <FAQ />
+                    <FinalCTA />
+                    <Mentor />
                     <Footer />
-                    <FloatingWhatsApp onClick={() => setIsPopupOpen(true)} />
-                    <PopupForm isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)} />
+                    <FloatingWhatsApp onClick={() => setIsWaOpen(true)} />
+                    <WhatsAppModal isOpen={isWaOpen} onClose={() => setIsWaOpen(false)} />
                 </div>
             );
         };
