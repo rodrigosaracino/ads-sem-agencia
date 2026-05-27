@@ -128,7 +128,7 @@
     <div id="mentoria-root"></div>
 
     <script type="text/babel" data-no-optimize="1">
-        const { useState, memo } = React;
+        const { useState, useEffect, useRef, memo } = React;
 
         /* ─── Conversões: Meta Pixel ─────────────────────────────── */
         function fireCheckoutConversion() {
@@ -862,10 +862,85 @@
                 },
             ];
 
+            const [current, setCurrent] = useState(0);
+            const [perView, setPerView] = useState(3);
+            const total = depoimentos.length;
+
+            useEffect(() => {
+                const update = () => {
+                    const w = window.innerWidth;
+                    const pv = w < 768 ? 1 : w < 1024 ? 2 : 3;
+                    setPerView(pv);
+                    setCurrent(c => Math.min(c, Math.max(0, total - pv)));
+                };
+                update();
+                window.addEventListener('resize', update);
+                return () => window.removeEventListener('resize', update);
+            }, []);
+
+            const maxStart  = Math.max(0, total - perView);
+            const prev      = () => setCurrent(c => Math.max(0, c - 1));
+            const next      = () => setCurrent(c => Math.min(maxStart, c + 1));
+            const pages     = Math.ceil(total / perView);
+            const curPage   = Math.floor(current / perView);
+            // translateX como % do próprio track: (current / total) * 100
+            const translatePct = (current / total) * 100;
+
+            const WA_ICON_SMALL = (
+                <svg className="w-5 h-5 flex-shrink-0" style={{color:'#ACE1BF'}} fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                </svg>
+            );
+
+            const Card = ({ d }) => (
+                <div className="bg-white rounded-2xl overflow-hidden shadow-md border border-slate-100 flex flex-col h-full">
+                    <div className="px-4 py-3 flex items-center gap-3" style={{backgroundColor:'#075E54'}}>
+                        <div className={`w-10 h-10 ${d.color} rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0`}>
+                            {d.initials}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                            <p className="text-white font-semibold text-sm leading-none truncate">{d.nome}</p>
+                            <p className="text-xs mt-0.5 truncate" style={{color:'#ACE1BF'}}>{d.profissao}</p>
+                        </div>
+                        {WA_ICON_SMALL}
+                    </div>
+
+                    <div className="p-4 space-y-2 flex-grow" style={{backgroundColor:'#ECE5DD'}}>
+                        {d.msgs.map((m, j) => (
+                            <div key={j} className={`flex ${m.de === 'eu' ? 'justify-end' : 'justify-start'}`}>
+                                <div
+                                    className={`max-w-[82%] px-3 py-2 text-sm leading-snug shadow-sm ${m.de === 'eu' ? 'rounded-lg rounded-tr-none' : 'rounded-lg rounded-tl-none'}`}
+                                    style={{backgroundColor: m.de === 'eu' ? '#DCF8C6' : '#FFFFFF', color:'#111827'}}
+                                >
+                                    <p>{m.texto}</p>
+                                    <div className={`flex items-center gap-0.5 mt-1 ${m.de === 'eu' ? 'justify-end' : 'justify-start'}`}>
+                                        <span className="text-[10px]" style={{color:'#8696A0'}}>{m.hora}</span>
+                                        {m.de === 'eu' && (
+                                            <svg className="w-4 h-4 ml-0.5" fill="currentColor" viewBox="0 0 18 18" style={{color:'#53BDEB'}}>
+                                                <path d="M15.01 3.316l-.478-.372a.365.365 0 0 0-.51.063L8.666 9.88a.32.32 0 0 1-.484.032l-.358-.325a.319.319 0 0 0-.484.032l-.378.483a.418.418 0 0 0 .036.541l1.32 1.266c.143.14.361.125.484-.033l6.272-8.048a.366.366 0 0 0-.064-.512zm-4.1 0l-.478-.372a.365.365 0 0 0-.51.063L4.566 9.88a.32.32 0 0 1-.484.032L1.927 7.516a.319.319 0 0 0-.484.032l-.378.483a.418.418 0 0 0 .036.541l3.26 3.124c.143.14.361.125.484-.033l6.272-8.048a.365.365 0 0 0-.064-.512z"/>
+                                            </svg>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    <div className="px-4 py-2 flex items-center gap-3" style={{backgroundColor:'#F0F0F0'}}>
+                        <div className="flex-1 bg-white rounded-full px-4 py-1.5 text-xs text-slate-400">Mensagem</div>
+                        <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{backgroundColor:'#075E54'}}>
+                            <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 3a9 9 0 1 0 9 9 9.01 9.01 0 0 0-9-9zm0 16a7 7 0 1 1 7-7 7.008 7.008 0 0 1-7 7zm1-11h-2v3H8v2h3v3h2v-3h3v-2h-3z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            );
+
             return (
                 <section className="bg-slate-50 py-24 px-6 border-t border-slate-200">
                     <div className="max-w-7xl mx-auto">
-                        <div className="text-center mb-16">
+                        <div className="text-center mb-12">
                             <span className="inline-block bg-green-100 text-green-700 font-bold text-xs px-4 py-2 rounded-full mb-4 uppercase tracking-wider">
                                 Prova Real
                             </span>
@@ -878,57 +953,67 @@
                             </p>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {depoimentos.map((d, i) => (
-                                <div key={i} className="bg-white rounded-2xl overflow-hidden shadow-md border border-slate-100 flex flex-col">
-                                    {/* Header estilo WhatsApp */}
-                                    <div className="px-4 py-3 flex items-center gap-3" style={{backgroundColor: '#075E54'}}>
-                                        <div className={`w-10 h-10 ${d.color} rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0`}>
-                                            {d.initials}
-                                        </div>
-                                        <div className="flex-1 min-w-0">
-                                            <p className="text-white font-semibold text-sm leading-none truncate">{d.nome}</p>
-                                            <p className="text-xs mt-0.5 truncate" style={{color: '#ACE1BF'}}>{d.profissao}</p>
-                                        </div>
-                                        <svg className="w-5 h-5 flex-shrink-0" style={{color: '#ACE1BF'}} fill="currentColor" viewBox="0 0 24 24">
-                                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-                                        </svg>
-                                    </div>
+                        {/* Carrossel */}
+                        <div className="relative">
+                            {/* Botão Anterior */}
+                            <button
+                                onClick={prev}
+                                disabled={current === 0}
+                                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 sm:-translate-x-5 z-10 w-10 h-10 bg-white rounded-full shadow-lg border border-slate-200 flex items-center justify-center transition-all hover:bg-slate-50 disabled:opacity-25 disabled:cursor-not-allowed"
+                                aria-label="Anterior"
+                            >
+                                <svg className="w-5 h-5 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7"/>
+                                </svg>
+                            </button>
 
-                                    {/* Corpo do chat */}
-                                    <div className="p-4 space-y-2 flex-grow" style={{backgroundColor: '#ECE5DD'}}>
-                                        {d.msgs.map((m, j) => (
-                                            <div key={j} className={`flex ${m.de === 'eu' ? 'justify-end' : 'justify-start'}`}>
-                                                <div
-                                                    className={`max-w-[82%] px-3 py-2 text-sm leading-snug shadow-sm ${m.de === 'eu' ? 'rounded-lg rounded-tr-none' : 'rounded-lg rounded-tl-none'}`}
-                                                    style={{backgroundColor: m.de === 'eu' ? '#DCF8C6' : '#FFFFFF', color: '#111827'}}
-                                                >
-                                                    <p>{m.texto}</p>
-                                                    <div className={`flex items-center gap-0.5 mt-1 ${m.de === 'eu' ? 'justify-end' : 'justify-start'}`}>
-                                                        <span className="text-[10px]" style={{color: '#8696A0'}}>{m.hora}</span>
-                                                        {m.de === 'eu' && (
-                                                            <svg className="w-4 h-4 ml-0.5" fill="currentColor" viewBox="0 0 18 18" style={{color: '#53BDEB'}}>
-                                                                <path d="M15.01 3.316l-.478-.372a.365.365 0 0 0-.51.063L8.666 9.88a.32.32 0 0 1-.484.032l-.358-.325a.319.319 0 0 0-.484.032l-.378.483a.418.418 0 0 0 .036.541l1.32 1.266c.143.14.361.125.484-.033l6.272-8.048a.366.366 0 0 0-.064-.512zm-4.1 0l-.478-.372a.365.365 0 0 0-.51.063L4.566 9.88a.32.32 0 0 1-.484.032L1.927 7.516a.319.319 0 0 0-.484.032l-.378.483a.418.418 0 0 0 .036.541l3.26 3.124c.143.14.361.125.484-.033l6.272-8.048a.365.365 0 0 0-.064-.512z"/>
-                                                            </svg>
-                                                        )}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-
-                                    {/* Rodapé estilo WhatsApp */}
-                                    <div className="px-4 py-2 flex items-center gap-3" style={{backgroundColor: '#F0F0F0'}}>
-                                        <div className="flex-1 bg-white rounded-full px-4 py-1.5 text-xs text-slate-400">
-                                            Mensagem
+                            {/* Track */}
+                            <div className="overflow-hidden mx-5 sm:mx-7">
+                                <div
+                                    className="flex"
+                                    style={{
+                                        transform: `translateX(-${translatePct}%)`,
+                                        transition: 'transform 0.45s cubic-bezier(0.25,0.46,0.45,0.94)'
+                                    }}
+                                >
+                                    {depoimentos.map((d, i) => (
+                                        <div
+                                            key={i}
+                                            className="flex-shrink-0 px-3"
+                                            style={{width: `${100 / perView}%`}}
+                                        >
+                                            <Card d={d} />
                                         </div>
-                                        <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{backgroundColor: '#075E54'}}>
-                                            <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                                <path d="M12 3a9 9 0 1 0 9 9 9.01 9.01 0 0 0-9-9zm0 16a7 7 0 1 1 7-7 7.008 7.008 0 0 1-7 7zm1-11h-2v3H8v2h3v3h2v-3h3v-2h-3z"/>
-                                            </svg>
-                                        </div>
-                                    </div>
+                                    ))}
                                 </div>
+                            </div>
+
+                            {/* Botão Próximo */}
+                            <button
+                                onClick={next}
+                                disabled={current >= maxStart}
+                                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 sm:translate-x-5 z-10 w-10 h-10 bg-white rounded-full shadow-lg border border-slate-200 flex items-center justify-center transition-all hover:bg-slate-50 disabled:opacity-25 disabled:cursor-not-allowed"
+                                aria-label="Próximo"
+                            >
+                                <svg className="w-5 h-5 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7"/>
+                                </svg>
+                            </button>
+                        </div>
+
+                        {/* Dots de página */}
+                        <div className="flex justify-center gap-2 mt-8">
+                            {Array.from({ length: pages }).map((_, i) => (
+                                <button
+                                    key={i}
+                                    onClick={() => setCurrent(Math.min(i * perView, maxStart))}
+                                    aria-label={`Página ${i + 1}`}
+                                    className="h-2 rounded-full transition-all duration-300"
+                                    style={{
+                                        width: curPage === i ? 24 : 8,
+                                        backgroundColor: curPage === i ? '#16a34a' : '#cbd5e1'
+                                    }}
+                                />
                             ))}
                         </div>
                     </div>
