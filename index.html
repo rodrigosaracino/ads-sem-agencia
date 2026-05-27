@@ -864,6 +864,12 @@
 
             const [current, setCurrent] = useState(0);
             const [perView, setPerView] = useState(3);
+            const [cardWidth, setCardWidth] = useState(0);
+            const [dragging, setDragging] = useState(false);
+            const [dragDelta, setDragDelta] = useState(0);
+            const containerRef = useRef(null);
+            const touchStartX = useRef(null);
+            const dragDeltaRef = useRef(0);
             const total = depoimentos.length;
 
             useEffect(() => {
@@ -871,6 +877,9 @@
                     const w = window.innerWidth;
                     const pv = w < 768 ? 1 : w < 1024 ? 2 : 3;
                     setPerView(pv);
+                    if (containerRef.current) {
+                        setCardWidth(containerRef.current.clientWidth / pv);
+                    }
                     setCurrent(c => Math.min(c, Math.max(0, total - pv)));
                 };
                 update();
@@ -878,13 +887,35 @@
                 return () => window.removeEventListener('resize', update);
             }, []);
 
-            const maxStart  = Math.max(0, total - perView);
-            const prev      = () => setCurrent(c => Math.max(0, c - 1));
-            const next      = () => setCurrent(c => Math.min(maxStart, c + 1));
-            const pages     = Math.ceil(total / perView);
-            const curPage   = Math.floor(current / perView);
-            // translateX como % do próprio track: (current / total) * 100
-            const translatePct = (current / total) * 100;
+            const maxStart = Math.max(0, total - perView);
+            const prev = () => setCurrent(c => Math.max(0, c - 1));
+            const next = () => setCurrent(c => Math.min(maxStart, c + 1));
+            const pages = Math.ceil(total / perView);
+            const curPage = Math.floor(current / perView);
+
+            const onTouchStart = (e) => {
+                touchStartX.current = e.touches[0].clientX;
+                dragDeltaRef.current = 0;
+                setDragging(true);
+                setDragDelta(0);
+            };
+            const onTouchMove = (e) => {
+                if (touchStartX.current === null) return;
+                const delta = e.touches[0].clientX - touchStartX.current;
+                dragDeltaRef.current = delta;
+                setDragDelta(delta);
+            };
+            const onTouchEnd = () => {
+                const delta = dragDeltaRef.current;
+                if (delta < -50) setCurrent(c => Math.min(maxStart, c + 1));
+                else if (delta > 50) setCurrent(c => Math.max(0, c - 1));
+                dragDeltaRef.current = 0;
+                setDragDelta(0);
+                setDragging(false);
+                touchStartX.current = null;
+            };
+
+            const trackOffset = cardWidth > 0 ? current * cardWidth - dragDelta : 0;
 
             const WA_ICON_SMALL = (
                 <svg className="w-5 h-5 flex-shrink-0" style={{color:'#ACE1BF'}} fill="currentColor" viewBox="0 0 24 24">
@@ -968,19 +999,24 @@
                             </button>
 
                             {/* Track */}
-                            <div className="overflow-hidden mx-5 sm:mx-7">
+                            <div className="overflow-hidden mx-5 sm:mx-7" ref={containerRef}>
                                 <div
                                     className="flex"
                                     style={{
-                                        transform: `translateX(-${translatePct}%)`,
-                                        transition: 'transform 0.45s cubic-bezier(0.25,0.46,0.45,0.94)'
+                                        transform: `translateX(-${trackOffset}px)`,
+                                        transition: dragging ? 'none' : 'transform 0.45s cubic-bezier(0.25,0.46,0.45,0.94)',
+                                        userSelect: 'none',
+                                        touchAction: 'pan-y'
                                     }}
+                                    onTouchStart={onTouchStart}
+                                    onTouchMove={onTouchMove}
+                                    onTouchEnd={onTouchEnd}
                                 >
                                     {depoimentos.map((d, i) => (
                                         <div
                                             key={i}
                                             className="flex-shrink-0 px-3"
-                                            style={{width: `${100 / perView}%`}}
+                                            style={{width: cardWidth > 0 ? `${cardWidth}px` : `${100 / perView}%`}}
                                         >
                                             <Card d={d} />
                                         </div>
