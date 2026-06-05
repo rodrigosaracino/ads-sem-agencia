@@ -47,7 +47,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
-        #pilares, #oferta, #garantia, #mentor, footer {
+        #pilares, #garantia, #mentor, footer {
             content-visibility: auto;
             contain-intrinsic-size: 500px;
         }
@@ -405,13 +405,6 @@
                     {/* Alvo do YouTube IFrame API */}
                     <div id={PLAYER_DIV} style={{position:'absolute',top:0,left:0,width:'100%',height:'100%'}} />
 
-                    {/* Oculta barra de controles do YouTube */}
-                    <div style={{position:'absolute',bottom:0,left:0,right:0,height:'52px',
-                                  background:'#000',zIndex:4,pointerEvents:'none'}} />
-                    {/* Oculta logo YouTube (canto superior direito) */}
-                    <div style={{position:'absolute',top:0,right:0,width:'150px',height:'50px',
-                                  background:'#000',zIndex:4,pointerEvents:'none'}} />
-
                     {/* Play button inicial */}
                     {!playing && (
                         <div onClick={() => playerRef.current?.playVideo?.()}
@@ -437,7 +430,7 @@
                     {/* CTA após 6 minutos */}
                     {ctaVisible && (
                         <div className="absolute w-full flex justify-center px-4"
-                             style={{bottom:'68px',zIndex:20}}>
+                             style={{bottom:'24px',zIndex:20}}>
                             <a href={HOTMART_URL}
                                onClick={fireCheckoutConversion}
                                target="_blank"
@@ -509,9 +502,7 @@
                                 window.dataLayer = window.dataLayer || [];
                                 window.dataLayer.push({'event': 'hero_cta_click'});
                                 const el = document.getElementById('oferta');
-                                if (el) {
-                                    window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 20, behavior: 'smooth' });
-                                }
+                                if (el) el.scrollIntoView({ behavior: 'smooth' });
                             }}
                             className="gradient-cta text-white font-bold text-lg px-10 py-5 rounded-xl shadow-lg shadow-orange-500/40 hover:scale-105 transition-all uppercase tracking-wide text-center"
                         >
