@@ -40,6 +40,9 @@
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" data-no-optimize="1"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js" data-no-optimize="1"></script>
 
+    <!-- YouTube IFrame API -->
+    <script src="https://www.youtube.com/iframe_api"></script>
+
     <!-- Fontes -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
@@ -318,6 +321,136 @@
             </button>
         ));
 
+        /* ─── COMPONENTE VSL ────────────────────────────────────── */
+        const VSL = () => {
+            const [ctaVisible, setCtaVisible] = useState(false);
+            const [playing, setPlaying]       = useState(false);
+            const playerRef   = useRef(null);
+            const intervalRef = useRef(null);
+            const initDone    = useRef(false);
+            const VIDEO_ID    = 'qTW2aZLogkY';
+            const PLAYER_DIV  = 'yt-vsl-player';
+
+            useEffect(() => {
+                const initPlayer = () => {
+                    if (initDone.current) return;
+                    initDone.current = true;
+                    playerRef.current = new window.YT.Player(PLAYER_DIV, {
+                        videoId: VIDEO_ID,
+                        playerVars: {
+                            autoplay: 0,
+                            controls: 0,
+                            disablekb: 1,
+                            rel: 0,
+                            iv_load_policy: 3,
+                            modestbranding: 1,
+                            fs: 0,
+                            playsinline: 1,
+                            cc_load_policy: 0,
+                        },
+                        events: {
+                            onReady: (ev) => {
+                                const f = ev.target.getIframe();
+                                Object.assign(f.style, {
+                                    position: 'absolute', top: '0', left: '0',
+                                    width: '100%', height: '100%', border: 'none'
+                                });
+                            },
+                            onStateChange: (ev) => {
+                                if (ev.data === window.YT.PlayerState.PLAYING) {
+                                    setPlaying(true);
+                                    if (!intervalRef.current) {
+                                        intervalRef.current = setInterval(() => {
+                                            const t = playerRef.current?.getCurrentTime?.() ?? 0;
+                                            if (t >= 360) {
+                                                setCtaVisible(true);
+                                                clearInterval(intervalRef.current);
+                                                intervalRef.current = null;
+                                            }
+                                        }, 2000);
+                                    }
+                                }
+                            }
+                        }
+                    });
+                };
+
+                if (window.YT && window.YT.Player) {
+                    initPlayer();
+                } else {
+                    const prev = window.onYouTubeIframeAPIReady;
+                    window.onYouTubeIframeAPIReady = () => {
+                        if (typeof prev === 'function') prev();
+                        initPlayer();
+                    };
+                }
+
+                return () => {
+                    if (intervalRef.current) {
+                        clearInterval(intervalRef.current);
+                        intervalRef.current = null;
+                    }
+                };
+            }, []);
+
+            return (
+                <div className="vsl-wrapper rounded-2xl shadow-2xl border border-white/10"
+                     style={{background:'#000'}}
+                     onContextMenu={e => e.preventDefault()}>
+
+                    {/* Alvo do YouTube IFrame API */}
+                    <div id={PLAYER_DIV} style={{position:'absolute',top:0,left:0,width:'100%',height:'100%'}} />
+
+                    {/* Oculta barra de controles do YouTube */}
+                    <div style={{position:'absolute',bottom:0,left:0,right:0,height:'52px',
+                                  background:'#000',zIndex:4,pointerEvents:'none'}} />
+                    {/* Oculta logo YouTube (canto superior direito) */}
+                    <div style={{position:'absolute',top:0,right:0,width:'150px',height:'50px',
+                                  background:'#000',zIndex:4,pointerEvents:'none'}} />
+
+                    {/* Play button inicial */}
+                    {!playing && (
+                        <div onClick={() => playerRef.current?.playVideo?.()}
+                             className="absolute inset-0 flex flex-col items-center justify-center cursor-pointer"
+                             style={{zIndex:10, background:'rgba(0,0,0,0.45)'}}>
+                            <div style={{width:80,height:80,borderRadius:'50%',
+                                          background:'rgba(249,115,22,0.15)',
+                                          border:'2px solid rgba(249,115,22,0.5)',
+                                          display:'flex',alignItems:'center',justifyContent:'center',
+                                          marginBottom:12}}>
+                                <svg style={{width:36,height:36,color:'#f97316',marginLeft:4}}
+                                     fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                            <p style={{color:'rgba(255,255,255,0.85)',fontSize:13,fontWeight:500,
+                                        textAlign:'center',padding:'0 16px'}}>
+                                Clique para assistir ao vídeo
+                            </p>
+                        </div>
+                    )}
+
+                    {/* CTA após 6 minutos */}
+                    {ctaVisible && (
+                        <div className="absolute w-full flex justify-center px-4"
+                             style={{bottom:'68px',zIndex:20}}>
+                            <a href={HOTMART_URL}
+                               onClick={fireCheckoutConversion}
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               className="inline-block font-bold text-white rounded-xl text-sm sm:text-base px-5 py-3"
+                               style={{background:'linear-gradient(135deg,#f97316,#ea580c)',
+                                       boxShadow:'0 0 30px rgba(249,115,22,0.6)',
+                                       animation:'pulse-dot 1.5s ease-in-out infinite',
+                                       whiteSpace:'nowrap'}}>
+                                Quero o Protocolo Agora →
+                            </a>
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
         /* ─── SEÇÃO 1 · Hero com VSL ────────────────────────────── */
         const Hero = () => (
             <section className="gradient-hero relative overflow-hidden py-14 px-6">
@@ -359,33 +492,9 @@
                         para uma agência — copie e cole o protocolo, ative hoje e receba o primeiro orçamento em menos de 24 horas.
                     </p>
 
-                    {/* ══ VSL ══════════════════════════════════════════════
-                        Cole o embed do seu vídeo dentro da div abaixo.
-                        Exemplo YouTube:
-                        <iframe src="https://www.youtube.com/embed/SEU_VIDEO_ID"
-                            allow="autoplay; encrypted-media" allowFullScreen></iframe>
-                        ═══════════════════════════════════════════════════ */}
-                    <div className="mb-8 rounded-2xl overflow-hidden shadow-2xl border border-white/10"
-                         style={{position:'relative', paddingBottom:'56.25%', height:0}}>
-                        {/* Placeholder — substitua pelo seu iframe */}
-                        <div style={{position:'absolute',inset:0,display:'flex',flexDirection:'column',
-                                     alignItems:'center',justifyContent:'center',gap:'14px',
-                                     backgroundColor:'#0f172a'}}>
-                            <div style={{width:80,height:80,borderRadius:'50%',display:'flex',
-                                         alignItems:'center',justifyContent:'center',
-                                         backgroundColor:'rgba(249,115,22,0.12)',
-                                         border:'2px solid rgba(249,115,22,0.3)'}}>
-                                <svg style={{width:36,height:36,color:'#f97316'}} fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M8 5v14l11-7z"/>
-                                </svg>
-                            </div>
-                            <p style={{color:'#94a3b8',fontSize:14,fontWeight:500}}>Vídeo VSL — cole o embed aqui</p>
-                            <p style={{color:'#475569',fontSize:11,maxWidth:260,textAlign:'center'}}>
-                                Substitua este bloco pelo iframe do seu vídeo
-                            </p>
-                        </div>
+                    <div className="mb-8">
+                        <VSL />
                     </div>
-                    {/* ═══════════════════════════════════════════════════ */}
 
                     {/* CTA + micro-copy */}
                     <div className="flex flex-col items-center gap-4">
