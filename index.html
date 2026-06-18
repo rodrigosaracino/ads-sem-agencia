@@ -449,7 +449,15 @@
         };
 
         /* ─── SEÇÃO 1 · Hero com VSL ────────────────────────────── */
-        const Hero = () => (
+        const Hero = () => {
+            const [isAdvogados, setIsAdvogados] = useState(false);
+
+            useEffect(() => {
+                const params = new URLSearchParams(window.location.search);
+                setIsAdvogados(params.get('utm_campaign') === 'advogados');
+            }, []);
+
+            return (
             <section className="gradient-hero relative overflow-hidden py-14 px-6">
                 <div className="absolute inset-0 opacity-10 pointer-events-none">
                     <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
@@ -479,14 +487,33 @@
 
                     {/* Headline */}
                     <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-3 text-center">
-                        Assuma o Controle das Suas Captações no Google e Atraia Clientes{" "}
-                        <span className="text-orange-500">Com o Cartão na Mão</span>
+                        {isAdvogados ? (
+                            <>
+                                Advogados: Apareça no Google Quando Seu Cliente Está{" "}
+                                <span className="text-orange-500">Procurando um Advogado Agora</span>
+                            </>
+                        ) : (
+                            <>
+                                Assuma o Controle das Suas Captações no Google e Atraia Clientes{" "}
+                                <span className="text-orange-500">Com o Cartão na Mão</span>
+                            </>
+                        )}
                     </h1>
 
                     <p className="text-lg text-white/75 mb-8 text-center max-w-2xl mx-auto">
-                        Sem precisar pagar de{" "}
-                        <strong className="text-orange-400">R$&nbsp;1.500 a R$&nbsp;2.500 por mês</strong>{" "}
-                        para uma agência — copie e cole o protocolo, ative hoje e receba o primeiro orçamento em menos de 24 horas.
+                        {isAdvogados ? (
+                            <>
+                                Sem pagar{" "}
+                                <strong className="text-orange-400">R$&nbsp;1.500 a R$&nbsp;2.500 por mês</strong>{" "}
+                                para agência — ative sua campanha hoje e receba o primeiro contato de cliente no WhatsApp em menos de 24 horas.
+                            </>
+                        ) : (
+                            <>
+                                Sem precisar pagar de{" "}
+                                <strong className="text-orange-400">R$&nbsp;1.500 a R$&nbsp;2.500 por mês</strong>{" "}
+                                para uma agência — copie e cole o protocolo, ative hoje e receba o primeiro orçamento em menos de 24 horas.
+                            </>
+                        )}
                     </p>
 
                     <div className="mb-8">
@@ -518,7 +545,8 @@
 
                 </div>
             </section>
-        );
+            );
+        };
 
         /* ─── SEÇÃO 3 · A Dor ────────────────────────────────────── */
         const Pain = () => (
