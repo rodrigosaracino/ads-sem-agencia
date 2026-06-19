@@ -157,11 +157,21 @@
             sendTrackingPing('checkout_click');
         }
 
+        function toE164BR(telefone) {
+            const digits = (telefone || '').replace(/\D/g, '');
+            if (!digits) return null;
+            return digits.startsWith('55') ? `+${digits}` : `+55${digits}`;
+        }
+
         function fireLeadConversion(nome, telefone) {
             if (typeof fbq !== 'undefined') {
                 fbq('track', 'Lead', { content_name: 'Protocolo Cliente na Porta' });
             }
             if (typeof gtag !== 'undefined') {
+                const phoneE164 = toE164BR(telefone);
+                if (phoneE164) {
+                    gtag('set', 'user_data', { phone_number: phoneE164 });
+                }
                 gtag('event', 'conversion', {
                     'send_to': 'AW-479406830/d196CM7yhMIcEO7VzOQB',
                     'value': 1.0,
