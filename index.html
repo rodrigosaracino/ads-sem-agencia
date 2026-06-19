@@ -144,6 +144,7 @@
             }
             window.dataLayer = window.dataLayer || [];
             window.dataLayer.push({ event: 'checkout_click', value: 397.00, currency: 'BRL' });
+            sendTrackingPing('checkout_click');
         }
 
         function fireLeadConversion(nome, telefone) {
@@ -152,17 +153,65 @@
             }
             window.dataLayer = window.dataLayer || [];
             window.dataLayer.push({ event: 'whatsapp_form_submit', user_name: nome });
+            sendTrackingPing('lead');
         }
 
-        /* ─── Hotmart: URL base + UTMs persistentes ──────────────── */
+        /* ─── Tracking avançado: client ID + UTMs + Click IDs ───── */
+        const TRACK_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'src', 'gclid', 'fbclid'];
+
+        function getOrCreateClientId() {
+            try {
+                let id = localStorage.getItem('_cid');
+                if (!id) {
+                    id = 'c_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 10);
+                    localStorage.setItem('_cid', id);
+                }
+                return id;
+            } catch (_) {
+                return null;
+            }
+        }
+
+        function captureTrackingParams() {
+            const p = new URLSearchParams(window.location.search);
+            let stored = {};
+            try { stored = JSON.parse(localStorage.getItem('_track') || '{}'); } catch (_) {}
+            const merged = { ...stored };
+            TRACK_KEYS.forEach(k => {
+                const v = p.get(k);
+                if (v) merged[k] = v;
+            });
+            try { localStorage.setItem('_track', JSON.stringify(merged)); } catch (_) {}
+            return merged;
+        }
+
+        const CLIENT_ID = getOrCreateClientId();
+        const TRACKING = captureTrackingParams();
+
+        function sendTrackingPing(eventType) {
+            fetch('/api/track', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    client_id: CLIENT_ID,
+                    event_type: eventType,
+                    ...TRACKING,
+                    referrer: document.referrer || null,
+                    user_agent: navigator.userAgent,
+                    landing_url: window.location.href
+                })
+            }).catch(() => {});
+        }
+
+        sendTrackingPing('pageview');
+
+        /* ─── Hotmart: URL base + UTMs/Click IDs persistentes ───── */
         const BASE_HOTMART = 'https://pay.hotmart.com/Y104360494V?off=av71abb8';
 
         function buildHotmartUrl() {
-            const p = new URLSearchParams(window.location.search);
-            const keys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'src'];
-            const extra = keys
-                .filter(k => p.get(k))
-                .map(k => `${encodeURIComponent(k)}=${encodeURIComponent(p.get(k))}`)
+            const extra = Object.entries(TRACKING)
+                .filter(([, v]) => v)
+                .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)
                 .join('&');
             return extra ? `${BASE_HOTMART}&${extra}` : BASE_HOTMART;
         }
@@ -195,13 +244,11 @@
                 e.preventDefault();
                 setEnviando(true);
 
-                const params = new URLSearchParams(window.location.search);
                 const payload = {
                     nome, whatsapp: telefone,
                     source: 'whatsapp_modal',
-                    utm_source:   params.get('utm_source')   || undefined,
-                    utm_medium:   params.get('utm_medium')   || undefined,
-                    utm_campaign: params.get('utm_campaign') || undefined,
+                    client_id: CLIENT_ID,
+                    ...TRACKING,
                     data_conversao: new Date().toISOString(),
                     url_origem: window.location.href
                 };
