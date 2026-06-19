@@ -5,7 +5,7 @@ compatibility_date = "2025-01-01"
 [[d1_databases]]
 binding = "DB"
 database_name = "ads_sem_agencia_tracking"
-database_id = "REPLACE_AFTER_WRANGLER_D1_CREATE"
+database_id = "0827e2d7-23cb-4dfb-979f-586b2eac746b"
 
 [[routes]]
 pattern = "ads-sem-agencia.rodrigosaracino.com.br/api/track"
