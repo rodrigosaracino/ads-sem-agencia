@@ -5,8 +5,68 @@ const ALLOWED_FIELDS = [
   'referrer', 'user_agent', 'landing_url'
 ];
 
+const META_PIXEL_ID = '714107123349981';
+const META_API_VERSION = 'v21.0';
+const CAPI_EVENT_TYPES = {
+  lead: 'Lead',
+  checkout_click: 'InitiateCheckout'
+};
+
+async function sha256Hex(value) {
+  const enc = new TextEncoder().encode(value.trim().toLowerCase());
+  const digest = await crypto.subtle.digest('SHA-256', enc);
+  return Array.from(new Uint8Array(digest)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+function normalizePhone(phone) {
+  if (!phone) return null;
+  const digits = phone.replace(/\D/g, '');
+  if (!digits) return null;
+  return digits.startsWith('55') ? digits : `55${digits}`;
+}
+
+async function sendMetaCapi(env, payloadData, request) {
+  const eventName = CAPI_EVENT_TYPES[payloadData.event_type];
+  if (!eventName || !env.META_CAPI_TOKEN) return;
+
+  const phone = normalizePhone(payloadData.phone);
+  const userData = {
+    client_ip_address: request.headers.get('CF-Connecting-IP') || undefined,
+    client_user_agent: payloadData.user_agent || undefined
+  };
+  if (phone) userData.ph = [await sha256Hex(phone)];
+  if (payloadData.fbp) userData.fbp = payloadData.fbp;
+  if (payloadData.fbc) userData.fbc = payloadData.fbc;
+
+  const customData = eventName === 'Lead'
+    ? { currency: 'BRL', value: 1 }
+    : { currency: 'BRL', value: 397, content_name: 'Protocolo Cliente na Porta', content_type: 'product' };
+
+  const body = {
+    data: [{
+      event_name: eventName,
+      event_time: Math.floor(Date.now() / 1000),
+      event_id: payloadData.event_id || undefined,
+      action_source: 'website',
+      event_source_url: payloadData.landing_url || undefined,
+      user_data: userData,
+      custom_data: customData
+    }]
+  };
+
+  try {
+    await fetch(`https://graph.facebook.com/${META_API_VERSION}/${META_PIXEL_ID}/events?access_token=${env.META_CAPI_TOKEN}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+  } catch (_) {
+    // best-effort, never blocks the client response
+  }
+}
+
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const url = new URL(request.url);
 
     if (url.pathname !== '/api/track') {
@@ -45,16 +105,28 @@ export default {
         row.referrer, row.user_agent, row.landing_url,
         new Date().toISOString()
       ).run();
-
-      return new Response(JSON.stringify({ ok: true }), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      });
     } catch (err) {
       return new Response(JSON.stringify({ ok: false, error: err.message }), {
         status: 500,
         headers: { 'Content-Type': 'application/json' }
       });
     }
+
+    if (CAPI_EVENT_TYPES[row.event_type]) {
+      ctx.waitUntil(sendMetaCapi(env, {
+        event_type: row.event_type,
+        phone: typeof data.phone === 'string' ? data.phone : null,
+        fbp: typeof data.fbp === 'string' ? data.fbp : null,
+        fbc: typeof data.fbc === 'string' ? data.fbc : null,
+        event_id: typeof data.event_id === 'string' ? data.event_id : null,
+        user_agent: row.user_agent,
+        landing_url: row.landing_url
+      }, request));
+    }
+
+    return new Response(JSON.stringify({ ok: true }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' }
+    });
   }
 };

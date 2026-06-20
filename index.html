@@ -145,16 +145,17 @@
 
         /* ─── Conversões: Meta Pixel ─────────────────────────────── */
         function fireCheckoutConversion() {
+            const eventId = 'checkout_' + (typeof CLIENT_ID !== 'undefined' ? CLIENT_ID : 'na') + '_' + Date.now();
             if (typeof fbq !== 'undefined') {
                 fbq('track', 'InitiateCheckout', {
                     currency: 'BRL', value: 397.00,
                     content_name: 'Protocolo Cliente na Porta',
                     content_type: 'product'
-                });
+                }, { eventID: eventId });
             }
             window.dataLayer = window.dataLayer || [];
             window.dataLayer.push({ event: 'checkout_click', value: 397.00, currency: 'BRL' });
-            sendTrackingPing('checkout_click');
+            sendTrackingPing('checkout_click', { event_id: eventId, fbc: buildFbc() });
         }
 
         function toE164BR(telefone) {
@@ -164,8 +165,9 @@
         }
 
         function fireLeadConversion(nome, telefone) {
+            const eventId = 'lead_' + (typeof CLIENT_ID !== 'undefined' ? CLIENT_ID : 'na') + '_' + Date.now();
             if (typeof fbq !== 'undefined') {
-                fbq('track', 'Lead', { content_name: 'Protocolo Cliente na Porta' });
+                fbq('track', 'Lead', { content_name: 'Protocolo Cliente na Porta' }, { eventID: eventId });
             }
             if (typeof gtag !== 'undefined') {
                 const phoneE164 = toE164BR(telefone);
@@ -180,7 +182,7 @@
             }
             window.dataLayer = window.dataLayer || [];
             window.dataLayer.push({ event: 'whatsapp_form_submit', user_name: nome });
-            sendTrackingPing('lead');
+            sendTrackingPing('lead', { phone: telefone, event_id: eventId, fbc: buildFbc() });
         }
 
         /* ─── Tracking avançado: client ID + UTMs + Click IDs ───── */
@@ -215,7 +217,19 @@
         const CLIENT_ID = getOrCreateClientId();
         const TRACKING = captureTrackingParams();
 
-        function sendTrackingPing(eventType) {
+        function getCookie(name) {
+            const match = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+            return match ? match.pop() : null;
+        }
+
+        function buildFbc() {
+            if (TRACKING.fbclid) {
+                return `fb.1.${Date.now()}.${TRACKING.fbclid}`;
+            }
+            return null;
+        }
+
+        function sendTrackingPing(eventType, extra) {
             fetch('/api/track', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -225,7 +239,9 @@
                     ...TRACKING,
                     referrer: document.referrer || null,
                     user_agent: navigator.userAgent,
-                    landing_url: window.location.href
+                    landing_url: window.location.href,
+                    fbp: getCookie('_fbp'),
+                    ...(extra || {})
                 })
             }).catch(() => {});
         }
