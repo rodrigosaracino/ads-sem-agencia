@@ -25,16 +25,26 @@ function normalizePhone(phone) {
   return digits.startsWith('55') ? digits : `55${digits}`;
 }
 
+function splitName(name) {
+  if (!name) return { fn: null, ln: null };
+  const parts = name.trim().split(/\s+/);
+  return { fn: parts[0] || null, ln: parts.length > 1 ? parts.slice(1).join(' ') : null };
+}
+
 async function sendMetaCapi(env, payloadData, request) {
   const eventName = CAPI_EVENT_TYPES[payloadData.event_type];
   if (!eventName || !env.META_CAPI_TOKEN) return;
 
   const phone = normalizePhone(payloadData.phone);
+  const { fn, ln } = splitName(payloadData.name);
   const userData = {
     client_ip_address: request.headers.get('CF-Connecting-IP') || undefined,
     client_user_agent: payloadData.user_agent || undefined
   };
   if (phone) userData.ph = [await sha256Hex(phone)];
+  if (fn) userData.fn = [await sha256Hex(fn)];
+  if (ln) userData.ln = [await sha256Hex(ln)];
+  if (payloadData.client_id) userData.external_id = [await sha256Hex(payloadData.client_id)];
   if (payloadData.fbp) userData.fbp = payloadData.fbp;
   if (payloadData.fbc) userData.fbc = payloadData.fbc;
 
@@ -115,7 +125,9 @@ export default {
     if (CAPI_EVENT_TYPES[row.event_type]) {
       ctx.waitUntil(sendMetaCapi(env, {
         event_type: row.event_type,
+        client_id: row.client_id,
         phone: typeof data.phone === 'string' ? data.phone : null,
+        name: typeof data.name === 'string' ? data.name : null,
         fbp: typeof data.fbp === 'string' ? data.fbp : null,
         fbc: typeof data.fbc === 'string' ? data.fbc : null,
         event_id: typeof data.event_id === 'string' ? data.event_id : null,

@@ -182,7 +182,7 @@
             }
             window.dataLayer = window.dataLayer || [];
             window.dataLayer.push({ event: 'whatsapp_form_submit', user_name: nome });
-            sendTrackingPing('lead', { phone: telefone, event_id: eventId, fbc: buildFbc() });
+            sendTrackingPing('lead', { phone: telefone, name: nome, event_id: eventId, fbc: buildFbc() });
         }
 
         /* ─── Tracking avançado: client ID + UTMs + Click IDs ───── */
