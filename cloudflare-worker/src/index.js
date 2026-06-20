@@ -88,7 +88,14 @@ async function sendSlackMessage(env, text) {
   }
 }
 
-const HOTMART_PURCHASE_EVENTS = ['PURCHASE_APPROVED', 'PURCHASE_COMPLETE'];
+const HOTMART_EVENT_LABELS = {
+  PURCHASE_APPROVED: '🎉 Nova venda aprovada!',
+  PURCHASE_COMPLETE: '✅ Compra completa!',
+  PURCHASE_REFUNDED: '↩️ Compra reembolsada',
+  PURCHASE_CHARGEBACK: '⚠️ Chargeback recebido',
+  PURCHASE_PROTEST: '🚨 Pedido de reembolso/disputa aberto',
+  PURCHASE_CANCELED: '❌ Compra cancelada'
+};
 
 async function handleHotmartWebhook(request, env, ctx) {
   let payload;
@@ -101,14 +108,16 @@ async function handleHotmartWebhook(request, env, ctx) {
     });
   }
 
-  if (!env.HOTMART_HOTTOK || payload.hottok !== env.HOTMART_HOTTOK) {
+  const hottok = request.headers.get('x-hotmart-hottok');
+  if (!env.HOTMART_HOTTOK || hottok !== env.HOTMART_HOTTOK) {
     return new Response(JSON.stringify({ ok: false, error: 'unauthorized' }), {
       status: 401,
       headers: { 'Content-Type': 'application/json' }
     });
   }
 
-  if (!HOTMART_PURCHASE_EVENTS.includes(payload.event)) {
+  const label = HOTMART_EVENT_LABELS[payload.event];
+  if (!label) {
     return new Response(JSON.stringify({ ok: true, ignored: payload.event }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' }
@@ -122,11 +131,12 @@ async function handleHotmartWebhook(request, env, ctx) {
   const currency = purchase.price?.currency_value || 'BRL';
 
   const text = [
-    '🎉 *Nova venda aprovada!*',
+    `*${label}*`,
     `*Produto:* ${product.name || 'Protocolo Cliente na Porta'}`,
     `*Comprador:* ${buyer.name || 'N/A'}`,
     `*Valor:* ${currency} ${price ?? 'N/A'}`,
-    `*E-mail:* ${buyer.email || 'N/A'}`
+    `*E-mail:* ${buyer.email || 'N/A'}`,
+    `*Transação:* ${purchase.transaction || 'N/A'}`
   ].join('\n');
 
   ctx.waitUntil(sendSlackMessage(env, text));
