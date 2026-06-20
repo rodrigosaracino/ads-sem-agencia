@@ -75,9 +75,78 @@ async function sendMetaCapi(env, payloadData, request) {
   }
 }
 
+async function sendSlackMessage(env, text) {
+  if (!env.SLACK_WEBHOOK_URL) return;
+  try {
+    await fetch(env.SLACK_WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text })
+    });
+  } catch (_) {
+    // best-effort, never blocks the caller
+  }
+}
+
+const HOTMART_PURCHASE_EVENTS = ['PURCHASE_APPROVED', 'PURCHASE_COMPLETE'];
+
+async function handleHotmartWebhook(request, env, ctx) {
+  let payload;
+  try {
+    payload = await request.json();
+  } catch (_) {
+    return new Response(JSON.stringify({ ok: false, error: 'invalid json' }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+
+  if (!env.HOTMART_HOTTOK || payload.hottok !== env.HOTMART_HOTTOK) {
+    return new Response(JSON.stringify({ ok: false, error: 'unauthorized' }), {
+      status: 401,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+
+  if (!HOTMART_PURCHASE_EVENTS.includes(payload.event)) {
+    return new Response(JSON.stringify({ ok: true, ignored: payload.event }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+
+  const buyer = payload.data?.buyer || {};
+  const purchase = payload.data?.purchase || {};
+  const product = payload.data?.product || {};
+  const price = purchase.price?.value;
+  const currency = purchase.price?.currency_value || 'BRL';
+
+  const text = [
+    '🎉 *Nova venda aprovada!*',
+    `*Produto:* ${product.name || 'Protocolo Cliente na Porta'}`,
+    `*Comprador:* ${buyer.name || 'N/A'}`,
+    `*Valor:* ${currency} ${price ?? 'N/A'}`,
+    `*E-mail:* ${buyer.email || 'N/A'}`
+  ].join('\n');
+
+  ctx.waitUntil(sendSlackMessage(env, text));
+
+  return new Response(JSON.stringify({ ok: true }), {
+    status: 200,
+    headers: { 'Content-Type': 'application/json' }
+  });
+}
+
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
+
+    if (url.pathname === '/api/hotmart-webhook') {
+      if (request.method !== 'POST') {
+        return new Response('Method Not Allowed', { status: 405 });
+      }
+      return handleHotmartWebhook(request, env, ctx);
+    }
 
     if (url.pathname !== '/api/track') {
       return new Response('Not Found', { status: 404 });
@@ -134,6 +203,16 @@ export default {
         user_agent: row.user_agent,
         landing_url: row.landing_url
       }, request));
+    }
+
+    if (row.event_type === 'lead') {
+      const leadText = [
+        '📝 *Novo cadastro (WhatsApp)*',
+        `*Nome:* ${typeof data.name === 'string' ? data.name : 'N/A'}`,
+        `*Telefone:* ${typeof data.phone === 'string' ? data.phone : 'N/A'}`,
+        `*Origem:* ${row.utm_source || 'direto'} / ${row.utm_campaign || '-'}`
+      ].join('\n');
+      ctx.waitUntil(sendSlackMessage(env, leadText));
     }
 
     return new Response(JSON.stringify({ ok: true }), {

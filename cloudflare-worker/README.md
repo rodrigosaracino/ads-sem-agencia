@@ -37,3 +37,26 @@ wrangler login
 ```
 wrangler d1 execute ads_sem_agencia_tracking --remote --command="SELECT * FROM tracking_events ORDER BY created_at DESC LIMIT 50"
 ```
+
+## Secrets necessários
+
+```
+wrangler secret put META_CAPI_TOKEN      # token do Conversions API (Meta Events Manager)
+wrangler secret put SLACK_WEBHOOK_URL    # Incoming Webhook do Slack (api.slack.com/apps)
+wrangler secret put HOTMART_HOTTOK       # token "Hottok" do webhook da Hotmart
+```
+
+## Notificações no Slack
+
+- **Lead (cadastro WhatsApp):** disparado automaticamente sempre que a página envia um
+  evento `lead` para `/api/track` — nenhuma configuração extra além do `SLACK_WEBHOOK_URL`.
+- **Venda aprovada:** disparado quando a Hotmart envia o webhook de compra. Configure em:
+  Painel do Produtor Hotmart → Ferramentas → Webhook → adicionar a URL:
+  ```
+  https://ads-sem-agencia.rodrigosaracino.com.br/api/hotmart-webhook
+  ```
+  Marque os eventos **"Compra aprovada"** (PURCHASE_APPROVED) e/ou
+  **"Compra completa"** (PURCHASE_COMPLETE). A Hotmart exibe um token (**Hottok**) na
+  tela de configuração do webhook — copie esse valor e salve com
+  `wrangler secret put HOTMART_HOTTOK`. O Worker rejeita qualquer chamada cujo `hottok`
+  não corresponda a esse valor, para evitar notificações falsas.
