@@ -1,5 +1,5 @@
 /* ─── BASE DO TAILWIND V4 + CLASSES COMPILADAS ─── */
-@import "tailwindcss";
+
 
 /* ─── ESTILIZAÇÕES ESTRUTURAIS E GRADIENTES COMPACTADOS ─── */
 html, body { margin: 0 !important; padding: 0 !important; width: 100% !important; height: 100%; overflow-x: hidden; scroll-behavior: smooth; }
