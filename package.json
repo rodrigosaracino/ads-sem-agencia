@@ -2,7 +2,7 @@
   "name": "protocolo-cliente-na-porta",
   "version": "1.0.0",
   "scripts": {
-    "build": "tailwindcss -i ./input.css -o ./styles.css"
+    "build": "npx @tailwindcss/cli -i ./input.css -o ./styles.css"
   },
   "devDependencies": {
     "@tailwindcss/cli": "^4.3.2",
