@@ -73,116 +73,115 @@ function fireCheckoutConversion() {
     sendTrackingPing('checkout_click');
 }
 
-// ─── REESCRITA DINÂMICA (CAMPANHA ADVOGADOS) ───
-const currentCampaign = new URLSearchParams(window.location.search).get('utm_campaign');
-if (currentCampaign === 'advogados') {
-    const headline = document.getElementById('main-headline');
-    const subheadline = document.getElementById('main-subheadline');
-    if (headline) {
-        headline.innerHTML = `Advogados: Apareça no Google Quando Seu Cliente Está <span class="text-orange-500">Procurando um Advogado Agora</span>`;
-    }
-    if (subheadline) {
-        subheadline.innerHTML = `Sem pagar <strong class="text-orange-400">R$&nbsp;1.500 a R$&nbsp;2.500 por mês</strong> para agência — ative sua campanha hoje e receba o primeiro contato de cliente no WhatsApp nas primeiras 24 horas.`;
-    }
-}
+// Executa as lógicas somente após a estrutura da página carregar na tela
+document.addEventListener('DOMContentLoaded', () => {
 
-// Injeta as URLs dinâmicas e monitora cliques nos CTAs de Compra
-document.querySelectorAll('a').forEach(link => {
-    const href = link.getAttribute('href') || '';
-    if (href.includes('pay.hotmart.com') || href === '#oferta') {
-        if (href.includes('pay.hotmart.com')) {
-            link.href = buildHotmartUrl();
+    // ─── REESCRITA DINÂMICA (CAMPANHA ADVOGADOS) ───
+    const currentCampaign = new URLSearchParams(window.location.search).get('utm_campaign');
+    if (currentCampaign === 'advogados') {
+        const headline = document.getElementById('main-headline');
+        const subheadline = document.getElementById('main-subheadline');
+        if (headline) {
+            headline.innerHTML = `Advogados: Apareça no Google Quando Seu Cliente Está <span class="text-orange-500">Procurando um Advogado Agora</span>`;
         }
-        link.addEventListener('click', (e) => {
-            if (link.getAttribute('href') !== '#oferta') {
-                fireCheckoutConversion();
-            } else {
-                e.preventDefault();
-                document.getElementById('oferta').scrollIntoView({ behavior: 'smooth' });
-                window.dataLayer = window.dataLayer || [];
-                window.dataLayer.push({'event': 'hero_cta_click'});
+        if (subheadline) {
+            subheadline.innerHTML = `Sem pagar <strong class="text-orange-400">R$&nbsp;1.500 a R$&nbsp;2.500 por mês</strong> para agência — ative sua campanha hoje e receba o primeiro contato de cliente no WhatsApp nas primeiras 24 horas.`;
+        }
+    }
+
+    // Injeta as URLs dinâmicas e monitora cliques nos CTAs de Compra
+    document.querySelectorAll('a').forEach(link => {
+        const href = link.getAttribute('href') || '';
+        if (href.includes('pay.hotmart.com') || href === '#oferta') {
+            if (href.includes('pay.hotmart.com')) {
+                link.href = buildHotmartUrl();
+            }
+            link.addEventListener('click', (e) => {
+                if (link.getAttribute('href') !== '#oferta') {
+                    fireCheckoutConversion();
+                } else {
+                    e.preventDefault();
+                    const target = document.getElementById('oferta');
+                    if (target) target.scrollIntoView({ behavior: 'smooth' });
+                    window.dataLayer = window.dataLayer || [];
+                    window.dataLayer.push({'event': 'hero_cta_click'});
+                }
+            });
+        }
+    });
+
+    // ─── CONTROLE DO POPUP DO WHATSAPP ───
+    const modal = document.getElementById('whatsapp-modal');
+    const openBtn = document.getElementById('floating-wa-btn');
+    const closeBtn = document.getElementById('close-modal-btn');
+    const waForm = document.getElementById('whatsapp-lead-form');
+
+    if (openBtn && modal) {
+        openBtn.addEventListener('click', () => {
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({'event': 'whatsapp_click'});
+            modal.style.display = 'flex';
+        });
+    }
+    if (closeBtn && modal) {
+        closeBtn.addEventListener('click', () => { modal.style.display = 'none'; });
+    }
+
+    // Submissão do formulário de Lead
+    if (waForm) {
+        waForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const nome = document.getElementById('form-name').value;
+            const telefone = document.getElementById('form-phone').value;
+
+            if (typeof fbq !== 'undefined') fbq('track', 'Lead', { content_name: 'Protocolo Cliente na Porta' });
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'conversion', {
+                    'send_to': 'AW-479406830/d196CM7yhMIcEO7VzOQB',
+                    'value': 1.0,
+                    'currency': 'BRL'
+                });
+            }
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({ event: 'whatsapp_form_submit', user_name: nome });
+
+            const payload = { nome, whatsapp: telefone, source: 'static_lp', ...TRACKING };
+            fetch('https://sua-url-n8n.com', { method: 'POST', body: JSON.stringify(payload) }).catch(() => {});
+
+            const msg = encodeURIComponent(`Olá Rodrigo! Me chamo ${nome} e tenho interesse no Protocolo Cliente na Porta.`);
+            window.open(`https://wa.me/5511962650342?text=${msg}`, '_blank');
+            if (modal) modal.style.display = 'none';
+        });
+    }
+
+    // Envia pageview nativo via API de track própria
+    sendTrackingPing('pageview');
+});
+
+// ─── CONTROLE DA VSL (YOUTUBE PLAYER API FORA DO DOMContentLoaded) ───
+let player;
+const ctaBtn = document.getElementById('vsl-cta');
+
+window.onYouTubeIframeAPIReady = function() {
+    // Busca se já existe o iframe na árvore do HTML estruturado
+    const existingIframe = document.getElementById('yt-vsl-player');
+    if (existingIframe) {
+        player = new YT.Player('yt-vsl-player', {
+            events: {
+                'onStateChange': onPlayerStateChange
             }
         });
     }
-});
-
-// ─── CONTROLE DO POPUP DO WHATSAPP ───
-const modal = document.getElementById('whatsapp-modal');
-const openBtn = document.getElementById('floating-wa-btn');
-const closeBtn = document.getElementById('close-modal-btn');
-const waForm = document.getElementById('whatsapp-lead-form');
-
-if (openBtn && modal) {
-    openBtn.addEventListener('click', () => {
-        window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({'event': 'whatsapp_click'});
-        modal.style.display = 'flex';
-    });
-}
-if (closeBtn && modal) {
-    closeBtn.addEventListener('click', () => { modal.style.display = 'none'; });
-}
-
-// Submissão do formulário de Lead
-if (waForm) {
-    waForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const nome = document.getElementById('form-name').value;
-        const telefone = document.getElementById('form-phone').value;
-
-        // Disparos do Pixel / Google Ads
-        if (typeof fbq !== 'undefined') {
-            fbq('track', 'Lead', { content_name: 'Protocolo Cliente na Porta' });
-        }
-        if (typeof gtag !== 'undefined') {
-            gtag('event', 'conversion', {
-                'send_to': 'AW-479406830/d196CM7yhMIcEO7VzOQB',
-                'value': 1.0,
-                'currency': 'BRL'
-            });
-        }
-        window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({ event: 'whatsapp_form_submit', user_name: nome });
-
-        // Envio para Webhooks (n8n e Dashboard)
-        const payload = { nome, whatsapp: telefone, source: 'static_lp', ...TRACKING };
-        fetch('https://sua-url-n8n.com', { method: 'POST', body: JSON.stringify(payload) }).catch(() => {});
-
-        // Redirecionamento Final para wa.me
-        const msg = encodeURIComponent(`Olá Rodrigo! Me chamo ${nome} e tenho interesse no Protocolo Cliente na Porta.`);
-        window.open(`https://wa.me/5511962650342?text=${msg}`, '_blank');
-        modal.style.display = 'none';
-    });
-}
-
-// ─── CONTROLE DA VSL (YOUTUBE PLAYER API) ───
-let player;
-const ctaBtn = document.getElementById('vsl-cta');
-if (ctaBtn) ctaBtn.style.display = 'none'; // Começa escondido de forma intencional se configurado
-
-window.onYouTubeIframeAPIReady = function() {
-    player = new YT.Player('yt-vsl-player', {
-        height: '100%',
-        width: '100%',
-        videoId: 'qTW2aZLogkY',
-        playerVars: {
-            'autoplay': 0, 'controls': 0, 'disablekb': 1, 'rel': 0, 'modestbranding': 1, 'fs': 0, 'playsinline': 1
-        },
-        events: {
-            'onStateChange': onPlayerStateChange
-        }
-    });
 };
 
 let checkInterval;
 function onPlayerStateChange(event) {
-    const overlay = document.getElementById('vsl-overlay');
     if (event.data === YT.PlayerState.PLAYING) {
+        const overlay = document.getElementById('vsl-overlay');
         if (overlay) overlay.style.display = 'none';
         if (!checkInterval) {
             checkInterval = setInterval(() => {
                 if (player && typeof player.getCurrentTime === 'function') {
-                    // EXATOS 120 SEGUNDOS (2 MINUTOS) PARA LIBERAR O BOTÃO NA REDE DE BUSCA
                     if (player.getCurrentTime() >= 120) {
                         if (ctaBtn) ctaBtn.style.display = 'block';
                         clearInterval(checkInterval);
@@ -193,10 +192,10 @@ function onPlayerStateChange(event) {
     }
 }
 
-const vslOverlay = document.getElementById('vsl-overlay');
-if (vslOverlay) {
-    vslOverlay.addEventListener('click', () => { if (player) player.playVideo(); });
-}
-
-// Envia pageview nativo via API de track própria
-sendTrackingPing('pageview');
+// Evento de gatilho do clique inicial no overlay do player
+document.addEventListener('DOMContentLoaded', () => {
+    const vslOverlay = document.getElementById('vsl-overlay');
+    if (vslOverlay) {
+        vslOverlay.addEventListener('click', () => { if (player && typeof player.playVideo === 'function') player.playVideo(); });
+    }
+});
