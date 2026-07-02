@@ -1,5 +1,5 @@
 // ─── TRACKING: client ID + UTMs + Click IDs ───────────────────────────────
-const BASE_HOTMART = 'https://pay.hotmart.com/Y104360494V?off=av71abb8';
+const BASE_HOTMART = 'https://pay.hotmart.com/A106251122L';
 const TRACK_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'src', 'gclid', 'fbclid'];
 
 function getOrCreateClientId() {
