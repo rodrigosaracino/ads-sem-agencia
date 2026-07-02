@@ -1,7 +1,0 @@
-{
-  "description": "",
-  "devDependencies": {
-    "@tailwindcss/cli": "^4.3.2",
-    "tailwindcss": "^4.3.2"
-  }
-}
