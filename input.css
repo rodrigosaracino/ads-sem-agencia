@@ -7,7 +7,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #fff; -we
 
 /* ─── GRADIENTES ─── */
 .gradient-hero { background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #0f172a 100%) !important; }
-.gradient-cta  { background: linear-gradient(135deg, #f97316 0%, #ea580c 100%) !important; display: inline-block; }
+.gradient-cta  { background: linear-gradient(135deg, #f97316 0%, #ea580c 100%) !important; }
 
 /* ─── BADGE PULSANTE ─── */
 .pulse-badge { animation: pulse-dot 2s infinite; }
