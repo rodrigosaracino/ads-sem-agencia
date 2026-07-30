@@ -1511,9 +1511,9 @@
       grid-column: span 2 / span 2;
     }
   }
-  .sm\:inline-block {
+  .sm\:w-auto {
     @media (width >= 40rem) {
-      display: inline-block;
+      width: auto;
     }
   }
   .sm\:max-w-sm {
