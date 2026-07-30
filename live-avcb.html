@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Gravada · Protocolo Cliente na Porta para Profissionais de AVCB</title>
+    <meta name="description" content="Assista à live gravada e descubra como profissionais de AVCB estão atraindo clientes pelo Google sem agência e sem depender de indicação.">
+    <style>@media(max-width:767px){.blur-deco{display:none}}</style>
+    <link rel="preload" href="styles.css" as="style">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" onload="this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"></noscript>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="antialiased">
+
+    <!-- Barra de urgência fixada no topo -->
+    <div style="background:linear-gradient(90deg,#dc2626,#b91c1c);color:#fff;text-align:center;padding:10px 16px;font-size:13px;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;position:sticky;top:0;z-index:9999;">
+        ⚠️&nbsp; Esta gravação ficará disponível por tempo limitado &nbsp;·&nbsp; Acesso encerra em: <span id="cd" style="font-variant-numeric:tabular-nums;letter-spacing:0.05em;">--:--:--</span>
+    </div>
+
+    <!-- HERO -->
+    <section class="gradient-hero relative overflow-hidden py-12 px-6">
+        <div class="absolute inset-0 opacity-10 pointer-events-none">
+            <svg class="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                <defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="white" stroke-width="0.5"></path></pattern></defs>
+                <rect width="100%" height="100%" fill="url(#grid)"></rect>
+            </svg>
+        </div>
+        <div class="relative z-10 max-w-4xl mx-auto text-center">
+
+            <!-- Badge ao vivo gravado -->
+            <div class="inline-flex items-center gap-2 bg-red-500/20 border border-red-500/40 rounded-full px-4 py-2 mb-6">
+                <span class="w-2 h-2 bg-red-500 rounded-full pulse-badge flex-shrink-0"></span>
+                <span class="text-red-400 text-sm font-bold uppercase tracking-wider">Live Gravada · Assista Agora</span>
+            </div>
+
+            <h1 class="text-3xl sm:text-5xl font-extrabold text-white leading-tight mb-5">
+                Como Profissionais de AVCB Estão Atraindo Clientes pelo Google —
+                <span class="text-orange-500">Sem Agência e Sem Depender de Indicação</span>
+            </h1>
+            <p class="text-lg text-white/75 mb-8 max-w-2xl mx-auto">
+                Nesta live exclusiva, o especialista <strong class="text-white">Rodrigo Saracino</strong> revela o passo a passo para aparecer no Google exatamente quando o cliente precisa de AVCB — e transformar cada pesquisa em orçamento fechado.
+            </p>
+
+            <!-- VSL -->
+            <div class="mb-8">
+                <div class="vsl-wrapper rounded-2xl shadow-2xl border border-white/10" style="background:url('https://img.youtube.com/vi/UHjgoXleuD0/maxresdefault.jpg') center/cover no-repeat;" oncontextmenu="return false">
+                    <div id="yt-vsl-player"></div>
+                    <div id="vsl-overlay" class="absolute inset-0 flex flex-col items-center justify-center cursor-pointer" style="z-index:10;background:rgba(0,0,0,0.55);">
+                        <div style="width:88px;height:88px;border-radius:50%;background:rgba(249,115,22,0.2);border:2px solid rgba(249,115,22,0.7);display:flex;align-items:center;justify-content:center;margin-bottom:14px;">
+                            <svg fill="currentColor" viewBox="0 0 24 24" style="width:40px;height:40px;color:#f97316;margin-left:5px;"><path d="M8 5v14l11-7z"></path></svg>
+                        </div>
+                        <p style="color:rgba(255,255,255,0.9);font-size:14px;font-weight:600;">Clique para assistir à live gravada</p>
+                    </div>
+                    <div id="vsl-video-cta">
+                        <a href="https://go.hotmart.com/U106917086S?src=live-avcb" target="_blank" rel="noopener noreferrer"
+                           style="display:inline-block;font-weight:700;color:#fff;border-radius:12px;font-size:15px;padding:12px 24px;background:linear-gradient(135deg,#f97316,#ea580c);box-shadow:0 0 30px rgba(249,115,22,0.6);animation:pulse-dot 1.5s ease-in-out infinite;white-space:nowrap;text-decoration:none;">
+                            Quero o Protocolo Agora →
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <a href="https://go.hotmart.com/U106917086S?src=live-avcb" target="_blank" rel="noopener noreferrer"
+               class="inline-block gradient-cta text-white font-bold text-lg px-10 py-5 rounded-xl shadow-lg shadow-orange-500/40 hover:scale-105 transition-all uppercase tracking-wide">
+                Quero Aplicar o Protocolo no Meu Negócio →
+            </a>
+            <div class="flex justify-center mt-4">
+                <div class="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2">
+                    <svg class="w-4 h-4 text-green-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                    <span class="text-white/70 text-sm font-medium">7 Dias de Garantia Incondicional — Risco Zero</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- O QUE VOCÊ VAI DESCOBRIR -->
+    <section class="bg-slate-900 py-20 px-6 relative overflow-hidden">
+        <div class="blur-deco absolute top-0 right-0 w-96 h-96 bg-orange-500/5 rounded-full blur-[150px] pointer-events-none"></div>
+        <div class="max-w-4xl mx-auto relative z-10">
+            <div class="text-center mb-12">
+                <span class="inline-block bg-orange-500/10 border border-orange-500/20 text-orange-500 font-bold text-xs px-4 py-2 rounded-full mb-4 uppercase tracking-wider">O Que Está Nesta Live</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white">O que você vai descobrir nesta gravação</h2>
+            </div>
+            <div class="grid sm:grid-cols-2 gap-4">
+                <div class="bg-slate-800/60 border border-slate-700/50 rounded-2xl p-6 flex gap-4">
+                    <div class="w-8 h-8 bg-orange-500/20 border border-orange-500/30 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <svg class="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                    </div>
+                    <div>
+                        <p class="text-white font-bold mb-1">Por que o Google é a maior oportunidade para o AVCB</p>
+                        <p class="text-slate-400 text-sm leading-relaxed">Quem pesquisa "AVCB + cidade" já tomou a decisão de contratar. Você só precisa aparecer no momento certo.</p>
+                    </div>
+                </div>
+                <div class="bg-slate-800/60 border border-slate-700/50 rounded-2xl p-6 flex gap-4">
+                    <div class="w-8 h-8 bg-orange-500/20 border border-orange-500/30 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <svg class="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                    </div>
+                    <div>
+                        <p class="text-white font-bold mb-1">Como montar a campanha do zero em menos de 1 hora</p>
+                        <p class="text-slate-400 text-sm leading-relaxed">Passo a passo sem jargão técnico — feito para quem nunca usou Google Ads.</p>
+                    </div>
+                </div>
+                <div class="bg-slate-800/60 border border-slate-700/50 rounded-2xl p-6 flex gap-4">
+                    <div class="w-8 h-8 bg-orange-500/20 border border-orange-500/30 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <svg class="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                    </div>
+                    <div>
+                        <p class="text-white font-bold mb-1">As palavras-chave que o cliente de AVCB usa</p>
+                        <p class="text-slate-400 text-sm leading-relaxed">Os termos exatos de busca e como bloquear cliques inúteis antes de gastar qualquer real.</p>
+                    </div>
+                </div>
+                <div class="bg-slate-800/60 border border-slate-700/50 rounded-2xl p-6 flex gap-4">
+                    <div class="w-8 h-8 bg-orange-500/20 border border-orange-500/30 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <svg class="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                    </div>
+                    <div>
+                        <p class="text-white font-bold mb-1">Como transformar o clique em contrato assinado</p>
+                        <p class="text-slate-400 text-sm leading-relaxed">Os scripts de atendimento para converter a primeira mensagem em orçamento fechado.</p>
+                    </div>
+                </div>
+                <div class="bg-slate-800/60 border border-slate-700/50 rounded-2xl p-6 flex gap-4 sm:col-span-2">
+                    <div class="w-8 h-8 bg-orange-500/20 border border-orange-500/30 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <svg class="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                    </div>
+                    <div>
+                        <p class="text-white font-bold mb-1">A rotina de 5 minutos por dia para manter a campanha lucrativa</p>
+                        <p class="text-slate-400 text-sm leading-relaxed">O checklist diário para saber o que pausar e o que acelerar — sem agência, sem relatórios confusos.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PARA QUEM É -->
+    <section class="bg-slate-50 py-20 px-6 border-t border-slate-200">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-10">
+                <span class="inline-block bg-blue-100 text-blue-700 font-bold text-xs px-4 py-2 rounded-full mb-4 uppercase tracking-wider">Para Quem É</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900">Este Protocolo foi feito para você se…</h2>
+            </div>
+            <div class="grid sm:grid-cols-2 gap-4">
+                <div class="bg-white border border-slate-200 rounded-2xl p-6 flex gap-4 shadow-sm">
+                    <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                    </div>
+                    <p class="text-slate-700 font-medium leading-relaxed">Você presta serviços de AVCB, laudo técnico ou consultoria de segurança contra incêndio</p>
+                </div>
+                <div class="bg-white border border-slate-200 rounded-2xl p-6 flex gap-4 shadow-sm">
+                    <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                    </div>
+                    <p class="text-slate-700 font-medium leading-relaxed">Você depende de indicação e quer ter uma fonte previsível de novos clientes</p>
+                </div>
+                <div class="bg-white border border-slate-200 rounded-2xl p-6 flex gap-4 shadow-sm">
+                    <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                    </div>
+                    <p class="text-slate-700 font-medium leading-relaxed">Você já pensou em anunciar no Google mas achou complicado ou caro demais</p>
+                </div>
+                <div class="bg-white border border-slate-200 rounded-2xl p-6 flex gap-4 shadow-sm">
+                    <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                    </div>
+                    <p class="text-slate-700 font-medium leading-relaxed">Você quer parar de pagar R$&nbsp;1.500–2.500/mês para agência e assumir o controle das suas captações</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- OFERTA -->
+    <section id="oferta" class="bg-slate-900 py-20 px-6 relative overflow-hidden">
+        <div class="blur-deco absolute bottom-0 left-0 w-80 h-80 bg-orange-500/5 rounded-full blur-[120px] pointer-events-none"></div>
+        <div class="max-w-3xl mx-auto relative z-10">
+            <div class="text-center mb-10">
+                <span class="inline-block bg-orange-500/10 border border-orange-500/20 text-orange-500 font-bold text-xs px-4 py-2 rounded-full mb-4 uppercase tracking-wider">Oferta Especial · Parceiros AVCB</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white mb-4">Tudo que você precisa para o Google trabalhar por você</h2>
+                <p class="text-slate-400 text-lg">Acesso imediato ao Protocolo Cliente na Porta completo</p>
+            </div>
+
+            <div class="bg-slate-800/80 border border-slate-700/50 rounded-3xl p-8 sm:p-10">
+                <div class="grid sm:grid-cols-2 gap-3 mb-8">
+                    <div class="flex items-center gap-3">
+                        <svg class="w-5 h-5 text-orange-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        <span class="text-white text-sm font-medium">Protocolo Completo (4 Pilares)</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <svg class="w-5 h-5 text-orange-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        <span class="text-white text-sm font-medium">Lista Negra de Palavras-Chave</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <svg class="w-5 h-5 text-orange-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        <span class="text-white text-sm font-medium">Scripts de Fechamento</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <svg class="w-5 h-5 text-orange-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        <span class="text-white text-sm font-medium">Checklist Diário (5 min/dia)</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <svg class="w-5 h-5 text-orange-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        <span class="text-white text-sm font-medium">Painel Looker Studio</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <svg class="w-5 h-5 text-orange-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        <span class="text-white text-sm font-medium">Bônus: Máquina de Recuperação</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <svg class="w-5 h-5 text-orange-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        <span class="text-white text-sm font-medium">Bônus: Dominação Local com IA</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <svg class="w-5 h-5 text-orange-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        <span class="text-white text-sm font-medium">Bônus: Otimização Avançada</span>
+                    </div>
+                </div>
+
+                <div class="border-t border-slate-700 pt-6 text-center">
+                    <p class="text-slate-400 text-sm mb-1">Investimento único</p>
+                    <p class="text-white font-black" style="font-size:3.5rem;line-height:1;">R$&nbsp;397</p>
+                    <p class="text-slate-400 text-sm mb-6">ou em até 12x no cartão</p>
+                    <a href="https://go.hotmart.com/U106917086S?src=live-avcb" target="_blank" rel="noopener noreferrer"
+                       class="block w-full gradient-cta text-white font-bold text-xl py-5 rounded-xl shadow-lg shadow-orange-500/30 hover:scale-[1.02] transition-all uppercase tracking-wide text-center">
+                        Quero o Protocolo Agora →
+                    </a>
+                    <div class="flex items-center justify-center gap-2 mt-4">
+                        <svg class="w-4 h-4 text-green-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                        <span class="text-slate-400 text-sm">7 dias de garantia incondicional — risco zero</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GARANTIA -->
+    <section class="bg-white py-16 px-6">
+        <div class="max-w-2xl mx-auto text-center">
+            <div class="w-20 h-20 bg-green-500/10 border-2 border-green-500/30 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg class="w-10 h-10 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-4">Garantia Incondicional de 7 Dias</h2>
+            <p class="text-slate-600 text-lg leading-relaxed">Se por qualquer motivo você não ficar satisfeito nos primeiros 7 dias, devolvemos 100% do seu investimento. Sem questionamentos, sem burocracia.</p>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="bg-slate-50 py-16 px-6 border-t border-slate-200">
+        <div class="max-w-2xl mx-auto">
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 text-center mb-10">Perguntas Frequentes</h2>
+            <div class="space-y-4">
+                <details class="bg-white border border-slate-200 rounded-2xl overflow-hidden hover:border-orange-200 transition-all group">
+                    <summary class="w-full flex items-center justify-between p-6 text-left gap-4 font-bold text-slate-900 text-base cursor-pointer list-none select-none">
+                        <span>Preciso ter experiência com Google Ads para usar o Protocolo?</span>
+                        <svg class="w-5 h-5 text-orange-500 flex-shrink-0 transition-transform duration-300 group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </summary>
+                    <div class="px-6 pb-6 text-slate-600 leading-relaxed">Não. O Protocolo foi criado para profissionais que nunca usaram Google Ads. O passo a passo é direto ao ponto, sem jargão técnico, e você consegue subir sua primeira campanha em menos de 1 hora.</div>
+                </details>
+                <details class="bg-white border border-slate-200 rounded-2xl overflow-hidden hover:border-orange-200 transition-all group">
+                    <summary class="w-full flex items-center justify-between p-6 text-left gap-4 font-bold text-slate-900 text-base cursor-pointer list-none select-none">
+                        <span>O Protocolo funciona para profissionais de AVCB?</span>
+                        <svg class="w-5 h-5 text-orange-500 flex-shrink-0 transition-transform duration-300 group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </summary>
+                    <div class="px-6 pb-6 text-slate-600 leading-relaxed">Sim. AVCB é um serviço altamente pesquisado no Google. Quando uma empresa precisa regularizar seu imóvel, a primeira ação é buscar "AVCB + cidade". O Protocolo te coloca exatamente nesse momento de decisão, captando clientes que já querem contratar.</div>
+                </details>
+                <details class="bg-white border border-slate-200 rounded-2xl overflow-hidden hover:border-orange-200 transition-all group">
+                    <summary class="w-full flex items-center justify-between p-6 text-left gap-4 font-bold text-slate-900 text-base cursor-pointer list-none select-none">
+                        <span>Preciso de um site para usar o Protocolo?</span>
+                        <svg class="w-5 h-5 text-orange-500 flex-shrink-0 transition-transform duration-300 group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </summary>
+                    <div class="px-6 pb-6 text-slate-600 leading-relaxed">Não. A campanha aponta diretamente para o seu WhatsApp. Você não precisa de site, landing page ou qualquer estrutura técnica para começar.</div>
+                </details>
+                <details class="bg-white border border-slate-200 rounded-2xl overflow-hidden hover:border-orange-200 transition-all group">
+                    <summary class="w-full flex items-center justify-between p-6 text-left gap-4 font-bold text-slate-900 text-base cursor-pointer list-none select-none">
+                        <span>Por quanto tempo terei acesso ao material?</span>
+                        <svg class="w-5 h-5 text-orange-500 flex-shrink-0 transition-transform duration-300 group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </summary>
+                    <div class="px-6 pb-6 text-slate-600 leading-relaxed">O acesso é vitalício. Uma vez que você adquire o Protocolo, pode consultar o material sempre que precisar — inclusive quando atualizar sua campanha ou expandir para novas regiões.</div>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="gradient-hero py-16 px-6 relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10 pointer-events-none">
+            <svg class="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                <defs><pattern id="grid2" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="white" stroke-width="0.5"></path></pattern></defs>
+                <rect width="100%" height="100%" fill="url(#grid2)"></rect>
+            </svg>
+        </div>
+        <div class="relative z-10 max-w-2xl mx-auto text-center">
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-white mb-4 leading-tight">
+                Pare de depender de indicação. Apareça para quem <span class="text-orange-500">já está te procurando.</span>
+            </h2>
+            <p class="text-white/70 text-lg mb-8 max-w-xl mx-auto">A gravação desta live ficará disponível por tempo limitado. Garanta seu acesso ao Protocolo e comece agora.</p>
+            <a href="https://go.hotmart.com/U106917086S?src=live-avcb" target="_blank" rel="noopener noreferrer"
+               class="inline-block gradient-cta text-white font-bold text-xl px-10 py-5 rounded-xl shadow-lg shadow-orange-500/30 hover:scale-105 transition-all uppercase tracking-wide">
+                Quero o Protocolo Agora →
+            </a>
+            <p class="text-white/40 text-sm mt-4">7 dias de garantia incondicional · Acesso imediato após o pagamento</p>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 py-10 px-6 border-t border-slate-800">
+        <div class="max-w-4xl mx-auto text-center">
+            <span class="text-orange-500 font-black text-xl tracking-tighter uppercase italic block mb-3">Protocolo Cliente na Porta</span>
+            <div class="flex justify-center gap-5 text-xs text-slate-500 mb-3">
+                <a href="privacidade.html" class="hover:underline hover:text-slate-400">Política de Privacidade</a>
+                <a href="privacidade.html" class="hover:underline hover:text-slate-400">Termos de Uso</a>
+            </div>
+            <p class="text-slate-500 text-xs mb-4">© 2026 Rodrigo Saracino. Todos os direitos reservados. CNPJ: 46.896.970/0001-18</p>
+            <p class="text-[11px] text-slate-600 leading-relaxed max-w-3xl mx-auto">
+                AVISO LEGAL: Os resultados podem variar de acordo com o segmento, região geográfica, concorrência e orçamento investido em anúncios. Nós não garantimos faturamento, volume fixo de leads ou retorno financeiro. Todo o investimento em tráfego pago corre por conta e risco do proprietário do negócio. Esta página não tem vínculo com o Google Inc. ou com a Meta Platforms Inc. Este é um link de afiliado.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+    // ─── Countdown Timer (48h rolling por visitante) ──────────────────────────
+    (function() {
+        var KEY = 'avcb_cd_end';
+        var DURATION = 48 * 60 * 60 * 1000;
+        var end = parseInt(localStorage.getItem(KEY) || '0', 10);
+        if (!end || end < Date.now()) {
+            end = Date.now() + DURATION;
+            try { localStorage.setItem(KEY, end); } catch(_) {}
+        }
+        function pad(n) { return n < 10 ? '0' + n : '' + n; }
+        function tick() {
+            var rem = Math.max(0, end - Date.now());
+            var h = Math.floor(rem / 3600000);
+            var m = Math.floor((rem % 3600000) / 60000);
+            var s = Math.floor((rem % 60000) / 1000);
+            var el = document.getElementById('cd');
+            if (el) el.textContent = pad(h) + ':' + pad(m) + ':' + pad(s);
+        }
+        tick();
+        setInterval(tick, 1000);
+    })();
+
+    // ─── YouTube VSL (lazy — só carrega ao clicar) ────────────────────────────
+    var ytPlayer;
+    var ctaTimerInterval;
+
+    function initYTPlayer() {
+        if (ytPlayer) return;
+        ytPlayer = new YT.Player('yt-vsl-player', {
+            videoId: 'UHjgoXleuD0',
+            width: 1280, height: 720,
+            playerVars: { autoplay: 1, controls: 1, rel: 0, iv_load_policy: 3, modestbranding: 1, fs: 1, playsinline: 1 },
+            events: {
+                onReady: function(ev) {
+                    var iframe = ev.target.getIframe();
+                    Object.assign(iframe.style, { position: 'absolute', top: '0', left: '0', width: '100%', height: '100%', border: 'none' });
+                    ev.target.playVideo();
+                    var overlay = document.getElementById('vsl-overlay');
+                    if (overlay) overlay.style.display = 'none';
+                },
+                onStateChange: function(ev) {
+                    if (ev.data === YT.PlayerState.PLAYING && !ctaTimerInterval) {
+                        ctaTimerInterval = setInterval(function() {
+                            if (ytPlayer && typeof ytPlayer.getCurrentTime === 'function') {
+                                if (ytPlayer.getCurrentTime() >= 120) {
+                                    var cta = document.getElementById('vsl-video-cta');
+                                    if (cta) cta.style.display = 'block';
+                                    clearInterval(ctaTimerInterval);
+                                    ctaTimerInterval = null;
+                                }
+                            }
+                        }, 2000);
+                    }
+                }
+            }
+        });
+    }
+
+    function loadYouTubeAPI() {
+        if (window.YT && window.YT.Player) { initYTPlayer(); return; }
+        window.onYouTubeIframeAPIReady = initYTPlayer;
+        var tag = document.createElement('script');
+        tag.src = 'https://www.youtube.com/iframe_api';
+        document.head.appendChild(tag);
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var overlay = document.getElementById('vsl-overlay');
+        if (overlay) overlay.addEventListener('click', loadYouTubeAPI);
+    });
+
+    // ─── Scripts de rastreamento (após load, fora do caminho crítico) ──────────
+    window.addEventListener('load', function() {
+        // GTM
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-K7F4CVM');
+
+        // Meta Pixel
+        !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+        n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+        document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '714107123349981');
+        fbq('track', 'PageView');
+        fbq('track', 'ViewContent', { content_name: 'Protocolo AVCB Live', currency: 'BRL', value: 397.00 });
+
+        // Google Ads
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = window.gtag || function(){window.dataLayer.push(arguments);};
+        window.gtag('js', new Date());
+        window.gtag('config', 'AW-479406830');
+        var _gas = document.createElement('script');
+        _gas.async = true;
+        _gas.src = 'https://www.googletagmanager.com/gtag/js?id=AW-479406830';
+        document.head.appendChild(_gas);
+
+        // Microsoft Clarity
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "qusb6zataj");
+    }, {once: true});
+    </script>
+</body>
+</html>
