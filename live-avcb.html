@@ -47,7 +47,7 @@
 
             <!-- VSL -->
             <div class="mb-8">
-                <div class="vsl-wrapper rounded-2xl shadow-2xl border border-white/10" style="background:url('https://img.youtube.com/vi/UHjgoXleuD0/maxresdefault.jpg') center/cover no-repeat;" oncontextmenu="return false">
+                <div class="vsl-wrapper rounded-2xl shadow-2xl border border-white/10" style="background:url('https://img.youtube.com/vi/UHjgoXleuD0/maxresdefault.jpg') center/cover no-repeat;">
                     <div id="yt-vsl-player"></div>
                     <div id="vsl-overlay" class="absolute inset-0 flex flex-col items-center justify-center cursor-pointer" style="z-index:10;background:rgba(0,0,0,0.55);">
                         <div style="width:88px;height:88px;border-radius:50%;background:rgba(249,115,22,0.2);border:2px solid rgba(249,115,22,0.7);display:flex;align-items:center;justify-content:center;margin-bottom:14px;">
@@ -55,9 +55,9 @@
                         </div>
                         <p style="color:rgba(255,255,255,0.9);font-size:14px;font-weight:600;">Clique para assistir à live gravada</p>
                     </div>
-                    <div id="vsl-video-cta">
+                    <div id="vsl-video-cta" style="pointer-events:none;">
                         <a href="https://go.hotmart.com/U106917086S?src=live-avcb" target="_blank" rel="noopener noreferrer"
-                           style="display:inline-block;font-weight:700;color:#fff;border-radius:12px;font-size:15px;padding:12px 24px;background:linear-gradient(135deg,#f97316,#ea580c);box-shadow:0 0 30px rgba(249,115,22,0.6);animation:pulse-dot 1.5s ease-in-out infinite;white-space:nowrap;text-decoration:none;">
+                           style="pointer-events:auto;display:inline-block;font-weight:700;color:#fff;border-radius:12px;font-size:15px;padding:12px 24px;background:linear-gradient(135deg,#f97316,#ea580c);box-shadow:0 0 30px rgba(249,115,22,0.6);animation:pulse-dot 1.5s ease-in-out infinite;white-space:nowrap;text-decoration:none;">
                             Quero o Protocolo Agora →
                         </a>
                     </div>
@@ -65,7 +65,7 @@
             </div>
 
             <a href="https://go.hotmart.com/U106917086S?src=live-avcb" target="_blank" rel="noopener noreferrer"
-               class="inline-block gradient-cta text-white font-bold text-lg px-10 py-5 rounded-xl shadow-lg shadow-orange-500/40 hover:scale-105 transition-all uppercase tracking-wide">
+               class="block sm:inline-block gradient-cta text-white font-bold text-base sm:text-lg px-6 sm:px-10 py-4 sm:py-5 rounded-xl shadow-lg shadow-orange-500/40 hover:scale-105 transition-all uppercase tracking-wide text-center">
                 Quero Aplicar o Protocolo no Meu Negócio →
             </a>
             <div class="flex justify-center mt-4">
@@ -181,7 +181,7 @@
                 <p class="text-slate-400 text-lg">Acesso imediato ao Protocolo Cliente na Porta completo</p>
             </div>
 
-            <div class="bg-slate-800/80 border border-slate-700/50 rounded-3xl p-8 sm:p-10">
+            <div class="bg-slate-800/80 border border-slate-700/50 rounded-3xl p-6 sm:p-10">
                 <div class="grid sm:grid-cols-2 gap-3 mb-8">
                     <div class="flex items-center gap-3">
                         <svg class="w-5 h-5 text-orange-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
@@ -235,13 +235,22 @@
     </section>
 
     <!-- GARANTIA -->
-    <section class="bg-white py-16 px-6">
-        <div class="max-w-2xl mx-auto text-center">
-            <div class="w-20 h-20 bg-green-500/10 border-2 border-green-500/30 rounded-full flex items-center justify-center mx-auto mb-6">
-                <svg class="w-10 h-10 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+    <section class="bg-slate-50 py-16 px-6 border-t border-slate-200">
+        <div class="max-w-2xl mx-auto">
+            <div class="bg-white border-2 border-green-500/30 rounded-3xl p-8 sm:p-10 shadow-sm">
+                <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6">
+                    <div class="flex-shrink-0">
+                        <div class="w-20 h-20 bg-green-500/10 border-2 border-green-500/30 rounded-full flex items-center justify-center">
+                            <svg class="w-10 h-10 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                        </div>
+                    </div>
+                    <div class="text-center sm:text-left">
+                        <span class="inline-block bg-green-100 text-green-700 font-bold text-xs px-3 py-1 rounded-full mb-3 uppercase tracking-wider">Risco Zero</span>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-3">Garantia Incondicional de 7 Dias</h2>
+                        <p class="text-slate-600 text-base sm:text-lg leading-relaxed">Se por qualquer motivo você não ficar satisfeito nos primeiros 7 dias, devolvemos <strong class="text-slate-800">100% do seu investimento</strong>. Sem questionamentos, sem burocracia — é só pedir.</p>
+                    </div>
+                </div>
             </div>
-            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-4">Garantia Incondicional de 7 Dias</h2>
-            <p class="text-slate-600 text-lg leading-relaxed">Se por qualquer motivo você não ficar satisfeito nos primeiros 7 dias, devolvemos 100% do seu investimento. Sem questionamentos, sem burocracia.</p>
         </div>
     </section>
 
@@ -296,7 +305,7 @@
             </h2>
             <p class="text-white/70 text-lg mb-8 max-w-xl mx-auto">A gravação desta live ficará disponível por tempo limitado. Garanta seu acesso ao Protocolo e comece agora.</p>
             <a href="https://go.hotmart.com/U106917086S?src=live-avcb" target="_blank" rel="noopener noreferrer"
-               class="inline-block gradient-cta text-white font-bold text-xl px-10 py-5 rounded-xl shadow-lg shadow-orange-500/30 hover:scale-105 transition-all uppercase tracking-wide">
+               class="block sm:inline-block gradient-cta text-white font-bold text-lg sm:text-xl px-6 sm:px-10 py-4 sm:py-5 rounded-xl shadow-lg shadow-orange-500/30 hover:scale-105 transition-all uppercase tracking-wide text-center">
                 Quero o Protocolo Agora →
             </a>
             <p class="text-white/40 text-sm mt-4">7 dias de garantia incondicional · Acesso imediato após o pagamento</p>
@@ -357,7 +366,7 @@
                     Object.assign(iframe.style, { position: 'absolute', top: '0', left: '0', width: '100%', height: '100%', border: 'none' });
                     ev.target.playVideo();
                     var overlay = document.getElementById('vsl-overlay');
-                    if (overlay) overlay.style.display = 'none';
+                    if (overlay) overlay.remove();
                 },
                 onStateChange: function(ev) {
                     if (ev.data === YT.PlayerState.PLAYING && !ctaTimerInterval) {
