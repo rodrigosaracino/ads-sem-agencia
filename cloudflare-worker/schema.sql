@@ -29,6 +29,7 @@ CREATE TABLE IF NOT EXISTS hotmart_events (
   buyer_email TEXT,
   price REAL,
   currency TEXT,
+  src TEXT,
   raw_payload TEXT,
   created_at TEXT NOT NULL
 );

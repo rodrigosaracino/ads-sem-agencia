@@ -423,7 +423,12 @@
     }
 
     document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('a[href="/ir/protocolo-avcb"]').forEach(function(link) {
+        // Mantém o href no próprio domínio (sem "hotmart" nele, pra não cair em
+        // filtro cosmético de ad blocker) e injeta o client_id via ?sck= — a
+        // Cloudflare Pages repassa a query string pro destino do redirect, e a
+        // Hotmart devolve esse valor em purchase.sckPaymentLink no webhook.
+        document.querySelectorAll('a[href^="/ir/protocolo-avcb"]').forEach(function(link) {
+            link.href = '/ir/protocolo-avcb?sck=' + encodeURIComponent(CLIENT_ID);
             link.addEventListener('click', fireCheckoutConversion);
         });
     });

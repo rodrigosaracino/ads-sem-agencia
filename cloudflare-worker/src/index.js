@@ -142,8 +142,8 @@ async function handleHotmartWebhook(request, env, ctx) {
   try {
     await env.DB.prepare(`
       INSERT INTO hotmart_events
-        (event_type, transaction_id, product_name, buyer_name, buyer_email, price, currency, raw_payload, created_at)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        (event_type, transaction_id, product_name, buyer_name, buyer_email, price, currency, src, raw_payload, created_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `).bind(
       payload.event,
       purchase.transaction || null,
@@ -152,6 +152,7 @@ async function handleHotmartWebhook(request, env, ctx) {
       buyer.email || null,
       price ?? null,
       currency,
+      purchase.sckPaymentLink || null,
       JSON.stringify(payload).slice(0, 8000),
       new Date().toISOString()
     ).run();
@@ -221,9 +222,23 @@ async function handleDashboardData(request, env) {
       WITH ranked AS (
         SELECT *, ROW_NUMBER() OVER (PARTITION BY transaction_id ORDER BY created_at DESC) AS rn
         FROM hotmart_events WHERE transaction_id IS NOT NULL
+      ),
+      latest_sales AS (
+        SELECT * FROM ranked WHERE rn = 1
+      ),
+      attribution AS (
+        SELECT client_id,
+               MAX(utm_source) AS utm_source,
+               MAX(utm_campaign) AS utm_campaign
+        FROM tracking_events
+        WHERE utm_source IS NOT NULL OR utm_campaign IS NOT NULL
+        GROUP BY client_id
       )
-      SELECT event_type, transaction_id, product_name, buyer_name, price, currency, created_at
-      FROM ranked WHERE rn = 1 ORDER BY created_at DESC
+      SELECT ls.event_type, ls.transaction_id, ls.product_name, ls.buyer_name, ls.price, ls.currency, ls.created_at,
+             ls.src, a.utm_source, a.utm_campaign
+      FROM latest_sales ls
+      LEFT JOIN attribution a ON a.client_id = ls.src
+      ORDER BY ls.created_at DESC
     `).all(),
     env.DB.prepare(`
       SELECT substr(created_at,1,10) AS day, event_type, COUNT(*) AS total, SUM(price) AS revenue
@@ -413,11 +428,12 @@ function dashboardHtml() {
     if (!salesLatest.length) {
       salesEl.parentElement.innerHTML = '<div class="empty">Sem vendas ainda. Assim que a Hotmart enviar o primeiro webhook, aparece aqui.</div>';
     } else {
-      salesEl.innerHTML = '<tr><th>Quando</th><th>Status</th><th>Produto</th><th>Comprador</th><th>Valor</th></tr>' +
+      salesEl.innerHTML = '<tr><th>Quando</th><th>Status</th><th>Produto</th><th>Comprador</th><th>Valor</th><th>Origem</th></tr>' +
         salesLatest.slice(0, 30).map(function(s) {
+          var origem = s.utm_source ? (s.utm_source + (s.utm_campaign ? ' / ' + s.utm_campaign : '')) : (s.src ? '(sem UTM)' : '—');
           return '<tr><td>' + esc(s.created_at) + '</td><td>' + esc(hotmartLabels[s.event_type] || s.event_type) + '</td><td>' +
             esc(s.product_name || '—') + '</td><td>' + esc(s.buyer_name || '—') + '</td><td>' +
-            esc(s.currency || '') + ' ' + (s.price != null ? Number(s.price).toFixed(2) : '—') + '</td></tr>';
+            esc(s.currency || '') + ' ' + (s.price != null ? Number(s.price).toFixed(2) : '—') + '</td><td>' + esc(origem) + '</td></tr>';
         }).join('');
     }
 

@@ -4,7 +4,11 @@
 const BASE_HOTMART = 'https://pay.hotmart.com/A106251122L';
 
 function buildHotmartUrl() {
-    const extra = Object.entries(TRACKING)
+    // sck é o parâmetro nativo de rastreamento de origem da Hotmart: o valor volta
+    // no campo purchase.sckPaymentLink do webhook, permitindo ligar a venda ao
+    // client_id (e, por ele, às UTMs) gravados em tracking_events.
+    const params = { ...TRACKING, sck: CLIENT_ID };
+    const extra = Object.entries(params)
         .filter(([, v]) => v)
         .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)
         .join('&');
