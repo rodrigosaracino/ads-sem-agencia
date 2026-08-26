@@ -44,7 +44,20 @@ wrangler d1 execute ads_sem_agencia_tracking --remote --command="SELECT * FROM t
 wrangler secret put META_CAPI_TOKEN      # token do Conversions API (Meta Events Manager)
 wrangler secret put SLACK_WEBHOOK_URL    # Incoming Webhook do Slack (api.slack.com/apps)
 wrangler secret put HOTMART_HOTTOK       # token "Hottok" do webhook da Hotmart
+wrangler secret put DASHBOARD_KEY        # senha de acesso ao dashboard de tracking (escolha uma string forte)
 ```
+
+## Dashboard
+
+```
+https://ads-sem-agencia.rodrigosaracino.com.br/api/dashboard
+```
+
+Página protegida por senha (a mesma definida em `DASHBOARD_KEY`). Mostra totais por
+evento, funil (% sobre pageviews), quebra por página (`index` / `live-avcb`), por
+UTM source/campanha, série dos últimos 30 dias e os últimos 50 eventos brutos. Os
+dados vêm direto do D1 (`tracking_events`), sem sampling e sem depender de scripts
+de terceiro que ad blockers possam bloquear.
 
 ## Notificações no Slack
 

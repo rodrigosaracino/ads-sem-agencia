@@ -147,6 +147,264 @@ async function handleHotmartWebhook(request, env, ctx) {
   });
 }
 
+const EVENT_LABELS = {
+  pageview: 'Visualizações de página',
+  hero_cta_click: 'Clique no CTA (hero)',
+  checkout_click: 'Iniciar checkout',
+  whatsapp_click: 'Abriu WhatsApp',
+  lead: 'Cadastro (Lead)'
+};
+
+function unauthorized() {
+  return new Response(JSON.stringify({ ok: false, error: 'unauthorized' }), {
+    status: 401,
+    headers: { 'Content-Type': 'application/json' }
+  });
+}
+
+async function handleDashboardData(request, env) {
+  if (!env.DASHBOARD_KEY) {
+    return new Response(JSON.stringify({ ok: false, error: 'DASHBOARD_KEY não configurada (wrangler secret put DASHBOARD_KEY)' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+  const key = request.headers.get('x-dashboard-key') || new URL(request.url).searchParams.get('key');
+  if (key !== env.DASHBOARD_KEY) return unauthorized();
+
+  const [totals, byDay, bySource, byPage, recent] = await Promise.all([
+    env.DB.prepare(`
+      SELECT event_type, COUNT(*) AS total, COUNT(DISTINCT client_id) AS uniques
+      FROM tracking_events GROUP BY event_type
+    `).all(),
+    env.DB.prepare(`
+      SELECT substr(created_at,1,10) AS day, event_type, COUNT(*) AS total
+      FROM tracking_events
+      WHERE created_at >= datetime('now','-30 days')
+      GROUP BY day, event_type ORDER BY day
+    `).all(),
+    env.DB.prepare(`
+      SELECT COALESCE(utm_source,'(direto)') AS source, COALESCE(utm_campaign,'(nenhuma)') AS campaign,
+             event_type, COUNT(*) AS total, COUNT(DISTINCT client_id) AS uniques
+      FROM tracking_events GROUP BY source, campaign, event_type
+    `).all(),
+    env.DB.prepare(`
+      SELECT CASE WHEN landing_url LIKE '%live-avcb%' THEN 'live-avcb' ELSE 'index' END AS page,
+             event_type, COUNT(*) AS total, COUNT(DISTINCT client_id) AS uniques
+      FROM tracking_events GROUP BY page, event_type
+    `).all(),
+    env.DB.prepare(`
+      SELECT event_type, utm_source, utm_campaign, gclid, fbclid, landing_url, created_at
+      FROM tracking_events ORDER BY created_at DESC LIMIT 50
+    `).all()
+  ]);
+
+  return new Response(JSON.stringify({
+    ok: true,
+    labels: EVENT_LABELS,
+    totals: totals.results,
+    by_day: byDay.results,
+    by_source: bySource.results,
+    by_page: byPage.results,
+    recent: recent.results
+  }), { status: 200, headers: { 'Content-Type': 'application/json' } });
+}
+
+function dashboardHtml() {
+  return `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard · Ads sem Agência</title>
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background:#0b0d12; color:#e6e8ec; padding: 24px; }
+  h1 { font-size: 20px; margin: 0 0 4px; }
+  .sub { color: #8b93a1; font-size: 13px; margin-bottom: 24px; }
+  #gate { max-width: 320px; margin: 80px auto; text-align:center; }
+  #gate input { width:100%; padding:10px 12px; border-radius:8px; border:1px solid #2a2f3a; background:#151822; color:#e6e8ec; font-size:14px; margin-top:12px; }
+  #gate button { width:100%; margin-top:10px; padding:10px; border-radius:8px; border:none; background:#f97316; color:#fff; font-weight:700; cursor:pointer; }
+  #app { display:none; }
+  .cards { display:grid; grid-template-columns: repeat(auto-fit, minmax(160px,1fr)); gap:12px; margin-bottom: 28px; }
+  .card { background:#151822; border:1px solid #232733; border-radius:10px; padding:14px 16px; }
+  .card .n { font-size: 24px; font-weight: 800; }
+  .card .l { font-size: 12px; color:#8b93a1; margin-top:2px; }
+  .card .u { font-size: 11px; color:#5c6470; margin-top:4px; }
+  section { margin-bottom: 32px; }
+  section h2 { font-size: 14px; text-transform: uppercase; letter-spacing:.04em; color:#8b93a1; margin-bottom: 12px; }
+  .funnel-row { display:flex; align-items:center; gap:10px; margin-bottom:8px; font-size:13px; }
+  .funnel-label { width: 170px; flex-shrink:0; color:#c3c8d1; }
+  .funnel-bar-wrap { flex:1; background:#151822; border-radius:6px; overflow:hidden; height: 22px; }
+  .funnel-bar { height:100%; background:linear-gradient(90deg,#f97316,#ea580c); }
+  .funnel-pct { width: 60px; text-align:right; color:#8b93a1; flex-shrink:0; }
+  table { width:100%; border-collapse: collapse; font-size: 13px; }
+  th, td { text-align:left; padding: 8px 10px; border-bottom: 1px solid #1c2029; white-space: nowrap; }
+  th { color:#8b93a1; font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:.03em; }
+  tr:hover td { background:#12151d; }
+  .scroll { overflow-x:auto; border:1px solid #232733; border-radius:10px; }
+  .empty { color:#5c6470; font-size:13px; padding:16px; }
+  .err { color:#f87171; font-size:13px; margin-top:10px; }
+</style>
+</head>
+<body>
+  <div id="gate">
+    <h1>Dashboard de Tracking</h1>
+    <div class="sub">Ads sem Agência</div>
+    <input id="key-input" type="password" placeholder="Chave de acesso" />
+    <button id="key-btn">Entrar</button>
+    <div id="gate-err" class="err"></div>
+  </div>
+
+  <div id="app">
+    <h1>Dashboard de Tracking</h1>
+    <div class="sub">Dados em tempo real do banco D1 (sem sampling, sem bloqueio por ad blocker)</div>
+
+    <div class="cards" id="cards"></div>
+
+    <section>
+      <h2>Funil (% sobre pageviews)</h2>
+      <div id="funnel"></div>
+    </section>
+
+    <section>
+      <h2>Por página</h2>
+      <div class="scroll"><table id="tbl-page"></table></div>
+    </section>
+
+    <section>
+      <h2>Por origem (UTM source / campanha)</h2>
+      <div class="scroll"><table id="tbl-source"></table></div>
+    </section>
+
+    <section>
+      <h2>Últimos 30 dias</h2>
+      <div class="scroll"><table id="tbl-day"></table></div>
+    </section>
+
+    <section>
+      <h2>Eventos recentes</h2>
+      <div class="scroll"><table id="tbl-recent"></table></div>
+    </section>
+  </div>
+
+<script>
+(function() {
+  var LS_KEY = '_dash_key';
+
+  function esc(s) { return (s == null ? '' : String(s)).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+
+  function pivot(rows, rowKeyFn, colKey, valKey) {
+    var rowMap = {}, cols = {};
+    rows.forEach(function(r) {
+      var rk = rowKeyFn(r);
+      if (!rowMap[rk]) rowMap[rk] = {};
+      rowMap[rk][r[colKey]] = r[valKey];
+      cols[r[colKey]] = true;
+    });
+    return { rowMap: rowMap, cols: Object.keys(cols) };
+  }
+
+  function renderPivotTable(el, rows, rowKeyFn, rowLabelFn, colKey, valKey, labels) {
+    var p = pivot(rows, rowKeyFn, colKey, valKey);
+    var colOrder = Object.keys(labels).filter(function(c){ return p.cols.indexOf(c) !== -1; })
+      .concat(p.cols.filter(function(c){ return Object.keys(labels).indexOf(c) === -1; }));
+    var head = '<tr><th>Grupo</th>' + colOrder.map(function(c){ return '<th>' + esc(labels[c] || c) + '</th>'; }).join('') + '</tr>';
+    var rowKeys = Object.keys(p.rowMap);
+    if (!rowKeys.length) { el.parentElement.innerHTML = '<div class="empty">Sem dados ainda.</div>'; return; }
+    var body = rowKeys.map(function(rk) {
+      return '<tr><td>' + esc(rowLabelFn(rk)) + '</td>' + colOrder.map(function(c) {
+        return '<td>' + (p.rowMap[rk][c] || 0) + '</td>';
+      }).join('') + '</tr>';
+    }).join('');
+    el.innerHTML = head + body;
+  }
+
+  function load(key) {
+    fetch('/api/dashboard-data', { headers: { 'x-dashboard-key': key } })
+      .then(function(r) { if (!r.ok) throw new Error(r.status === 401 ? 'Chave inválida' : 'Erro ao carregar dados'); return r.json(); })
+      .then(function(data) {
+        try { localStorage.setItem(LS_KEY, key); } catch(_) {}
+        document.getElementById('gate').style.display = 'none';
+        document.getElementById('app').style.display = 'block';
+        render(data);
+      })
+      .catch(function(err) {
+        document.getElementById('gate-err').textContent = err.message;
+      });
+  }
+
+  function render(data) {
+    var labels = data.labels;
+    var totalsByType = {};
+    data.totals.forEach(function(t) { totalsByType[t.event_type] = t; });
+    var pageviews = (totalsByType.pageview && totalsByType.pageview.total) || 0;
+
+    // Cards
+    var order = ['pageview','hero_cta_click','checkout_click','whatsapp_click','lead'];
+    var cardsHtml = order.map(function(k) {
+      var t = totalsByType[k] || { total: 0, uniques: 0 };
+      return '<div class="card"><div class="n">' + t.total + '</div><div class="l">' + esc(labels[k] || k) + '</div><div class="u">' + t.uniques + ' visitantes únicos</div></div>';
+    }).join('');
+    document.getElementById('cards').innerHTML = cardsHtml;
+
+    // Funnel
+    var funnelHtml = order.filter(function(k){ return k !== 'pageview'; }).map(function(k) {
+      var t = totalsByType[k] || { total: 0 };
+      var pct = pageviews ? Math.round((t.total / pageviews) * 1000) / 10 : 0;
+      return '<div class="funnel-row"><div class="funnel-label">' + esc(labels[k] || k) + '</div>' +
+        '<div class="funnel-bar-wrap"><div class="funnel-bar" style="width:' + Math.min(pct,100) + '%"></div></div>' +
+        '<div class="funnel-pct">' + pct + '%</div></div>';
+    }).join('');
+    document.getElementById('funnel').innerHTML = funnelHtml || '<div class="empty">Sem dados ainda.</div>';
+
+    // Por página
+    renderPivotTable(document.getElementById('tbl-page'), data.by_page,
+      function(r){ return r.page; }, function(rk){ return rk; }, 'event_type', 'total', labels);
+
+    // Por origem
+    renderPivotTable(document.getElementById('tbl-source'), data.by_source,
+      function(r){ return r.source + ' / ' + r.campaign; },
+      function(rk){ return rk; }, 'event_type', 'total', labels);
+
+    // Por dia
+    renderPivotTable(document.getElementById('tbl-day'), data.by_day,
+      function(r){ return r.day; }, function(rk){ return rk; }, 'event_type', 'total', labels);
+
+    // Recentes
+    var recentRows = data.recent;
+    var recentEl = document.getElementById('tbl-recent');
+    if (!recentRows.length) {
+      recentEl.parentElement.innerHTML = '<div class="empty">Sem eventos ainda.</div>';
+    } else {
+      recentEl.innerHTML = '<tr><th>Quando</th><th>Evento</th><th>Origem</th><th>Campanha</th><th>Clique Ads</th><th>Página</th></tr>' +
+        recentRows.map(function(r) {
+          var adClick = r.gclid ? 'Google' : (r.fbclid ? 'Meta' : '—');
+          var page = (r.landing_url || '').indexOf('live-avcb') !== -1 ? 'live-avcb' : 'index';
+          return '<tr><td>' + esc(r.created_at) + '</td><td>' + esc(labels[r.event_type] || r.event_type) + '</td><td>' +
+            esc(r.utm_source || '(direto)') + '</td><td>' + esc(r.utm_campaign || '—') + '</td><td>' + adClick + '</td><td>' + page + '</td></tr>';
+        }).join('');
+    }
+  }
+
+  document.getElementById('key-btn').addEventListener('click', function() {
+    var key = document.getElementById('key-input').value.trim();
+    if (key) load(key);
+  });
+  document.getElementById('key-input').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') document.getElementById('key-btn').click();
+  });
+
+  var saved;
+  try { saved = localStorage.getItem(LS_KEY); } catch(_) {}
+  if (saved) load(saved);
+})();
+</script>
+</body>
+</html>`;
+}
+
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
@@ -156,6 +414,14 @@ export default {
         return new Response('Method Not Allowed', { status: 405 });
       }
       return handleHotmartWebhook(request, env, ctx);
+    }
+
+    if (url.pathname === '/api/dashboard') {
+      return new Response(dashboardHtml(), { status: 200, headers: { 'Content-Type': 'text/html; charset=utf-8' } });
+    }
+
+    if (url.pathname === '/api/dashboard-data') {
+      return handleDashboardData(request, env);
     }
 
     if (url.pathname !== '/api/track') {

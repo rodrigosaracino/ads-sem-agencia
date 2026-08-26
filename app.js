@@ -1,38 +1,7 @@
-// ─── TRACKING: client ID + UTMs + Click IDs ───────────────────────────────
+// ─── TRACKING: base do link Hotmart ────────────────────────────────────────
+// CLIENT_ID, TRACKING, sendTrackingPing, buildFbc etc. vêm de tracking.js
+// (deve ser carregado antes deste arquivo).
 const BASE_HOTMART = 'https://pay.hotmart.com/A106251122L';
-const TRACK_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'src', 'gclid', 'fbclid'];
-
-function getOrCreateClientId() {
-    try {
-        let id = localStorage.getItem('_cid');
-        if (!id) {
-            id = 'c_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 10);
-            localStorage.setItem('_cid', id);
-        }
-        return id;
-    } catch (_) { return 'na'; }
-}
-const CLIENT_ID = getOrCreateClientId();
-
-function captureTrackingParams() {
-    const p = new URLSearchParams(window.location.search);
-    let stored = {};
-    try { stored = JSON.parse(localStorage.getItem('_track') || '{}'); } catch (_) {}
-    const merged = { ...stored };
-    TRACK_KEYS.forEach(k => { const v = p.get(k); if (v) merged[k] = v; });
-    try { localStorage.setItem('_track', JSON.stringify(merged)); } catch (_) {}
-    return merged;
-}
-const TRACKING = captureTrackingParams();
-
-function getCookie(name) {
-    const m = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
-    return m ? m.pop() : null;
-}
-
-function buildFbc() {
-    return TRACKING.fbclid ? `fb.1.${Date.now()}.${TRACKING.fbclid}` : null;
-}
 
 function buildHotmartUrl() {
     const extra = Object.entries(TRACKING)
@@ -40,23 +9,6 @@ function buildHotmartUrl() {
         .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)
         .join('&');
     return extra ? `${BASE_HOTMART}&${extra}` : BASE_HOTMART;
-}
-
-function sendTrackingPing(eventType, extra) {
-    fetch('/api/track', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            client_id: CLIENT_ID,
-            event_type: eventType,
-            ...TRACKING,
-            referrer: document.referrer || null,
-            user_agent: navigator.userAgent,
-            landing_url: window.location.href,
-            fbp: getCookie('_fbp'),
-            ...(extra || {})
-        })
-    }).catch(() => {});
 }
 
 // ─── CONVERSÕES ───────────────────────────────────────────────────────────
@@ -109,9 +61,6 @@ function fireLeadConversion(nome, telefone) {
 // ─── DOM PRONTO ───────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
 
-    // Pageview no backend
-    sendTrackingPing('pageview');
-
     // Headline dinâmica para campanha de advogados
     if (new URLSearchParams(window.location.search).get('utm_campaign') === 'advogados') {
         const h = document.getElementById('main-headline');
@@ -136,6 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (target) target.scrollIntoView({ behavior: 'smooth' });
             window.dataLayer = window.dataLayer || [];
             window.dataLayer.push({ event: 'hero_cta_click' });
+            sendTrackingPing('hero_cta_click');
         });
     }
 
@@ -148,6 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function openModal() {
         window.dataLayer = window.dataLayer || [];
         window.dataLayer.push({ event: 'whatsapp_click' });
+        sendTrackingPing('whatsapp_click');
         if (modal) { modal.style.display = 'flex'; document.body.style.overflow = 'hidden'; }
     }
     function closeModal() {

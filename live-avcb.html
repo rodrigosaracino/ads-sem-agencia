@@ -327,6 +327,7 @@
         </div>
     </footer>
 
+    <script src="tracking.js?v=1"></script>
     <script>
     // ─── Countdown Timer (48h rolling por visitante) ──────────────────────────
     (function() {
@@ -397,6 +398,34 @@
     document.addEventListener('DOMContentLoaded', function() {
         var overlay = document.getElementById('vsl-overlay');
         if (overlay) overlay.addEventListener('click', loadYouTubeAPI);
+    });
+
+    // ─── Clique no checkout (InitiateCheckout) ─────────────────────────────────
+    function fireCheckoutConversion() {
+        var eventId = 'checkout_' + CLIENT_ID + '_' + Date.now();
+        if (typeof fbq !== 'undefined') {
+            fbq('track', 'InitiateCheckout', {
+                currency: 'BRL', value: 397.00,
+                content_name: 'Protocolo AVCB Live',
+                content_type: 'product'
+            }, { eventID: eventId });
+        }
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'conversion', {
+                'send_to': 'AW-479406830/CHECKOUT_LABEL',
+                'value': 397.00,
+                'currency': 'BRL'
+            });
+        }
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({ event: 'checkout_click', value: 397.00, currency: 'BRL' });
+        sendTrackingPing('checkout_click', { event_id: eventId, fbc: buildFbc() });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('a[href="/ir/protocolo-avcb"]').forEach(function(link) {
+            link.addEventListener('click', fireCheckoutConversion);
+        });
     });
 
     // ─── Scripts de rastreamento (após load, fora do caminho crítico) ──────────
