@@ -19,3 +19,20 @@ CREATE TABLE IF NOT EXISTS tracking_events (
 CREATE INDEX IF NOT EXISTS idx_tracking_client_id ON tracking_events(client_id);
 CREATE INDEX IF NOT EXISTS idx_tracking_created_at ON tracking_events(created_at);
 CREATE INDEX IF NOT EXISTS idx_tracking_event_type ON tracking_events(event_type);
+
+CREATE TABLE IF NOT EXISTS hotmart_events (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  event_type TEXT NOT NULL,
+  transaction_id TEXT,
+  product_name TEXT,
+  buyer_name TEXT,
+  buyer_email TEXT,
+  price REAL,
+  currency TEXT,
+  raw_payload TEXT,
+  created_at TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_hotmart_transaction ON hotmart_events(transaction_id);
+CREATE INDEX IF NOT EXISTS idx_hotmart_event_type ON hotmart_events(event_type);
+CREATE INDEX IF NOT EXISTS idx_hotmart_created_at ON hotmart_events(created_at);

@@ -139,6 +139,26 @@ async function handleHotmartWebhook(request, env, ctx) {
     `*Transação:* ${purchase.transaction || 'N/A'}`
   ].join('\n');
 
+  try {
+    await env.DB.prepare(`
+      INSERT INTO hotmart_events
+        (event_type, transaction_id, product_name, buyer_name, buyer_email, price, currency, raw_payload, created_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `).bind(
+      payload.event,
+      purchase.transaction || null,
+      product.name || null,
+      buyer.name || null,
+      buyer.email || null,
+      price ?? null,
+      currency,
+      JSON.stringify(payload).slice(0, 8000),
+      new Date().toISOString()
+    ).run();
+  } catch (_) {
+    // não bloqueia a notificação do Slack se a gravação falhar
+  }
+
   ctx.waitUntil(sendSlackMessage(env, text));
 
   return new Response(JSON.stringify({ ok: true }), {
@@ -172,7 +192,7 @@ async function handleDashboardData(request, env) {
   const key = request.headers.get('x-dashboard-key') || new URL(request.url).searchParams.get('key');
   if (key !== env.DASHBOARD_KEY) return unauthorized();
 
-  const [totals, byDay, bySource, byPage, recent] = await Promise.all([
+  const [totals, byDay, bySource, byPage, recent, salesLatest, salesByDay] = await Promise.all([
     env.DB.prepare(`
       SELECT event_type, COUNT(*) AS total, COUNT(DISTINCT client_id) AS uniques
       FROM tracking_events GROUP BY event_type
@@ -196,17 +216,34 @@ async function handleDashboardData(request, env) {
     env.DB.prepare(`
       SELECT event_type, utm_source, utm_campaign, gclid, fbclid, landing_url, created_at
       FROM tracking_events ORDER BY created_at DESC LIMIT 50
+    `).all(),
+    env.DB.prepare(`
+      WITH ranked AS (
+        SELECT *, ROW_NUMBER() OVER (PARTITION BY transaction_id ORDER BY created_at DESC) AS rn
+        FROM hotmart_events WHERE transaction_id IS NOT NULL
+      )
+      SELECT event_type, transaction_id, product_name, buyer_name, price, currency, created_at
+      FROM ranked WHERE rn = 1 ORDER BY created_at DESC
+    `).all(),
+    env.DB.prepare(`
+      SELECT substr(created_at,1,10) AS day, event_type, COUNT(*) AS total, SUM(price) AS revenue
+      FROM hotmart_events
+      WHERE created_at >= datetime('now','-30 days')
+      GROUP BY day, event_type ORDER BY day
     `).all()
   ]);
 
   return new Response(JSON.stringify({
     ok: true,
     labels: EVENT_LABELS,
+    hotmart_labels: HOTMART_EVENT_LABELS,
     totals: totals.results,
     by_day: byDay.results,
     by_source: bySource.results,
     by_page: byPage.results,
-    recent: recent.results
+    recent: recent.results,
+    sales_latest: salesLatest.results,
+    sales_by_day: salesByDay.results
   }), { status: 200, headers: { 'Content-Type': 'application/json' } });
 }
 
@@ -262,6 +299,12 @@ function dashboardHtml() {
     <div class="sub">Dados em tempo real do banco D1 (sem sampling, sem bloqueio por ad blocker)</div>
 
     <div class="cards" id="cards"></div>
+
+    <section>
+      <h2>Vendas (Hotmart)</h2>
+      <div class="cards" id="sales-cards"></div>
+      <div class="scroll"><table id="tbl-sales"></table></div>
+    </section>
 
     <section>
       <h2>Funil (% sobre pageviews)</h2>
@@ -348,6 +391,35 @@ function dashboardHtml() {
       return '<div class="card"><div class="n">' + t.total + '</div><div class="l">' + esc(labels[k] || k) + '</div><div class="u">' + t.uniques + ' visitantes únicos</div></div>';
     }).join('');
     document.getElementById('cards').innerHTML = cardsHtml;
+
+    // Vendas (Hotmart)
+    var hotmartLabels = data.hotmart_labels || {};
+    var salesLatest = data.sales_latest || [];
+    var POSITIVE = ['PURCHASE_APPROVED', 'PURCHASE_COMPLETE'];
+    var approved = salesLatest.filter(function(s){ return POSITIVE.indexOf(s.event_type) !== -1; });
+    var refunded = salesLatest.filter(function(s){ return s.event_type === 'PURCHASE_REFUNDED'; });
+    var chargeback = salesLatest.filter(function(s){ return s.event_type === 'PURCHASE_CHARGEBACK'; });
+    var revenue = approved.reduce(function(sum, s){ return sum + (s.price || 0); }, 0);
+    var currency = (approved[0] && approved[0].currency) || 'BRL';
+    var salesCardsHtml = [
+      '<div class="card"><div class="n">' + approved.length + '</div><div class="l">Vendas aprovadas</div></div>',
+      '<div class="card"><div class="n">' + currency + ' ' + revenue.toFixed(2) + '</div><div class="l">Receita</div></div>',
+      '<div class="card"><div class="n">' + refunded.length + '</div><div class="l">Reembolsos</div></div>',
+      '<div class="card"><div class="n">' + chargeback.length + '</div><div class="l">Chargebacks</div></div>'
+    ].join('');
+    document.getElementById('sales-cards').innerHTML = salesCardsHtml;
+
+    var salesEl = document.getElementById('tbl-sales');
+    if (!salesLatest.length) {
+      salesEl.parentElement.innerHTML = '<div class="empty">Sem vendas ainda. Assim que a Hotmart enviar o primeiro webhook, aparece aqui.</div>';
+    } else {
+      salesEl.innerHTML = '<tr><th>Quando</th><th>Status</th><th>Produto</th><th>Comprador</th><th>Valor</th></tr>' +
+        salesLatest.slice(0, 30).map(function(s) {
+          return '<tr><td>' + esc(s.created_at) + '</td><td>' + esc(hotmartLabels[s.event_type] || s.event_type) + '</td><td>' +
+            esc(s.product_name || '—') + '</td><td>' + esc(s.buyer_name || '—') + '</td><td>' +
+            esc(s.currency || '') + ' ' + (s.price != null ? Number(s.price).toFixed(2) : '—') + '</td></tr>';
+        }).join('');
+    }
 
     // Funnel
     var funnelHtml = order.filter(function(k){ return k !== 'pageview'; }).map(function(k) {
